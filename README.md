@@ -8,7 +8,7 @@ a web micro-framework.
 
 - Anthony Salvati
 - Trevor Cruz
-- MEMBER3
+- Kyle Reddy
 - MEMBER4
 
 
