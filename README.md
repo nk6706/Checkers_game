@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Anthony Salvati
-- MEMBER2
+- Trevor Cruz
 - MEMBER3
 - MEMBER4
 
