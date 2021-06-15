@@ -10,6 +10,7 @@ a web micro-framework.
 - Trevor Cruz
 - Kyle Reddy
 - William Tietjen
+- Nabeel Khan
 
 
 ## Prerequisites
