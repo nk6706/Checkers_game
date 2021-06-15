@@ -9,7 +9,7 @@ a web micro-framework.
 - Anthony Salvati
 - Trevor Cruz
 - Kyle Reddy
-- MEMBER4
+- William Tietjen
 
 
 ## Prerequisites
