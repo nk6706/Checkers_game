@@ -1,4 +1,6 @@
-package com.webcheckers.Model;
+package com.webcheckers.appl;
+
+import com.webcheckers.model.Player;
 
 import java.util.*;
 
