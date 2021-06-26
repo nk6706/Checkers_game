@@ -12,10 +12,16 @@ public class PlayerLobby {
         this.playerList = new HashMap<String, Player>();
     }
 
-    public void addPlayer(Player player){
-        playerList.put(player.getUsername(), player);
-    }
+    /**
+     * Add/create a new player
+     * @param username the username of the new player
+     */
+    public void addPlayer(String username) { playerList.put(username, new Player(username)); }
 
+    /**
+     * Retrieve the current number of players
+     * @return int representing how many players are signed in
+     */
     public int getNumberOfPlayers() {
         return playerList.size();
     }
