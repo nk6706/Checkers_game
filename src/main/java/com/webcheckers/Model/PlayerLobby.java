@@ -18,4 +18,14 @@ public class PlayerLobby {
     public void addPlayer(Player player){
         playerList.add(player);
     }
+
+    public int getNumberOfPlayers() {
+        return playerList.size();
+    }
+
+    public List<Player> getPlayerList(){
+        return playerList;
+    }
+
+
 }
