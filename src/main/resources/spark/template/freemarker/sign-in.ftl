@@ -10,7 +10,7 @@
 <body>
 <div class="page">
 
-  <h1>Sign In | ${title}</h1>
+  <h1>Sign In</h1>
 
   <!-- Provide a navigation bar -->
   <#include "nav-bar.ftl" />
