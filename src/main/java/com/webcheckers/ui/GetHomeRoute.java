@@ -1,15 +1,11 @@
 package com.webcheckers.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
 
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
-import spark.Route;
-import spark.TemplateEngine;
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.Player;
+import spark.*;
 
 import com.webcheckers.util.Message;
 
@@ -25,13 +21,17 @@ public class GetHomeRoute implements Route {
 
   private final TemplateEngine templateEngine;
 
+  private final PlayerLobby playerLobby;
+
+
   /**
    * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
    *
    * @param templateEngine
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    this.playerLobby = playerLobby;
     this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
     //
     LOG.config("GetHomeRoute is initialized.");
@@ -50,6 +50,8 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
+    //final Session httpSession = request.session();
+
     LOG.finer("GetHomeRoute is invoked.");
     //
     Map<String, Object> vm = new HashMap<>();
@@ -57,6 +59,32 @@ public class GetHomeRoute implements Route {
 
     // display a user message in the Home page
     vm.put("message", WELCOME_MSG);
+
+    final Session httpSession = request.session();
+    Player player = httpSession.attribute("player");
+
+    if ( player == null  ){
+      vm.put("totalPlayers", playerLobby.getNumberOfPlayers());
+    }else{
+      vm.put("currentUser", player);
+
+//      int n = playerLobby.getNumberOfPlayers();
+//      String arr[] = new String[n];
+//      int i=0;
+//      for (String x: playerLobby.getPlayerList().keySet()){
+//        if( x != player.getUsername())
+//          arr[i++] = x;
+//      }
+
+      Set<String> set = new HashSet<>();
+      set.addAll(playerLobby.getPlayerList().keySet());
+      set.remove(player.getUsername());
+
+
+      vm.put("playerList",set);
+    }
+
+
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));

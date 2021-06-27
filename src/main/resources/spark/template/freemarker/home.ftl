@@ -26,6 +26,24 @@
             or replay archived games
     -->
 
+    <div>
+      <#if currentUser??>
+        Other Signed-in Players:</br>
+        <#if playerList??>
+
+            <#list playerList as n>
+              <ul>
+                  <li>${n}</li>
+              </ul>
+            </#list>
+
+        </#if>
+      <#else>
+        Total players signed in: ${totalPlayers}</br>
+      </#if>
+
+    </div>
+
   </div>
 
 </div>
