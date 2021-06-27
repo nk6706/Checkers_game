@@ -13,10 +13,10 @@ public class PlayerLobby {
     }
 
     /**
-     * Add/create a new player
-     * @param username the username of the new player
+     * Add a new player to the lobby
+     * @param player the Player object to add
      */
-    public void addPlayer(String username) { playerList.put(username, new Player(username)); }
+    public void addPlayer(Player player) { playerList.put(player.getUsername(), player); }
 
     /**
      * Retrieve the current number of players
