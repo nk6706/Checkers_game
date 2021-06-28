@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
  * An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which can be
@@ -25,8 +30,18 @@ public class CheckerBoard {
      * Getter for board
      * @return CheckerPiece[][] of board
      */
-    public CheckerPiece[][] getBoard() {
-        return board;
+    public CheckerPiece[][] getBoard(boolean isRedPlayer) {
+        if(isRedPlayer)
+            return board;
+
+        CheckerPiece[][] flippedBoard = new CheckerPiece[8][8];
+        for(int i = 0; i < this.board.length; i++) {
+            CheckerPiece[] row = this.board[i];
+            for(int j = 0; j < row.length; j++) {
+                flippedBoard[this.board.length-i-1][this.board.length-j-1] = row[j];
+            }
+        }
+        return flippedBoard;
     }
 
     /**
@@ -91,34 +106,4 @@ public class CheckerBoard {
 
         return true;
     }
-
-    public String toString() {
-        String matrixString = "";
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != null) {
-                    matrixString += "[" + board[i][j].toString() + "]";
-                }
-                else {
-                    matrixString += "[ ]";
-                }
-            }
-            matrixString += "\n";
-        }
-        return matrixString;
-    }
-
-    public static void main(String[] args) {
-        CheckerBoard b = new CheckerBoard();
-        System.out.println(b);
-
-        /*
-        // Movement testing utilities
-        Position testX = new Position(1, 2);
-        Position testY = new Position(2, 3);
-        System.out.println(b.move(CheckerPiece.Color.WHITE, testX, testY);
-        System.out.println(b);
-        */
-    }
-
 }
