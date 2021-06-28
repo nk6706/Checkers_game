@@ -152,7 +152,7 @@ public class WebServer {
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby));
+    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
     //
