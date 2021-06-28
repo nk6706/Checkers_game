@@ -19,6 +19,15 @@ public class PlayerLobby {
     public void addPlayer(Player player) { playerList.put(player.getUsername(), player); }
 
     /**
+     * Returns the player with the given username, should make sure player exists first
+     * @param username the name of the user to get
+     * @return the Player object with the given username
+     */
+    public Player getPlayer(String username) {
+        return playerList.get(username);
+    }
+
+    /**
      * Retrieve the current number of players
      * @return int representing how many players are signed in
      */
