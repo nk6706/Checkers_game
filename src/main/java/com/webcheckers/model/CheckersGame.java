@@ -39,4 +39,11 @@ public class CheckersGame {
         return board;
     }
 
+    /**
+     * Determines if the provided player is the redPlayer of this game
+     * @param player the player to check
+     * @return true if the provided player is red, false otherwise (meaning they are white player)
+     */
+    public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
+
 }
