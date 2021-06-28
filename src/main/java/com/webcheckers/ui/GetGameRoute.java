@@ -1,6 +1,10 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.CheckerPiece;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.board.BoardView;
 import com.webcheckers.util.Message;
 import spark.*;
 
@@ -25,11 +29,13 @@ public class GetGameRoute implements Route {
     static final String VIEW_NAME = "game.ftl";
 
     private final TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
 
-    public GetGameRoute(final TemplateEngine templateEngine) {
+    public GetGameRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetGameRoute is initialized.");
+        this.playerLobby = playerLobby;
     }
 
     @Override
@@ -44,10 +50,21 @@ public class GetGameRoute implements Route {
         Player player = httpSession.attribute("player");
         String name = player.getUsername();
 
+        Player opponent;
+        if(playerLobby.hasPlayer(httpSession.attribute("opponent"))) {
+            opponent = playerLobby.getPlayerList().get(httpSession.attribute("opponent"));
+        } else {
+            opponent = new Player("jack");
+        }
+
+
+        BoardView boardView = new BoardView( new CheckersGame(123, player, opponent));
+
+        vm.put("board", boardView);
         vm.put("currentUser", player);
         vm.put("redPlayer", player);
-        vm.put("whitePlayer", player);
-        vm.put("activeColor", "white");
+        vm.put("whitePlayer", opponent);
+        vm.put("activeColor", CheckerPiece.Color.RED);
         vm.put("gameID", "1234");
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
