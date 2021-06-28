@@ -39,7 +39,7 @@ public class PostSignInRoute implements Route {
                 response.redirect(WebServer.SIGN_IN_URL + "?error=Name taken");
             }
         } else {
-            response.redirect(WebServer.SIGN_IN_URL + "?error=Username must contain at least one alphanumeric character");
+            response.redirect(WebServer.SIGN_IN_URL + "?error=Username must contain at least one alphanumeric character and only alphanumeric characters or spaces");
         }
 
         return null;
