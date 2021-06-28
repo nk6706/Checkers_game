@@ -20,6 +20,7 @@ public class BoardView implements Iterable<Row> {
         int index = 0;
         for(CheckerPiece[] pieceRow : board.getBoard().getBoard()) {
             Row row = new Row(index, pieceRow);
+            rows.add(row);
             index++;
         }
     }
