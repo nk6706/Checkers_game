@@ -17,7 +17,7 @@ public class GameManager {
     }
 
     public CheckersGame newGame(Player redPlayer, Player whitePlayer) {
-        CheckersGame game = new CheckersGame(lastId++, redPlayer, whitePlayer);
+        CheckersGame game = new CheckersGame(++lastId, redPlayer, whitePlayer);
         games.put(game.getId(), game);
         return game;
     }
