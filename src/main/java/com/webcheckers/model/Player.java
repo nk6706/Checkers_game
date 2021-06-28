@@ -36,4 +36,12 @@ public class Player {
     public void setGameID(int gameID) {
         this.gameID = gameID;
     }
+
+    /**
+     * Whether or not this player is in a game
+     * @return true if player is in a game, false otherwise
+     */
+    public boolean inGame() {
+        return this.gameID != -1;
+    }
 }
