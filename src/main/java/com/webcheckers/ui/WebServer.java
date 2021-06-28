@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
 import spark.TemplateEngine;
 
@@ -143,6 +144,7 @@ public class WebServer {
     //// code clean; using small classes.
 
     final PlayerLobby playerLobby = new PlayerLobby();
+    final GameManager gameManager = new GameManager();
 
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
@@ -151,6 +153,7 @@ public class WebServer {
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
 
     get(GAME_URL, new GetGameRoute(templateEngine, playerLobby));
+    post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
     //
     LOG.config("WebServer is initialized.");
