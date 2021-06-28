@@ -50,10 +50,18 @@ public class GetHomeRoute implements Route {
    */
   @Override
   public Object handle(Request request, Response response) {
-    //final Session httpSession = request.session();
+    final Session httpSession = request.session();
 
     LOG.finer("GetHomeRoute is invoked.");
     //
+
+    final Player player = httpSession.attribute("player");
+    if (player != null)
+      LOG.fine(String.valueOf(player.getGameID()));
+    if (player != null && player.inGame()) {
+      response.redirect(WebServer.GAME_URL);
+    }
+
     Map<String, Object> vm = new HashMap<>();
     vm.put("title", "Welcome!");
 
@@ -64,9 +72,6 @@ public class GetHomeRoute implements Route {
     } else {
       vm.put("message", Message.error(error));
     }
-
-    final Session httpSession = request.session();
-    Player player = httpSession.attribute("player");
 
     if ( player == null  ){
       vm.put("totalPlayers", playerLobby.getNumberOfPlayers());
