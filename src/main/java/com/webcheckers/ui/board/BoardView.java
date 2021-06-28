@@ -7,6 +7,11 @@ import com.webcheckers.model.CheckersGame;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * BoardView is a UI-level representation of a checker board. The class' 'rows' field is an
+ * Iterable ArrayList, and its subsequent contents are what form a '2D' iterable of iterables,
+ * which is used by FreeMarker to render a checkerboard to the UI.
+ */
 public class BoardView implements Iterable<Row> {
 
     private ArrayList<Row> rows = new ArrayList<>();
@@ -19,6 +24,10 @@ public class BoardView implements Iterable<Row> {
         }
     }
 
+    /**
+     * Gets an Iterator over the BoardView's 'rows' field
+     * @return Iterator<Row> an Iterator over the board's rows
+     */
     @Override
     public Iterator<Row> iterator() {
         return rows.iterator();

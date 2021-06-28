@@ -2,6 +2,11 @@ package com.webcheckers.ui.board;
 
 import com.webcheckers.model.CheckerPiece;
 
+/**
+ * Space is a UI-level representation of a single space on a checker board. A Space is white or dark,
+ * has an x coordinate relative to its position in a Row (leftmost space being 0), and can hold a
+ * checker piece represented by Piece (which can also be null if no piece is present at that space).
+ */
 public class Space {
 
     private int cellIdx;
