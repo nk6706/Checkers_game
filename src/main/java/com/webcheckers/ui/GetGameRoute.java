@@ -56,22 +56,23 @@ public class GetGameRoute implements Route {
 
         CheckersGame game = this.gameManager.getGame(player.getGameID());
 
-        Player opponent;
-        if(playerLobby.hasPlayer(httpSession.attribute("opponent"))) {
-            opponent = playerLobby.getPlayerList().get(httpSession.attribute("opponent"));
+        final Player opponent;
+        if (game.isRedPlayer(player)) {
+            opponent = game.getWhitePlayer();
+            vm.put("redPlayer", player);
+            vm.put("whitePlayer", opponent);
         } else {
-            opponent = new Player("jack");
+            opponent = game.getRedPlayer();
+            vm.put("redPlayer", opponent);
+            vm.put("whitePlayer", player);
         }
 
-
-        BoardView boardView = new BoardView( new CheckersGame(123, player, opponent));
+        BoardView boardView = new BoardView( game );
 
         vm.put("board", boardView);
         vm.put("currentUser", player);
-        vm.put("redPlayer", player);
-        vm.put("whitePlayer", opponent);
         vm.put("activeColor", CheckerPiece.Color.RED);
-        vm.put("gameID", "1234");
+        vm.put("gameID", game.getId());
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
