@@ -1,10 +1,9 @@
 package com.webcheckers.model;
 
 /**
- * The CheckerBoard class is a Model-level representation of a checker board used in the game
- * of checkers. An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which
- * can be modified through the move method.
- *
+ * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
+ * An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which can be
+ * modified through the move method.
  */
 public class CheckerBoard {
     private CheckerPiece[][] board;
@@ -91,35 +90,6 @@ public class CheckerBoard {
         board[startY][startX] = null;
 
         return true;
-    }
-
-    public String toString() {
-        String matrixString = "";
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != null) {
-                    matrixString += "[" + board[i][j].toString() + "]";
-                }
-                else {
-                    matrixString += "[ ]";
-                }
-            }
-            matrixString += "\n";
-        }
-        return matrixString;
-    }
-
-    public static void main(String[] args) {
-        CheckerBoard b = new CheckerBoard();
-        System.out.println(b);
-
-        /*
-        // Movement testing utilities
-        Position testX = new Position(1, 2);
-        Position testY = new Position(2, 3);
-        System.out.println(b.move(CheckerPiece.Color.WHITE, testX, testY);
-        System.out.println(b);
-        */
     }
 
 }

@@ -1,5 +1,10 @@
 package com.webcheckers.model;
 
+/**
+ * CheckersGame is a model-level representation of a game of checkers. Each CheckersGame has
+ * two Player(s) and a CheckerBoard that holds its CheckerPiece(s). Additionally, each
+ * CheckersGame has a unique integer ID.
+ */
 public class CheckersGame {
 
     /** unique id for this game */

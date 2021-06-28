@@ -1,5 +1,9 @@
 package com.webcheckers.model;
 
+/**
+ * Player is a class which represents a user on the webcheckers application. Each Player has
+ * a username unique to them while in a session.
+ */
 public class Player {
 
     private String username;
