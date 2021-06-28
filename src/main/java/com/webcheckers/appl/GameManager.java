@@ -12,8 +12,8 @@ public class GameManager {
     /** Id of the last game made, incremented before creating a new game */
     private int lastId = 0;
 
-    public GameManager(HashMap<Integer, CheckersGame> games) {
-        this.games = games;
+    public GameManager() {
+        this.games = new HashMap<>();
     }
 
     public CheckersGame newGame(Player redPlayer, Player whitePlayer) {
