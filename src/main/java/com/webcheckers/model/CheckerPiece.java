@@ -40,4 +40,13 @@ public class CheckerPiece {
         return type;
     }
 
+    public String toString() {
+        if (color == Color.RED) {
+            return "R";
+        }
+        else {
+            return "W";
+        }
+    }
+
 }
