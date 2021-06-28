@@ -22,4 +22,13 @@ public class GameManager {
         return game;
     }
 
+    /**
+     * Get the game with the given id from the hash map
+     * @param id the id of the game to retrieve
+     * @return CheckersGame object with given id
+     */
+    public CheckersGame getGame(int id) {
+        return games.get(id);
+    }
+
 }
