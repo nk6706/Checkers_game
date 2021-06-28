@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.CheckerPiece;
 import com.webcheckers.model.CheckersGame;
@@ -30,25 +31,30 @@ public class GetGameRoute implements Route {
 
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
+    private final GameManager gameManager;
 
-    public GetGameRoute(final TemplateEngine templateEngine, PlayerLobby playerLobby) {
+    public GetGameRoute(final TemplateEngine templateEngine, final PlayerLobby playerLobby, final GameManager gameManager) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetGameRoute is initialized.");
         this.playerLobby = playerLobby;
+        this.gameManager = gameManager;
     }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
         final Map<String, Object> vm = new HashMap<>();
-
         final Session httpSession = request.session();
 
         vm.put(TITLE_ATTR, "Game");
         vm.put("viewMode", Mode.PLAY);
 
         Player player = httpSession.attribute("player");
-        String name = player.getUsername();
+        if(!player.inGame()) {
+            response.redirect(WebServer.HOME_URL);
+        }
+
+        CheckersGame game = this.gameManager.getGame(player.getGameID());
 
         Player opponent;
         if(playerLobby.hasPlayer(httpSession.attribute("opponent"))) {
