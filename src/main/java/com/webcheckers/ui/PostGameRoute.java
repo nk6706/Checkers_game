@@ -37,6 +37,10 @@ public class PostGameRoute implements Route {
             Player opponent = this.playerLobby.getPlayer(opponentName);
             if(!opponent.inGame()) {
                 CheckersGame game = this.gameManager.newGame(player, opponent);
+
+                player.setGameID(game.getId());
+                opponent.setGameID(game.getId());
+
                 response.redirect(WebServer.GAME_URL);
             } else {
                 // Opponent in-game error
