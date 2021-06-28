@@ -33,7 +33,9 @@
 
             <#list playerList as n>
               <ul>
-                  <li>${n}</li>
+                  <a href="/game?opponent=${n}">
+                    <li>${n}</li>
+                  </a>
               </ul>
             </#list>
 
