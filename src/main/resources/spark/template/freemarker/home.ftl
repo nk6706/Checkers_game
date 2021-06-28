@@ -33,9 +33,7 @@
 
             <#list playerList as n>
               <ul>
-                  <a href="/game?opponent=${n}">
-                    <li>${n}</li>
-                  </a>
+                <li><form action="/game" method="post"><button type="submit" name="opponent" value="${n}">${n}</button></form></li>
               </ul>
             </#list>
 
