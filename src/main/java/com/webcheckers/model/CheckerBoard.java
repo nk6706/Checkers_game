@@ -92,4 +92,33 @@ public class CheckerBoard {
         return true;
     }
 
+    public String toString() {
+        String matrixString = "";
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                if (board[i][j] != null) {
+                    matrixString += "[" + board[i][j].toString() + "]";
+                }
+                else {
+                    matrixString += "[ ]";
+                }
+            }
+            matrixString += "\n";
+        }
+        return matrixString;
+    }
+
+    public static void main(String[] args) {
+        CheckerBoard b = new CheckerBoard();
+        System.out.println(b);
+
+        /*
+        // Movement testing utilities
+        Position testX = new Position(1, 2);
+        Position testY = new Position(2, 3);
+        System.out.println(b.move(CheckerPiece.Color.WHITE, testX, testY);
+        System.out.println(b);
+        */
+    }
+
 }
