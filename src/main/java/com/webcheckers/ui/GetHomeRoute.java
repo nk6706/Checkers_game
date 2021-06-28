@@ -56,8 +56,6 @@ public class GetHomeRoute implements Route {
     //
 
     final Player player = httpSession.attribute("player");
-    if (player != null)
-      LOG.fine(String.valueOf(player.getGameID()));
     if (player != null && player.inGame()) {
       response.redirect(WebServer.GAME_URL);
     }
