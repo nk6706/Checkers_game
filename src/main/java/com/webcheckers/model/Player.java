@@ -8,9 +8,13 @@ public class Player {
 
     private String username;
 
+    /** ID of current game player is in */
+    private int gameID;
+
     public Player(String username)
     {
         this.username = username;
+        this.gameID = -1;
     }
 
     /**
@@ -19,5 +23,21 @@ public class Player {
      */
     public String getUsername() {
         return username;
+    }
+
+    /**
+     * Getter for gameID
+     * @return int representing id of game player is in (-1 if not in a game)
+     */
+    public int getGameID() {
+        return gameID;
+    }
+
+    /**
+     * Setter for gameID
+     * @param gameID int representing id of game player is in (-1 if not in a game)
+     */
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
     }
 }
