@@ -12,6 +12,12 @@ import java.util.logging.Logger;
 public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
 
+    public enum Mode {
+        PLAY,
+        SPECTATOR,
+        REPLAY
+    }
+
     // View-and-model attributes
     static final String TITLE_ATTR = "title";
     static final String MESSAGE_ATTR = "message";
@@ -33,7 +39,7 @@ public class GetGameRoute implements Route {
         final Session httpSession = request.session();
 
         vm.put(TITLE_ATTR, "Game");
-        vm.put("viewMode", "Player");
+        vm.put("viewMode", Mode.PLAY);
 
         Player player = httpSession.attribute("player");
         String name = player.getUsername();
