@@ -48,4 +48,17 @@ public class Player {
     public boolean inGame() {
         return this.gameID != -1;
     }
+
+    @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof Player)) return false;
+        final Player that = (Player) obj;
+        return this.username.equals(that.username);
+    }
 }
