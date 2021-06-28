@@ -16,9 +16,9 @@ public class BoardView implements Iterable<Row> {
 
     private ArrayList<Row> rows = new ArrayList<>();
 
-    public BoardView(CheckersGame game) {
+    public BoardView(CheckerPiece[][] board) {
         int index = 0;
-        for(CheckerPiece[] pieceRow : game.getBoard().getBoard()) {
+        for(CheckerPiece[] pieceRow : board) {
             Row row = new Row(index, pieceRow);
             rows.add(row);
             index++;
