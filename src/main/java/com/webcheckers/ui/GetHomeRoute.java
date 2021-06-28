@@ -58,7 +58,12 @@ public class GetHomeRoute implements Route {
     vm.put("title", "Welcome!");
 
     // display a user message in the Home page
-    vm.put("message", WELCOME_MSG);
+    final String error = request.queryParams("error");
+    if (error == null) {
+      vm.put("message", WELCOME_MSG);
+    } else {
+      vm.put("message", Message.error(error));
+    }
 
     final Session httpSession = request.session();
     Player player = httpSession.attribute("player");
