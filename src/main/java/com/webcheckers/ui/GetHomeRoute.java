@@ -9,6 +9,7 @@ import spark.*;
 
 import com.webcheckers.util.Message;
 
+// @TODO clean up spacing formatting etc
 /**
  * The UI Controller to GET the Home page.
  *

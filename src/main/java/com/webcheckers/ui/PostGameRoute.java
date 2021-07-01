@@ -32,6 +32,7 @@ public class PostGameRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
+        // @TODO move functionality to appl tier
         String opponentName = request.queryParams("opponent");
         if (this.playerLobby.hasPlayer(opponentName)) {
             Player opponent = this.playerLobby.getPlayer(opponentName);

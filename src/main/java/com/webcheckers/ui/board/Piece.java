@@ -2,6 +2,7 @@ package com.webcheckers.ui.board;
 
 import com.webcheckers.model.CheckerPiece;
 
+// @TODO Remove Piece class in ui tier (use model tier)
 /**
  * Piece is a UI-level representation of a checker piece used by the UI's BoardView component. It has
  * the same type (SINGLE or KING) and color (RED or WHITE) attributes as the model's CheckerPiece class.

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+// @TODO Too much work (from sprint 1 rubric comment)
 public class GetGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(GetSignInRoute.class.getName());
 
@@ -59,7 +60,7 @@ public class GetGameRoute implements Route {
         CheckerPiece[][] board;
         final Player opponent;
         if (game.isRedPlayer(player)) {
-            board = game.getBoard().getBoard(true);
+            board = game.getBoard().getBoard(true);  // @TODO law of demeter violation
             opponent = game.getWhitePlayer();
             vm.put("redPlayer", player);
             vm.put("whitePlayer", opponent);

@@ -7,6 +7,7 @@ import com.webcheckers.model.CheckersGame;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+// @TODO Check how much of ui/board needs to be refactored (moved to model)
 /**
  * BoardView is a UI-level representation of a checker board. The class' 'rows' field is an
  * Iterable ArrayList, and its subsequent contents are what form a '2D' iterable of iterables,

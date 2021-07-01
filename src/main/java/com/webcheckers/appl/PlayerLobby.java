@@ -4,6 +4,7 @@ import com.webcheckers.model.Player;
 
 import java.util.*;
 
+// @TODO check javadocs in all classes
 public class PlayerLobby {
 
     private HashMap<String, Player> playerList;
