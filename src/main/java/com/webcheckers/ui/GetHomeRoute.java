@@ -54,7 +54,6 @@ public class GetHomeRoute implements Route {
     final Session httpSession = request.session();
 
     LOG.finer("GetHomeRoute is invoked.");
-    //
 
     final Player player = httpSession.attribute("player");
     if (player != null && player.inGame()) {
@@ -77,14 +76,6 @@ public class GetHomeRoute implements Route {
     }else{
       vm.put("currentUser", player);
 
-//      int n = playerLobby.getNumberOfPlayers();
-//      String arr[] = new String[n];
-//      int i=0;
-//      for (String x: playerLobby.getPlayerList().keySet()){
-//        if( x != player.getUsername())
-//          arr[i++] = x;
-//      }
-
       Set<String> set = new HashSet<>();
       set.addAll(playerLobby.getPlayerList().keySet());
       set.remove(player.getUsername());
@@ -92,8 +83,6 @@ public class GetHomeRoute implements Route {
 
       vm.put("playerList",set);
     }
-
-
 
     // render the View
     return templateEngine.render(new ModelAndView(vm , "home.ftl"));
