@@ -49,6 +49,14 @@ public class PlayerLobby {
         return playerList;
     }
 
+    public String playerAvailable(String playerName){
+        if (this.hasPlayer(playerName)) {
+            Player opponent = this.getPlayer(playerName);
+            if (!opponent.inGame()){ return "available";}
+            else return "unavailable";
+        }
+        return "not found";
+    }
 
 
 

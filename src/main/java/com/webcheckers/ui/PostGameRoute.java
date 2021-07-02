@@ -32,22 +32,19 @@ public class PostGameRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
-        // @TODO move functionality to appl tier
         String opponentName = request.queryParams("opponent");
-        if (this.playerLobby.hasPlayer(opponentName)) {
-            Player opponent = this.playerLobby.getPlayer(opponentName);
-            if(!opponent.inGame()) {
-                CheckersGame game = this.gameManager.newGame(player, opponent);
+        if (playerLobby.playerAvailable(opponentName).equals("available")){
+            CheckersGame game = this.gameManager.newGame(player, playerLobby.getPlayer(opponentName));
 
-                player.setGameID(game.getId());
-                opponent.setGameID(game.getId());
+            player.setGameID(game.getId());
+            playerLobby.getPlayer(opponentName).setGameID(game.getId());
 
-                response.redirect(WebServer.GAME_URL);
-            } else {
-                // Opponent in-game error
-                response.redirect(WebServer.HOME_URL + "?error=Opponent in game already");
-            }
-        } else {
+            response.redirect(WebServer.GAME_URL);
+
+        } else if (playerLobby.playerAvailable(opponentName).equals("unavailable")){
+            // Opponent in-game error
+            response.redirect(WebServer.HOME_URL + "?error=Opponent in game already");
+        } else if (playerLobby.playerAvailable(opponentName).equals("not found")) {
             // Invalid opponent error
             response.redirect(WebServer.HOME_URL + "?error=Opponent could not be found");
         }
