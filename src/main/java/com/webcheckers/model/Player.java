@@ -11,7 +11,6 @@ public class Player {
     /** ID of current game player is in */
     private int gameID;
 
-    // @TODO check braces in all files
     public Player(String username) {
         this.username = username;
         this.gameID = -1;

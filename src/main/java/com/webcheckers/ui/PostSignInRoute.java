@@ -27,7 +27,6 @@ public class PostSignInRoute implements Route {
         final String username = request.queryParams(USERNAME_PARAM);
         final Session httpSession = request.session();
 
-        // @TODO Move functionality to appl tier
         // Check that username is at least one alphanumeric character and contains no symbol
         if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {
             if (!this.playerLobby.hasPlayer(username)) { // Check that username does not already exist
