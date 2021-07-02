@@ -60,12 +60,12 @@ public class GetGameRoute implements Route {
         CheckerPiece[][] board;
         final Player opponent;
         if (game.isRedPlayer(player)) {
-            board = game.getBoard().getBoard(true);  // @TODO law of demeter violation
+            board = game.getBoard(true);
             opponent = game.getWhitePlayer();
             vm.put("redPlayer", player);
             vm.put("whitePlayer", opponent);
         } else {
-            board = game.getBoard().getBoard(false);
+            board = game.getBoard(false);
             opponent = game.getRedPlayer();
             vm.put("redPlayer", opponent);
             vm.put("whitePlayer", player);
