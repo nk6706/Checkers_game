@@ -12,13 +12,13 @@ public class Space {
     private int cellIdx;
     private boolean isDark;
 
-    private Piece piece = null;
+    private CheckerPiece piece = null;
 
     public Space(int cellIdx, CheckerPiece piece, boolean isDark) {
         this.cellIdx = cellIdx;
         this.isDark = isDark;
         if(piece != null)
-            this.piece = new Piece(piece.getType(), piece.getColor());
+            this.piece = piece;
     }
 
     /**
@@ -33,7 +33,7 @@ public class Space {
      * get piece
      * @return Piece
      */
-    public Piece getPiece() {
+    public CheckerPiece getPiece() {
         return piece;
     }
 

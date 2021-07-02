@@ -12,8 +12,7 @@ public class Player {
     private int gameID;
 
     // @TODO check braces in all files
-    public Player(String username)
-    {
+    public Player(String username) {
         this.username = username;
         this.gameID = -1;
     }
