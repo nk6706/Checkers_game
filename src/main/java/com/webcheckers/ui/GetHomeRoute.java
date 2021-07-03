@@ -50,6 +50,7 @@ public class GetHomeRoute implements Route {
     */
     @Override
     public Object handle(Request request, Response response) {
+        final Map<String, Object> vm = new HashMap<>();
         final Session httpSession = request.session();
 
         final Player player = httpSession.attribute("player");
@@ -57,7 +58,6 @@ public class GetHomeRoute implements Route {
             response.redirect(WebServer.GAME_URL);
         }
 
-        Map<String, Object> vm = new HashMap<>();
         vm.put("title", "Welcome!");
 
         // display a user message in the Home page
@@ -69,15 +69,14 @@ public class GetHomeRoute implements Route {
         }
 
         if ( player == null  ) {
-            vm.put("totalPlayers", playerLobby.getNumberOfPlayers());
+            vm.put("totalPlayers", this.playerLobby.getNumberOfPlayers());
         } else {
             vm.put("currentUser", player);
 
-            Set<String> set = new HashSet<>();
-            set.addAll(playerLobby.getPlayerList().keySet());
-            set.remove(player.getUsername());
+            ArrayList<String> usernames = this.playerLobby.getPlayerList();
+            usernames.remove(player.getUsername());
 
-            vm.put("playerList",set);
+            vm.put("playerList", usernames);
         }
 
         // render the View

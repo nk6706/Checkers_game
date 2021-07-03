@@ -45,8 +45,10 @@ public class PlayerLobby {
         return this.playerList.containsKey(username);
     }
 
-    public HashMap<String, Player> getPlayerList(){
-        return playerList;
+    public ArrayList<String> getPlayerList() {
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(this.playerList.keySet());
+        return result;
     }
 
     public String playerAvailable(String playerName){
