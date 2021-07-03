@@ -27,20 +27,11 @@ public class PostSignInRoute implements Route {
         final String username = request.queryParams(USERNAME_PARAM);
         final Session httpSession = request.session();
 
-        // Check that username is at least one alphanumeric character and contains no symbol
-        if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {
-            if (!this.playerLobby.hasPlayer(username)) { // Check that username does not already exist
-                final Player player = new Player(username);
-                httpSession.attribute("player", player);
-                playerLobby.addPlayer(player);
-                response.redirect(WebServer.HOME_URL);
-            }
-            else {
-                response.redirect(WebServer.SIGN_IN_URL + "?error=Name taken");
-            }
-        } else {
-            response.redirect(WebServer.SIGN_IN_URL + "?error=Username must contain at least one alphanumeric character and only alphanumeric characters or spaces");
+        String result = this.playerLobby.signin(username);
+        if (result.equals(WebServer.HOME_URL)) {
+            httpSession.attribute("player", this.playerLobby.getPlayer(username));
         }
+        response.redirect(result);
 
         return null;
     }

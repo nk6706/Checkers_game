@@ -1,6 +1,7 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.WebServer;
 
 import java.util.*;
 
@@ -41,7 +42,7 @@ public class PlayerLobby {
      * @param username the name of the player to check for
      * @return true if the player is present, false otherwise
      */
-    public boolean hasPlayer(String username) {
+    private boolean hasPlayer(String username) {
         return this.playerList.containsKey(username);
     }
 
@@ -49,6 +50,22 @@ public class PlayerLobby {
         ArrayList<String> result = new ArrayList<>();
         result.addAll(this.playerList.keySet());
         return result;
+    }
+
+    public String signin(String username) {
+        // Check that username is at least one alphanumeric character and contains no symbol
+        if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {
+            if (!this.hasPlayer(username)) { // Check that username does not already exist
+                final Player player = new Player(username);
+                this.addPlayer(player);
+                return WebServer.HOME_URL;
+            }
+            else {
+                return WebServer.SIGN_IN_URL + "?error=Name taken";
+            }
+        } else {
+            return WebServer.SIGN_IN_URL + "?error=Username must contain at least one alphanumeric character and only alphanumeric characters or spaces";
+        }
     }
 
     public String playerAvailable(String playerName){
@@ -59,7 +76,5 @@ public class PlayerLobby {
         }
         return "not found";
     }
-
-
 
 }
