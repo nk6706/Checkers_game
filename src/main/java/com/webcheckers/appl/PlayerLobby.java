@@ -43,7 +43,7 @@ public class PlayerLobby {
      * @param username the name of the player to check for
      * @return true if the player is present, false otherwise
      */
-    private boolean hasPlayer(String username) {
+    public boolean hasPlayer(String username) {
         return this.playerList.containsKey(username);
     }
 
