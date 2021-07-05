@@ -1,6 +1,7 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.PostSignInRoute;
 import com.webcheckers.ui.WebServer;
 
 import java.util.*;
@@ -61,10 +62,10 @@ public class PlayerLobby {
                 return WebServer.HOME_URL;
             }
             else {
-                return WebServer.SIGN_IN_URL + "?error=Name taken";
+                return WebServer.SIGN_IN_URL + "?error=" + PostSignInRoute.NAME_TAKEN_ERR;
             }
         } else {
-            return WebServer.SIGN_IN_URL + "?error=Username must contain at least one alphanumeric character and only alphanumeric characters or spaces";
+            return WebServer.SIGN_IN_URL + "?error=" + PostSignInRoute.INVALID_NAME_ERR;
         }
     }
 
