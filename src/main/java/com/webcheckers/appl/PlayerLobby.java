@@ -1,6 +1,8 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.PostSignInRoute;
+import com.webcheckers.ui.WebServer;
 
 import java.util.*;
 
@@ -45,8 +47,26 @@ public class PlayerLobby {
         return this.playerList.containsKey(username);
     }
 
-    public HashMap<String, Player> getPlayerList(){
-        return playerList;
+    public ArrayList<String> getPlayerList() {
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(this.playerList.keySet());
+        return result;
+    }
+
+    public String signin(String username) {
+        // Check that username is at least one alphanumeric character and contains no symbol
+        if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {
+            if (!this.hasPlayer(username)) { // Check that username does not already exist
+                final Player player = new Player(username);
+                this.addPlayer(player);
+                return WebServer.HOME_URL;
+            }
+            else {
+                return WebServer.SIGN_IN_URL + "?error=" + PostSignInRoute.NAME_TAKEN_ERR;
+            }
+        } else {
+            return WebServer.SIGN_IN_URL + "?error=" + PostSignInRoute.INVALID_NAME_ERR;
+        }
     }
 
     public String playerAvailable(String playerName){
@@ -57,7 +77,5 @@ public class PlayerLobby {
         }
         return "not found";
     }
-
-
 
 }
