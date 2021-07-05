@@ -14,6 +14,11 @@ public class PostSignInRoute implements Route {
 
     static final String USERNAME_PARAM = "username";
     static final String VIEW_NAME = "signin.ftl";
+
+    /** Sign-in error messages */
+    public static final String NAME_TAKEN_ERR = "Name taken";
+    public static final String INVALID_NAME_ERR = "Username must contain at least one alphanumeric character and only alphanumeric characters or spaces";
+
     private final PlayerLobby playerLobby;
 
     public PostSignInRoute(PlayerLobby playerLobby){
