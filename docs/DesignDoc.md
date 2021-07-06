@@ -22,8 +22,12 @@ geometry: margin=1in
 This is a summary of the project.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+
+This project is a checkers web app split into 3 tiers, UI, model,
+and application. The checkers game follows the American rules. The most
+important user group is the players with a focus on user goals such as
+signin, starting a game, game functionality, and several enhancements.
+
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
