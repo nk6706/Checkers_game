@@ -60,4 +60,9 @@ public class Player {
         final Player that = (Player) obj;
         return this.username.equals(that.username);
     }
+
+    @Override
+    public String toString() {
+        return "{Username: " + this.username + "; Game ID: " + this.gameID + "}" ;
+    }
 }

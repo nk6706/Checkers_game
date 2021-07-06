@@ -65,6 +65,28 @@ public class CheckerBoard {
     }
 
     /**
+     * Overrides the default toString method and outputs a string representation of the board.
+     * Each space is either [ ], [R], or [W]. Mainly used for the JUnit Tests
+     * @return the board as a string.
+     */
+    @Override
+    public String toString() {
+        String finalStr = "";
+        for(int i = 0; i < this.board.length; i++) {
+            for (int j = 0; j < this.board.length; j++) {
+                if(this.board[i][j] == null) {
+                    finalStr += "[ ] ";
+                } else {
+                    finalStr += "[" + this.board[i][j].toString() + "] ";
+                }
+            }
+            finalStr += "\n";
+        }
+
+        return finalStr;
+    }
+
+    /**
      * The move method checks the validity of a move on the checkerboard. If the check succeeds,
      * the piece at the starting position will be moved to the end position on the board and the
      * method will return true, returning false instead if the move is invalid.
