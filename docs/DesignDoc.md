@@ -99,8 +99,12 @@ with the WebCheckers application.
 
 ![The WebCheckers Web Interface Statechart](project-statechart-whitebg.png)
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+Upon reaching the home page, a user who has not signed in will be given a sign-in button. When they click the sign-in
+button they will be sent to the sign-in page where they must enter a username in a text box and click the submit button. 
+Once they do so successfully, they will be taken back to the homepage, this time in the signed-in state. A list of
+currently signed-in players will now be visible to this user. When the user clicks on a player's name in this list they 
+will be placed in a new checkers game with them if they are still signed-in and not already in a game, otherwise the 
+user will be given an error message, and they will remain on the homepage.
 
 
 ### UI Tier

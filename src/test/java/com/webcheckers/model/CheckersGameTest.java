@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 class CheckersGameTest {
-
     private Player redPlayer;
     private Player whitePlayer;
 
