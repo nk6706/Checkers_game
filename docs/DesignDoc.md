@@ -57,9 +57,14 @@ This section describes the application domain.
 
 ![The WebCheckers Domain Model](Domain Model.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+The application starts out with a user interface allowing the player to sign in. The sign in 
+requires the user to provide a unique username, which is checked by the PlayerLobby.
+The GameManager connects two players,one red and one white, and assigns them to a CheckersGame. 
+The game consists of a CheckerBoard which holds all of the CheckerPieces that players move around. 
+Each player takes a turn during the CheckersGame, moving a piece until a player has no pieces or resigns. 
+A move consists of either a simple move or a jump, which can be done multiple times if available. 
+
+
 
 
 ## Architecture and Design
