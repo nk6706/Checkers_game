@@ -15,11 +15,12 @@ import com.webcheckers.util.Message;
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
  */
 public class GetHomeRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-    private static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+    static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-    private final TemplateEngine templateEngine;
+    static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
+
+    final TemplateEngine templateEngine;
 
     private final PlayerLobby playerLobby;
 
