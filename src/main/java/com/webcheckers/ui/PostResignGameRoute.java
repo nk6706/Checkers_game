@@ -12,8 +12,10 @@ import java.util.logging.Logger;
 public class PostResignGameRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostResignGameRoute.class.getName());
 
+    private final Gson gson;
 
-    public PostResignGameRoute() {
+    public PostResignGameRoute(Gson gson) {
+        this.gson = gson;
         //
         LOG.config("PostResignGameRoute is initialized.");
     }
