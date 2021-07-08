@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameManager;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
@@ -15,9 +16,11 @@ public class PostCheckTurnRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostCheckTurnRoute.class.getName());
 
     private final GameManager gameManager;
+    private final Gson gson;
 
-    public PostCheckTurnRoute(GameManager gameManager) {
+    public PostCheckTurnRoute(GameManager gameManager, Gson gson) {
         this.gameManager = gameManager;
+        this.gson = gson;
         //
         LOG.config("PostCheckTurnRoute is initialized.");
     }
@@ -33,7 +36,6 @@ public class PostCheckTurnRoute implements Route {
             result = Message.info("true");
         }
 
-        result = Message.info("true");
-        return result;
+        return this.gson.toJson(result);
     }
 }
