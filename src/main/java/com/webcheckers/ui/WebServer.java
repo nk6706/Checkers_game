@@ -154,7 +154,7 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
-    post(CHECK_TURN_URL, new PostCheckTurnRoute());
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gameManager));
 
     //
     LOG.config("WebServer is initialized.");
