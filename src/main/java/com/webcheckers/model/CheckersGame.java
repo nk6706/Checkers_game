@@ -13,6 +13,9 @@ public class CheckersGame {
     private Player redPlayer;
     private Player whitePlayer;
 
+    /** Holds the player whose turn it is */
+    private Player activePlayer;
+
     private CheckerBoard board;
 
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
@@ -53,5 +56,12 @@ public class CheckersGame {
      * @return true if the provided player is red, false otherwise (meaning they are white player)
      */
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
+
+    /**
+     * Determines if it is the provided player's turn (if they are the activePlayer)
+     * @param player the player to check if its their turn
+     * @return true if it is the player's turn, false otherwise
+     */
+    public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
 
 }
