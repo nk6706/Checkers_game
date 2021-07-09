@@ -23,7 +23,7 @@ class CheckerBoardTest {
                 "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n";
 
         //Invoke
-        CheckerPiece[][] board = CuT.getBoard(true);
+        CheckerPiece[][] board = CuT.getBoard();
         String actual = CuT.toString();
 
         //Analyze
@@ -38,7 +38,7 @@ class CheckerBoardTest {
                 "[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n";
 
         //Invoke
-        CheckerPiece[][] board = CuT.getBoard(false);
+        CheckerPiece[][] board = CuT.getFlippedBoard();
         String actual = "";
 
         for(int i = 0; i < board.length; i++) {

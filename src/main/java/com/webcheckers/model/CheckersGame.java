@@ -32,13 +32,20 @@ public class CheckersGame {
     }
 
     /**
-     * Getter method for game board
+     * Getter method for game board (red)
      * @return CheckerBoard object of the board
      */
-    public CheckerPiece[][] getBoard(boolean isRedPlayer) {
-        return board.getBoard(isRedPlayer);
+    public CheckerPiece[][] getBoard() {
+        return board.getBoard();
     }
 
+    /**
+     * Getter method for game board (white)
+     * @return CheckerBoard object of the board
+     */
+    public CheckerPiece[][] getFlippedBoard() {
+        return board.getFlippedBoard();
+    }
     public Player getRedPlayer() {
         return redPlayer;
     }

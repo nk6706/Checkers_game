@@ -27,12 +27,18 @@ public class CheckerBoard {
     }
 
     /**
-     * Getter for board
+     * Getter for board, assuming red player
      * @return CheckerPiece[][] of board
      */
-    public CheckerPiece[][] getBoard(boolean isRedPlayer) {
-        if(isRedPlayer)
-            return board;
+    public CheckerPiece[][] getBoard() {
+        return board;
+    }
+
+    /**
+     * Getter for board, assuming white player
+     * @return CheckerPiece[][] of board
+     */
+    public CheckerPiece[][] getFlippedBoard(){
 
         CheckerPiece[][] flippedBoard = new CheckerPiece[8][8];
         for(int i = 0; i < this.board.length; i++) {

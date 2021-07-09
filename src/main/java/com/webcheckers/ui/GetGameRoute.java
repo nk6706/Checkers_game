@@ -60,12 +60,12 @@ public class GetGameRoute implements Route {
         CheckerPiece[][] board;
         final Player opponent;
         if (game.isRedPlayer(player)) {
-            board = game.getBoard(true);
+            board = game.getBoard();
             opponent = game.getWhitePlayer();
             vm.put("redPlayer", player);
             vm.put("whitePlayer", opponent);
         } else {
-            board = game.getBoard(false);
+            board = game.getFlippedBoard();
             opponent = game.getRedPlayer();
             vm.put("redPlayer", opponent);
             vm.put("whitePlayer", player);
