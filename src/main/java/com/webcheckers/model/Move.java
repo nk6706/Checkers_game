@@ -36,6 +36,20 @@ public class Move {
             }
         }
 
+        // is the piece moving to a valid square?
+        if (endingPosition.getX()%2 == 0 || endingPosition.getY()%2 == 0){
+            return false;
+        }
+
         return true;
+    }
+
+    public CheckerBoard makeMove(CheckerBoard board){
+
+        if (!isValid(board)){
+            return board;
+        }
+
+        return board.placePiece(this.currentPiece,this.startingPosition, this.endingPosition);
     }
 }
