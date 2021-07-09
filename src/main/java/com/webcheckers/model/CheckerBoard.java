@@ -70,6 +70,12 @@ public class CheckerBoard {
         }
     }
 
+    public CheckerBoard placePiece(CheckerPiece piece, Position startLocation, Position endLocation){
+        this.board[endLocation.getX()][endLocation.getY()] = piece;
+        this.board[startLocation.getX()][startLocation.getY()] = null;
+        return this;
+    }
+
     /**
      * Overrides the default toString method and outputs a string representation of the board.
      * Each space is either [ ], [R], or [W]. Mainly used for the JUnit Tests
