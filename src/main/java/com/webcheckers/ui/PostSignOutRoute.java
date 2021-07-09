@@ -20,10 +20,6 @@ public class PostSignOutRoute implements Route {
         LOG.config("PostSignOutRoute is initialized.");
     }
 
-    //TODO:
-    //  1. Delete player from PlayerLobby
-    //  2. Remove the player attribute from the session and set it to null
-    //  3. Redirect back to the home page with GET "/"
     @Override
     public Object handle(Request request, Response response) throws Exception {
         final Session httpSession = request.session();
