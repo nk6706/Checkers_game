@@ -1,16 +1,19 @@
 package com.webcheckers.model;
 
 public class Move {
+    public enum MoveValidity {
+        VALID_END_OF_TURN, VALID_JUMP_REQUIRED,
+        INVALID_JUMP_REQUIRED, INVALID
+    }
 
     private Position startingPosition;
     private Position endingPosition;
-    private CheckerPiece currentPiece;
+    private CheckerPiece[][] currentBoard;
 
-
-    public Move(Position start, Position end, CheckerPiece pieceToMove){
+    public Move(Position start, Position end, CheckerPiece[][] currentBoard){
         this.startingPosition = start;
         this.endingPosition = end;
-        currentPiece = pieceToMove;
+        this.currentBoard = currentBoard;
     }
 
     public boolean isValid(CheckerBoard board){
@@ -27,6 +30,7 @@ public class Move {
             return false;
         }
 
+        /* TODO: modify for currentBoard variable
         // is the piece moving in a valid direction?
         if (!(this.currentPiece.getType() == CheckerPiece.Type.KING)){
             if (this.currentPiece.getColor() == CheckerPiece.Color.WHITE && endingPosition.getY() > startingPosition.getY()){
@@ -35,6 +39,7 @@ public class Move {
                 return  false;
             }
         }
+        */
 
         // is the piece moving to a valid square?
         if (endingPosition.getX()%2 == 0 || endingPosition.getY()%2 == 0){
@@ -50,6 +55,8 @@ public class Move {
             return board;
         }
 
-        return board.placePiece(this.currentPiece,this.startingPosition, this.endingPosition);
+        // TODO: modify function returns
+        //return board.placePiece(this.currentPiece,this.startingPosition, this.endingPosition);
+        return null;
     }
 }
