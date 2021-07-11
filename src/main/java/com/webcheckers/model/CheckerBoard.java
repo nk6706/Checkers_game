@@ -31,7 +31,15 @@ public class CheckerBoard {
      * @return CheckerPiece[][] of board
      */
     public CheckerPiece[][] getBoard() {
-        return board;
+        CheckerPiece[][] board_copy = new CheckerPiece[8][8];
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                board_copy[i][j] = board[i][j];
+            }
+        }
+
+        return board_copy;
     }
 
     /**
