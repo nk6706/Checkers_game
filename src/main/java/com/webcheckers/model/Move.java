@@ -37,13 +37,13 @@ public class Move {
 
         if (movingPiece.getColor() != playerColor) return MoveValidity.INVALID;
 
-        if (movingPiece.getType() != CheckerPiece.Type.KING) {
+        if (movingPiece.getType() == CheckerPiece.Type.SINGLE) {
             // If single space move
             if (endPosY == startPosY - 1 && (endPosX == startPosX - 1 || endPosX == startPosX + 1)) {
                 return singleSpaceMove(startPosX, startPosY, endPosX, endPosY);
             } // If jump move
             else if (endPosY == startPosY - 2 && (endPosX == startPosX - 2 || endPosX == startPosX + 2)) {
-                // TODO: add jump move behavior
+                return jumpMove(startPosX, startPosY, endPosX, endPosY);
             }
         }
 
@@ -90,6 +90,13 @@ public class Move {
         } else {
             return MoveValidity.INVALID;
         }
+    }
+
+    private MoveValidity jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
+
+        // TODO: implement jump validation
+
+        return MoveValidity.INVALID;
     }
 
     public CheckerBoard makeMove(CheckerBoard board){
