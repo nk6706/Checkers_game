@@ -19,7 +19,6 @@ public class Move {
     }
 
     public MoveValidity isValid(){
-
         int startPosX = startingPosition.getX();
         int startPosY = startingPosition.getY();
         int endPosX = endingPosition.getX();
@@ -27,7 +26,7 @@ public class Move {
 
         // is the move within board constraints?
         if (endPosX < 0 || endPosX > 7 || startPosX < 0 || startPosX > 7) return MoveValidity.INVALID;
-        else if (endPosY < 0 || endPosY > 7 || startPosY < 0 || startPosY > 7) return MoveValidity.INVALID;
+        if (endPosY < 0 || endPosY > 7 || startPosY < 0 || startPosY > 7) return MoveValidity.INVALID;
 
         if (currentBoard[startPosY][startPosX] == null || currentBoard[endPosY][endPosX] != null) {
             return MoveValidity.INVALID;
@@ -93,10 +92,19 @@ public class Move {
     }
 
     private MoveValidity jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
-
         // TODO: implement jump validation
 
         return MoveValidity.INVALID;
+    }
+
+    public CheckerPiece getPieceBeingMoved() {
+        int startPosX = startingPosition.getX();
+        int startPosY = startingPosition.getY();
+
+        if (startPosX >= 0 && startPosX <= 7 && startPosY >= 0 && startPosY <= 7) {
+                return currentBoard[startPosY][startPosX];
+        }
+        return null;
     }
 
     public CheckerBoard makeMove(CheckerBoard board){
