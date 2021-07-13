@@ -153,4 +153,12 @@ public class Move {
         //return board.placePiece(this.currentPiece,this.startingPosition, this.endingPosition);
         return null;
     }
+
+    public Position getStartingPosition() {
+        return startingPosition;
+    }
+
+    public Position getEndingPosition(){
+        return endingPosition;
+    }
 }
