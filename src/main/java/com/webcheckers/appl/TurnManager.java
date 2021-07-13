@@ -1,5 +1,6 @@
 package com.webcheckers.appl;
 
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Move;
 
 import java.util.ArrayList;
@@ -23,8 +24,15 @@ public class TurnManager {
         this.turns.get(gameID).add(move);
     }
 
-    public void makeMove(Move move) {
-
+    /**
+     * Uses the gameID and a Move data type object to move a piece on the board
+     * @param gameID the id of the game to make the move in
+     * @param move the move to make (start / end pos)
+     */
+    public void makeMove(int gameID, Move move) {
+        CheckersGame game = gameManager.getGame(gameID);
+        // TODO: 7/13/2021  call game make move here
+        storeMove(gameID, move);
     }
 
 
