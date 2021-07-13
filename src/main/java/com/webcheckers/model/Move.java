@@ -38,7 +38,7 @@ public class Move {
 
         if (movingPiece.getType() == CheckerPiece.Type.SINGLE) {
             // If single space move
-            if (endPosY == startPosY - 1 && (endPosX == startPosX - 1 || endPosX == startPosX + 1)) {
+            if (endPosY == startPosY - 1) {
                 return singleSpaceMove(startPosX, startPosY, endPosX, endPosY);
             } // If jump move
             else if (endPosY == startPosY - 2 && (endPosX == startPosX - 2 || endPosX == startPosX + 2)) {
@@ -85,16 +85,52 @@ public class Move {
                 }
             }
             return MoveValidity.VALID_END_OF_TURN;
-
-        } else {
-            return MoveValidity.INVALID;
         }
+        return MoveValidity.INVALID;
     }
 
     private MoveValidity jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
-        // TODO: implement jump validation
+        // If jumping diagonally left
+        if (endPosX == startPosX - 2) {
+            if (currentBoard[startPosY - 1][startPosX - 1] == null) return MoveValidity.INVALID;
+            if (currentBoard[startPosY - 1][startPosX - 1].getColor() == playerColor) return MoveValidity.INVALID;
 
+            if (additionalJumpAvailable(endPosX, endPosY)) return MoveValidity.VALID_JUMP_REQUIRED;
+            return MoveValidity.VALID_END_OF_TURN;
+        }
+        // If jumping diagonally right
+        else if (endPosX == startPosX + 2) {
+            if (currentBoard[startPosY - 1][startPosX + 1] == null) return MoveValidity.INVALID;
+            if (currentBoard[startPosY - 1][startPosX + 1].getColor() == playerColor) return MoveValidity.INVALID;
+
+            if (additionalJumpAvailable(endPosX, endPosY)) return MoveValidity.VALID_JUMP_REQUIRED;
+            return MoveValidity.VALID_END_OF_TURN;
+        }
         return MoveValidity.INVALID;
+    }
+
+    private boolean additionalJumpAvailable(int endPosX, int endPosY) {
+        if (endPosY - 2 >= 0) {
+            if (endPosX - 2 >= 0) {
+                if (currentBoard[endPosY - 2][endPosX - 2] == null) {
+                    if (currentBoard[endPosY - 1][endPosX - 1] != null) {
+                        if (currentBoard[endPosY - 1][endPosX - 1].getColor() != playerColor) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            if (endPosX + 2 <= 7) {
+                if (currentBoard[endPosY - 2][endPosX + 2] == null) {
+                    if (currentBoard[endPosY - 1][endPosX + 1] != null) {
+                        if (currentBoard[endPosY - 1][endPosX + 1].getColor() != playerColor) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public CheckerPiece getPieceBeingMoved() {
