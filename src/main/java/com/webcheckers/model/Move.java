@@ -3,10 +3,6 @@ package com.webcheckers.model;
 import com.webcheckers.util.Message;
 
 public class Move {
-    public enum MoveValidity {
-        VALID_END_OF_TURN, VALID_JUMP_REQUIRED,
-        INVALID_JUMP_REQUIRED, INVALID
-    }
 
     private Position startingPosition;
     private Position endingPosition;
@@ -142,17 +138,6 @@ public class Move {
         if (startPosX >= 0 && startPosX <= 7 && startPosY >= 0 && startPosY <= 7) {
                 return currentBoard[startPosY][startPosX];
         }
-        return null;
-    }
-
-    public CheckerBoard makeMove(CheckerBoard board){
-        /*
-        if (!isValid(board)){
-            return board;
-        }*/
-
-        // TODO: modify function returns
-        //return board.placePiece(this.currentPiece,this.startingPosition, this.endingPosition);
         return null;
     }
 
