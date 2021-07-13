@@ -19,10 +19,10 @@ public class Move {
     }
 
     public MoveValidity isValid(){
-        int startPosX = startingPosition.getX();
-        int startPosY = startingPosition.getY();
-        int endPosX = endingPosition.getX();
-        int endPosY = endingPosition.getY();
+        int startPosX = startingPosition.getRow();
+        int startPosY = startingPosition.getCell();
+        int endPosX = endingPosition.getRow();
+        int endPosY = endingPosition.getCell();
 
         // is the move within board constraints?
         if (endPosX < 0 || endPosX > 7 || startPosX < 0 || startPosX > 7) return MoveValidity.INVALID;
@@ -134,8 +134,8 @@ public class Move {
     }
 
     public CheckerPiece getPieceBeingMoved() {
-        int startPosX = startingPosition.getX();
-        int startPosY = startingPosition.getY();
+        int startPosX = startingPosition.getRow();
+        int startPosY = startingPosition.getCell();
 
         if (startPosX >= 0 && startPosX <= 7 && startPosY >= 0 && startPosY <= 7) {
                 return currentBoard[startPosY][startPosX];

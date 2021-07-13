@@ -17,7 +17,7 @@ public class Position {
      * Getter for the Position's x coordinate.
      * @return int the Position's x coordinate
      */
-    public int getX() {
+    public int getRow() {
         return x;
     }
 
@@ -25,7 +25,7 @@ public class Position {
      * Getter for the Position's y coordinate.
      * @return int the Position's y coordinate
      */
-    public int getY() {
+    public int getCell() {
         return y;
     }
 

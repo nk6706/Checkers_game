@@ -1,10 +1,5 @@
 package com.webcheckers.model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
  * An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which can be
@@ -79,8 +74,8 @@ public class CheckerBoard {
     }
 
     public CheckerBoard placePiece(CheckerPiece piece, Position startLocation, Position endLocation){
-        this.board[endLocation.getX()][endLocation.getY()] = piece;
-        this.board[startLocation.getX()][startLocation.getY()] = null;
+        this.board[endLocation.getRow()][endLocation.getCell()] = piece;
+        this.board[startLocation.getRow()][startLocation.getCell()] = null;
         return this;
     }
 
@@ -117,8 +112,8 @@ public class CheckerBoard {
      * @return true if the move was executed, false otherwise
      */
     public boolean move(CheckerPiece.Color playerColor, Position start, Position end) {
-        int startY = start.getY();
-        int startX = start.getX();
+        int startY = start.getCell();
+        int startX = start.getRow();
         if (startX < 0 || startX > 7 || startY < 0 || startY > 7) return false;
 
         // Check if there is a checker piece that can be moved
@@ -127,8 +122,8 @@ public class CheckerBoard {
         // Check if the piece being moved belongs to the player attempting to move it
         if (board[startY][startX].getColor() != playerColor) return false;
 
-        int endY = end.getY();
-        int endX = end.getX();
+        int endY = end.getCell();
+        int endX = end.getRow();
         if (endX < 0 || endX > 7 || endY < 0 || endY > 7) return false;
 
         // Check if the space being moved to is already occupied
