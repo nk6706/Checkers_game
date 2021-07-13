@@ -50,7 +50,7 @@ public class Move {
 
         // TODO: add king piece behavior
 
-        return Message.info("Move valid!");
+        return Message.info("");
     }
 
     private Message singleSpaceMove(int startPosX, int startPosY, int endPosX, int endPosY) {
@@ -69,7 +69,7 @@ public class Move {
                     }
                 }
             }
-            return Message.info("Move valid!");
+            return Message.info("");
         }
         // If moving diagonally right one space
         else if (endPosX == startPosX + 1) {
@@ -86,9 +86,9 @@ public class Move {
                     }
                 }
             }
-            return Message.info("Move valid!");
+            return Message.info("");
         }
-        return Message.info("Unknown error occurred.");
+        return Message.error("Unknown error occurred.");
     }
 
     private Message jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
@@ -98,7 +98,7 @@ public class Move {
             if (currentBoard[startPosY - 1][startPosX - 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
             if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
-            return Message.info("Move valid!");
+            return Message.info("");
         }
         // If jumping diagonally right
         else if (endPosX == startPosX + 2) {
@@ -106,7 +106,7 @@ public class Move {
             if (currentBoard[startPosY - 1][startPosX + 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
             if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
-            return Message.info("Move valid!");
+            return Message.info("");
         }
         return Message.error("Unknown error occurred.");
     }
