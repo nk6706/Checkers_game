@@ -7,9 +7,25 @@ import java.util.HashMap;
 
 public class TurnManager {
 
-    HashMap<Integer, ArrayList<Move>> turns;
+    final HashMap<Integer, ArrayList<Move>> turns = new HashMap<>();
+    final private GameManager gameManager;
 
-    public TurnManager() {
-        this.turns = new HashMap<>();
+    public TurnManager(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
+
+    /**
+     * Helper method to store move
+     * @param gameID the game to store the move
+     * @param move the move to store
+     */
+    private void storeMove(int gameID, Move move) {
+        this.turns.get(gameID).add(move);
+    }
+
+    public void makeMove(Move move) {
+
+    }
+
+
 }
