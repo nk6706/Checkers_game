@@ -5,12 +5,12 @@ package com.webcheckers.model;
  */
 public class Position {
 
-    private int x;
-    private int y;
+    private int row;
+    private int cell;
 
     public Position (int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.row = x;
+        this.cell = y;
     }
 
     /**
@@ -18,7 +18,7 @@ public class Position {
      * @return int the Position's x coordinate
      */
     public int getRow() {
-        return x;
+        return row;
     }
 
     /**
@@ -26,7 +26,7 @@ public class Position {
      * @return int the Position's y coordinate
      */
     public int getCell() {
-        return y;
+        return cell;
     }
 
 }
