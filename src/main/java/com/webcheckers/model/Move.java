@@ -41,14 +41,14 @@ public class Move {
             if (endPosY == startPosY - 1) {
                 return singleSpaceMove(startPosX, startPosY, endPosX, endPosY);
             } // If jump move
-            else if (endPosY == startPosY - 2 && (endPosX == startPosX - 2 || endPosX == startPosX + 2)) {
+            else if (endPosY == startPosY - 2) {
                 return jumpMove(startPosX, startPosY, endPosX, endPosY);
             }
         }
 
         // TODO: add king piece behavior
 
-        return MoveValidity.VALID_END_OF_TURN;
+        return MoveValidity.INVALID;
     }
 
     private MoveValidity singleSpaceMove(int startPosX, int startPosY, int endPosX, int endPosY) {
