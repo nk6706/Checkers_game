@@ -154,11 +154,11 @@ public class Move {
         return null;
     }
 
-    public Position getStartingPosition() {
+    public Position getStart() {
         return startingPosition;
     }
 
-    public Position getEndingPosition(){
+    public Position getEnd(){
         return endingPosition;
     }
 }
