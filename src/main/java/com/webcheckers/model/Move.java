@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Message;
+
 public class Move {
     public enum MoveValidity {
         VALID_END_OF_TURN, VALID_JUMP_REQUIRED,
@@ -18,23 +20,23 @@ public class Move {
         this.playerColor = playerColor;
     }
 
-    public MoveValidity isValid(){
+    public Message isValid(){
         int startPosX = startingPosition.getRow();
         int startPosY = startingPosition.getCell();
         int endPosX = endingPosition.getRow();
         int endPosY = endingPosition.getCell();
 
         // is the move within board constraints?
-        if (endPosX < 0 || endPosX > 7 || startPosX < 0 || startPosX > 7) return MoveValidity.INVALID;
-        if (endPosY < 0 || endPosY > 7 || startPosY < 0 || startPosY > 7) return MoveValidity.INVALID;
+        if (endPosX < 0 || endPosX > 7 || startPosX < 0 || startPosX > 7) return Message.error("Out of bounds!");
+        if (endPosY < 0 || endPosY > 7 || startPosY < 0 || startPosY > 7) return Message.error("Out of bounds!");
 
         if (currentBoard[startPosY][startPosX] == null || currentBoard[endPosY][endPosX] != null) {
-            return MoveValidity.INVALID;
+            return Message.error("Moving to non-empty location!");
         }
 
         CheckerPiece movingPiece = currentBoard[startPosY][startPosX];
 
-        if (movingPiece.getColor() != playerColor) return MoveValidity.INVALID;
+        if (movingPiece.getColor() != playerColor) return Message.error("This is not your piece!");
 
         if (movingPiece.getType() == CheckerPiece.Type.SINGLE) {
             // If single space move
@@ -48,10 +50,10 @@ public class Move {
 
         // TODO: add king piece behavior
 
-        return MoveValidity.INVALID;
+        return Message.info("Move valid!");
     }
 
-    private MoveValidity singleSpaceMove(int startPosX, int startPosY, int endPosX, int endPosY) {
+    private Message singleSpaceMove(int startPosX, int startPosY, int endPosX, int endPosY) {
         // If moving diagonally left one space
         if (endPosX == startPosX - 1) {
             // and 2 spaces diagonally right exists on board
@@ -62,12 +64,12 @@ public class Move {
                     if (currentBoard[endPosY][startPosX + 1].getColor() != playerColor) {
                         // and space 2 diagonally to the right is null
                         if (currentBoard[startPosY - 2][startPosX + 2] == null) {
-                            return MoveValidity.INVALID_JUMP_REQUIRED;
+                            return Message.error("Jump required!");
                         }
                     }
                 }
             }
-            return MoveValidity.VALID_END_OF_TURN;
+            return Message.info("Move valid!");
         }
         // If moving diagonally right one space
         else if (endPosX == startPosX + 1) {
@@ -79,34 +81,34 @@ public class Move {
                     if (currentBoard[endPosY][startPosX - 1].getColor() != playerColor) {
                         // and space 2 diagonally to the left is null
                         if (currentBoard[startPosY - 2][startPosX - 2] == null) {
-                            return MoveValidity.INVALID_JUMP_REQUIRED;
+                            return Message.error("Jump required!");
                         }
                     }
                 }
             }
-            return MoveValidity.VALID_END_OF_TURN;
+            return Message.info("Move valid!");
         }
-        return MoveValidity.INVALID;
+        return Message.info("Unknown error occurred.");
     }
 
-    private MoveValidity jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
+    private Message jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
         // If jumping diagonally left
         if (endPosX == startPosX - 2) {
-            if (currentBoard[startPosY - 1][startPosX - 1] == null) return MoveValidity.INVALID;
-            if (currentBoard[startPosY - 1][startPosX - 1].getColor() == playerColor) return MoveValidity.INVALID;
+            if (currentBoard[startPosY - 1][startPosX - 1] == null) return Message.error("There is no piece to jump!");
+            if (currentBoard[startPosY - 1][startPosX - 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
-            if (additionalJumpAvailable(endPosX, endPosY)) return MoveValidity.VALID_JUMP_REQUIRED;
-            return MoveValidity.VALID_END_OF_TURN;
+            if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
+            return Message.info("Move valid!");
         }
         // If jumping diagonally right
         else if (endPosX == startPosX + 2) {
-            if (currentBoard[startPosY - 1][startPosX + 1] == null) return MoveValidity.INVALID;
-            if (currentBoard[startPosY - 1][startPosX + 1].getColor() == playerColor) return MoveValidity.INVALID;
+            if (currentBoard[startPosY - 1][startPosX + 1] == null) return Message.error("There is no piece to jump!");
+            if (currentBoard[startPosY - 1][startPosX + 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
-            if (additionalJumpAvailable(endPosX, endPosY)) return MoveValidity.VALID_JUMP_REQUIRED;
-            return MoveValidity.VALID_END_OF_TURN;
+            if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
+            return Message.info("Move valid!");
         }
-        return MoveValidity.INVALID;
+        return Message.error("Unknown error occurred.");
     }
 
     private boolean additionalJumpAvailable(int endPosX, int endPosY) {
