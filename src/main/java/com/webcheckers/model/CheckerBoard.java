@@ -33,7 +33,7 @@ public class CheckerBoard {
         if ( flipped ) {
             this.board = board.getFlippedBoard();
         } else {
-            this.board = board.getFlippedBoard();
+            this.board = board.getBoard();
         }
     }
 
