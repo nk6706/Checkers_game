@@ -18,12 +18,10 @@ public class PostValidateMoveRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
     private final GameManager gameManager;
-    private final TurnManager turnManager;
     private final Gson gson;
 
-    public PostValidateMoveRoute(GameManager gameManager, TurnManager turnManager, Gson gson) {
+    public PostValidateMoveRoute(GameManager gameManager, Gson gson) {
         this.gameManager = gameManager;
-        this.turnManager = turnManager;
         this.gson = gson;
         //
         LOG.config("PostValidateMoveRoute is initialized.");
@@ -36,10 +34,9 @@ public class PostValidateMoveRoute implements Route {
         final int gameID = player.getGameID();
         final Move move = gson.fromJson(request.queryParams("actionData"), Move.class);
 
-        CheckersGame game = gameManager.getGame(gameID);
-        Message msg = game.isValid(move);
+        final Message msg = this.gameManager.isValidMove(gameID, move);
         if (msg.getText().equals("")) {
-            turnManager.makeMove(gameID, move);
+            this.gameManager.makeMove(gameID, move);
         }
 
         return gson.toJson(msg);

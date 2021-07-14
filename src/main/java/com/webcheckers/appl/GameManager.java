@@ -1,7 +1,9 @@
 package com.webcheckers.appl;
 
 import com.webcheckers.model.CheckersGame;
+import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
+import com.webcheckers.util.Message;
 
 import java.util.HashMap;
 
@@ -29,6 +31,37 @@ public class GameManager {
      */
     public CheckersGame getGame(int id) {
         return games.get(id);
+    }
+
+    /**
+     * Validates a move
+     * @param gameID the game id to validate the move in
+     * @param move the move to validate
+     * @return Message.info if move is valid, Message.error if not
+     */
+    public Message isValidMove(int gameID, Move move) {
+        final CheckersGame game = getGame(gameID);
+        return game.isValid(move);
+    }
+
+    /**
+     * Uses the gameID and a Move data type object to move a piece on the board
+     * @param gameID the id of the game to make the move in
+     * @param move the move to make (start / end pos)
+     */
+    public void makeMove(int gameID, Move move) {
+        final CheckersGame game = getGame(gameID);
+        game.makeMove(move);
+    }
+
+    /**
+     * Used to undo a move in a game
+     * @param gameID the game id to undo the move in
+     * @return a message regarding if undo was valid or not
+     */
+    public Message undoMove(int gameID) {
+        final CheckersGame game = getGame(gameID);
+        return game.undoMove();
     }
 
 }

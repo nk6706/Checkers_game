@@ -17,11 +17,11 @@ import java.util.logging.Logger;
 public class PostBackupMoveRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
-    private final TurnManager turnManager;
+    private final GameManager gameManager;
     private final Gson gson;
 
-    public PostBackupMoveRoute(TurnManager turnManager, Gson gson) {
-        this.turnManager = turnManager;
+    public PostBackupMoveRoute(GameManager gameManager, Gson gson) {
+        this.gameManager = gameManager;
         this.gson = gson;
         //
         LOG.config("PostBackupMoveRoute is initialized.");
@@ -32,6 +32,8 @@ public class PostBackupMoveRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
-        return null;
+        final Message result = gameManager.undoMove(player.getGameID());
+
+        return gson.toJson(result);
     }
 }
