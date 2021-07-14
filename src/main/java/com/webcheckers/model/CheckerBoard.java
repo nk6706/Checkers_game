@@ -146,21 +146,21 @@ public class CheckerBoard {
         return true;
     }
 
-    public Message isValid(){
-        int startPosX = startingPosition.getRow();
-        int startPosY = startingPosition.getCell();
-        int endPosX = endingPosition.getRow();
-        int endPosY = endingPosition.getCell();
+    public Message isValid(Move move){
+        int startPosX = move.getStart().getRow();
+        int startPosY = move.getStart().getCell();
+        int endPosX = move.getEnd().getRow();
+        int endPosY = move.getEnd().getCell();
 
         // is the move within board constraints?
         if (endPosX < 0 || endPosX > 7 || startPosX < 0 || startPosX > 7) return Message.error("Out of bounds!");
         if (endPosY < 0 || endPosY > 7 || startPosY < 0 || startPosY > 7) return Message.error("Out of bounds!");
 
-        if (currentBoard[startPosY][startPosX] == null || currentBoard[endPosY][endPosX] != null) {
+        if (board[startPosY][startPosX] == null || board[endPosY][endPosX] != null) {
             return Message.error("Moving to non-empty location!");
         }
 
-        CheckerPiece movingPiece = currentBoard[startPosY][startPosX];
+        CheckerPiece movingPiece = board[startPosY][startPosX];
 
         if (movingPiece.getColor() != playerColor) return Message.error("This is not your piece!");
 
@@ -238,11 +238,11 @@ public class CheckerBoard {
     private boolean forwardRightJumpCheck(int startPosX, int startPosY, int endPosY) {
         if (!(startPosX + 2 > 7) && !(startPosY - 2 < 0)) {
             // and the space one diagonally to the right contains a piece
-            if (currentBoard[endPosY][startPosX + 1] != null) {
+            if (board[endPosY][startPosX + 1] != null) {
                 // and that piece is not one of the player's
-                if (currentBoard[endPosY][startPosX + 1].getColor() != playerColor) {
+                if (board[endPosY][startPosX + 1].getColor() != playerColor) {
                     // and space 2 diagonally to the right is null
-                    if (currentBoard[startPosY - 2][startPosX + 2] == null) {
+                    if (board[startPosY - 2][startPosX + 2] == null) {
                         return true;
                     }
                 }
@@ -254,11 +254,11 @@ public class CheckerBoard {
     private boolean forwardLeftJumpCheck(int startPosX, int startPosY, int endPosY) {
         if (!(startPosX - 2 < 0) && !(startPosY - 2 < 0)) {
             // and the space one diagonally to the left contains a piece
-            if (currentBoard[endPosY][startPosX - 1] != null) {
+            if (board[endPosY][startPosX - 1] != null) {
                 // and that piece is not one of the player's
-                if (currentBoard[endPosY][startPosX - 1].getColor() != playerColor) {
+                if (board[endPosY][startPosX - 1].getColor() != playerColor) {
                     // and space 2 diagonally to the left is null
-                    if (currentBoard[startPosY - 2][startPosX - 2] == null) {
+                    if (board[startPosY - 2][startPosX - 2] == null) {
                         return true;
                     }
                 }
@@ -269,9 +269,9 @@ public class CheckerBoard {
 
     private boolean backwardRightJumpCheck(int startPosX, int startPosY, int endPosY) {
         if (!(startPosX + 2 > 7) && !(startPosY + 2 < 0)) {
-            if (currentBoard[endPosY][startPosX + 1] != null) {
-                if (currentBoard[endPosY][startPosX + 1].getColor() != playerColor) {
-                    if (currentBoard[startPosY + 2][startPosX + 2] == null) {
+            if (board[endPosY][startPosX + 1] != null) {
+                if (board[endPosY][startPosX + 1].getColor() != playerColor) {
+                    if (board[startPosY + 2][startPosX + 2] == null) {
                         return true;
                     }
                 }
@@ -282,9 +282,9 @@ public class CheckerBoard {
 
     private boolean backwardLeftJumpCheck(int startPosX, int startPosY, int endPosY) {
         if (!(startPosX - 2 < 0) && !(startPosY + 2 < 0)) {
-            if (currentBoard[endPosY][startPosX - 1] != null) {
-                if (currentBoard[endPosY][startPosX - 1].getColor() != playerColor) {
-                    if (currentBoard[startPosY + 2][startPosX - 2] == null) {
+            if (board[endPosY][startPosX - 1] != null) {
+                if (board[endPosY][startPosX - 1].getColor() != playerColor) {
+                    if (board[startPosY + 2][startPosX - 2] == null) {
                         return true;
                     }
                 }
@@ -296,16 +296,16 @@ public class CheckerBoard {
     private Message jumpMove(int startPosX, int startPosY, int endPosX, int endPosY) {
         // If jumping diagonally left
         if (endPosX == startPosX - 2) {
-            if (currentBoard[startPosY - 1][startPosX - 1] == null) return Message.error("There is no piece to jump!");
-            if (currentBoard[startPosY - 1][startPosX - 1].getColor() == playerColor) return Message.error("That is not your piece!");
+            if (board[startPosY - 1][startPosX - 1] == null) return Message.error("There is no piece to jump!");
+            if (board[startPosY - 1][startPosX - 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
             if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
             return Message.info("Move valid!");
         }
         // If jumping diagonally right
         else if (endPosX == startPosX + 2) {
-            if (currentBoard[startPosY - 1][startPosX + 1] == null) return Message.error("There is no piece to jump!");
-            if (currentBoard[startPosY - 1][startPosX + 1].getColor() == playerColor) return Message.error("That is not your piece!");
+            if (board[startPosY - 1][startPosX + 1] == null) return Message.error("There is no piece to jump!");
+            if (board[startPosY - 1][startPosX + 1].getColor() == playerColor) return Message.error("That is not your piece!");
 
             if (additionalJumpAvailable(endPosX, endPosY)) return Message.error("Multi-jump available and must be used.");
             return Message.info("Move valid!");
@@ -319,18 +319,18 @@ public class CheckerBoard {
     private boolean additionalJumpAvailable(int endPosX, int endPosY) {
         if (endPosY - 2 >= 0) {
             if (endPosX - 2 >= 0) {
-                if (currentBoard[endPosY - 2][endPosX - 2] == null) {
-                    if (currentBoard[endPosY - 1][endPosX - 1] != null) {
-                        if (currentBoard[endPosY - 1][endPosX - 1].getColor() != playerColor) {
+                if (board[endPosY - 2][endPosX - 2] == null) {
+                    if (board[endPosY - 1][endPosX - 1] != null) {
+                        if (board[endPosY - 1][endPosX - 1].getColor() != playerColor) {
                             return true;
                         }
                     }
                 }
             }
             if (endPosX + 2 <= 7) {
-                if (currentBoard[endPosY - 2][endPosX + 2] == null) {
-                    if (currentBoard[endPosY - 1][endPosX + 1] != null) {
-                        if (currentBoard[endPosY - 1][endPosX + 1].getColor() != playerColor) {
+                if (board[endPosY - 2][endPosX + 2] == null) {
+                    if (board[endPosY - 1][endPosX + 1] != null) {
+                        if (board[endPosY - 1][endPosX + 1].getColor() != playerColor) {
                             return true;
                         }
                     }
@@ -340,12 +340,9 @@ public class CheckerBoard {
         return false;
     }
 
-    public CheckerPiece getPieceBeingMoved() {
-        int startPosX = startingPosition.getRow();
-        int startPosY = startingPosition.getCell();
-
+    public CheckerPiece getPieceBeingMoved(int startPosX, int startPosY) {
         if (startPosX >= 0 && startPosX <= 7 && startPosY >= 0 && startPosY <= 7) {
-            return currentBoard[startPosY][startPosX];
+            return board[startPosY][startPosX];
         }
         return null;
     }
