@@ -18,12 +18,10 @@ public class PostSubmitTurnRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
     private final GameManager gameManager;
-    private final TurnManager turnManager;
     private final Gson gson;
 
-    public PostSubmitTurnRoute(GameManager gameManager, TurnManager turnManager, Gson gson) {
+    public PostSubmitTurnRoute(GameManager gameManager, Gson gson) {
         this.gameManager = gameManager;
-        this.turnManager = turnManager;
         this.gson = gson;
         //
         LOG.config("PostSubmitTurnRoute is initialized.");
@@ -33,7 +31,13 @@ public class PostSubmitTurnRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
+        final int gameID = player.getGameID();
 
-        return null;
+        final Message result = gameManager.isValidTurn(gameID);
+        if (result.getType().equals(Message.Type.INFO)) {
+            gameManager.submitTurn(gameID);
+        }
+
+        return gson.toJson(result);
     }
 }
