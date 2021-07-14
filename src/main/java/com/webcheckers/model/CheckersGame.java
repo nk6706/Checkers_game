@@ -69,7 +69,7 @@ public class CheckersGame {
      * @return Message.INFO if valid, Message.ERROR with error msg if invalid
      */
     public Message isValid(Move move) {
-        return board.isValid(move);
+        return board.isValidMove(move);
     }
 
 }

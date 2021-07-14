@@ -157,21 +157,43 @@ public class CheckerBoard {
         final CheckerPiece piece = getPiece(start);
 
         if ( !piece.isKing() ) { // Single piece move validation
-            if ( rowDiff != 1 ) {
-                return Message.error("You can only move this piece forward (a single row at a time)");
-            }
-            if ( cellDiff != 1 && cellDiff != -1) {
-                return Message.error("You can only move this piece a single cell in either direction");
+            if (rowDiff < 0 ) { // Tried to move backwards
+                return Message.error("A single piece can only move forward");
+            } else if ( rowDiff == 0 ) { // Tried to move to tile in same row (invalid)
+                return Message.error("Single piece must advance forward");
+            } else if ( rowDiff == 1 ) { // Advanced 1 row (could be valid or invalid)
+                if ( cellDiff == 1 || cellDiff == -1 ) {
+                    return Message.info("");
+                } else {
+                    return Message.error("You can only move a single cell in either direction");
+                }
+            } else if ( rowDiff == 2 ) { // Possible jump, need further investigation
+                if ( cellDiff == 2 ) {
+                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()+1)) ) {
+                        return Message.info("");
+                    }
+                } else if ( cellDiff == -2) {
+                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
+                        return Message.info("");
+                    }
+                }
+                return Message.info("Moved an invalid amount of rows forward");
+            } else { // Moved too many rows forward
+                return Message.error("Moved an invalid amount of rows forward");
             }
         } else { // King move validation
 
         }
 
-        return Message.info("");
+        return Message.error("Unknown error");
     }
 
     private CheckerPiece getPiece(Position pos) {
         return this.board[pos.getRow()][pos.getCell()];
+    }
+
+    private boolean hasPiece(Position pos) {
+        return getPiece(pos) != null;
     }
 
     public Message isValid(Move move){
