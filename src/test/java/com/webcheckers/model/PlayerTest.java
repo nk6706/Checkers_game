@@ -1,7 +1,5 @@
 package com.webcheckers.model;
 
-import com.webcheckers.model.Player;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -26,7 +24,7 @@ public class PlayerTest {
 
     @Test
     void testGameNotStarted(){
-        Assertions.assertTrue(CuT.inGame()==false);
+        Assertions.assertFalse(CuT.inGame());
     }
 
 
@@ -39,7 +37,7 @@ public class PlayerTest {
 
     @Test
     void testGameStartsAndEnds(){
-        Assertions.assertTrue(CuT.inGame()==false);
+        Assertions.assertFalse(CuT.inGame());
         CuT.setGameID(1);
         Assertions.assertEquals(1, CuT.getGameID());
         Assertions.assertTrue(CuT.inGame());
@@ -51,14 +49,14 @@ public class PlayerTest {
     @Test
     void testEqualsTrue(){
         TestObject = new Player("user1");
-        Assertions.assertTrue(CuT.equals(TestObject));
+        Assertions.assertEquals(TestObject, CuT);
     }
 
 
     @Test
     void testObjectEqual(){
         TestObject = new Player("user2");
-        Assertions.assertFalse(CuT.equals(TestObject));
+        Assertions.assertNotEquals(TestObject, CuT);
     }
 
 
