@@ -66,7 +66,7 @@ public class GameManager {
      */
     public void submitTurn(int gameID) {
         final CheckersGame game = getGame(gameID);
-        game.setNewTurn();
+        game.newTurn();
         game.toggleActivePlayer();
     }
 

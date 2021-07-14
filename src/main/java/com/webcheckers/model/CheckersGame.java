@@ -112,7 +112,7 @@ public class CheckersGame {
      * @param move the move to make
      */
     public void makeMove(Move move) {
-        CheckerBoard previous = new CheckerBoard(this.boards.peek());
+        CheckerBoard previous = new CheckerBoard(this.boards.peek(), false);
         previous.movePiece(move.getStart(), move.getEnd());
         this.boards.push(previous);
     }
@@ -128,8 +128,8 @@ public class CheckersGame {
     /**
      *
      */
-    public void setNewTurn() {
-        final CheckerBoard board = this.boards.pop();
+    public void newTurn() {
+        final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
         this.boards.removeAllElements();
         this.boards.add(board);
     }
