@@ -48,10 +48,15 @@ public class TurnManager {
      */
     public void makeMove(int gameID, Move move) {
         CheckersGame game = gameManager.getGame(gameID);
+
+        // Store the move for later
         if ( !hasGame(gameID) ) {
             addGame(gameID);
         }
         storeMove(gameID, move);
+
+        game.makeMove(move);
+
     }
 
 
