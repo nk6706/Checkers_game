@@ -10,6 +10,8 @@ import com.webcheckers.util.Message;
 public class CheckerBoard {
     private CheckerPiece[][] board;
 
+    private CheckerPiece.Color playerColor = CheckerPiece.Color.RED;
+
     public CheckerBoard() {
         board = new CheckerPiece[8][8];
 
@@ -144,6 +146,32 @@ public class CheckerBoard {
         board[startY][startX] = null;
 
         return true;
+    }
+
+    public Message isValidMove(Move move) {
+        final Position start = move.getStart();
+        final Position end = move.getEnd();
+        final int rowDiff = start.getRow() - end.getRow();
+        final int cellDiff = start.getCell() - end.getCell();
+
+        final CheckerPiece piece = getPiece(start);
+
+        if ( !piece.isKing() ) { // Single piece move validation
+            if ( rowDiff != 1 ) {
+                return Message.error("You can only move this piece forward (a single row at a time)");
+            }
+            if ( cellDiff != 1 && cellDiff != -1) {
+                return Message.error("You can only move this piece a single cell in either direction");
+            }
+        } else { // King move validation
+
+        }
+
+        return Message.info("");
+    }
+
+    private CheckerPiece getPiece(Position pos) {
+        return this.board[pos.getRow()][pos.getCell()];
     }
 
     public Message isValid(Move move){
