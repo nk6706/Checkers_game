@@ -2,6 +2,8 @@ package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
 
+import java.util.Stack;
+
 /**
  * CheckersGame is a model-level representation of a game of checkers. Each CheckersGame has
  * two Player(s) and a CheckerBoard that holds its CheckerPiece(s). Additionally, each
@@ -15,14 +17,17 @@ public class CheckersGame {
     private Player redPlayer;
     private Player whitePlayer;
 
-    private CheckerBoard board;
+    private CheckerBoard currentBoard;
+    private CheckerBoard previousBoard;
+    private Stack<CheckerBoard> boards = new Stack<>();
 
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
         this.id = id;
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
 
-        board = new CheckerBoard();
+        currentBoard = new CheckerBoard();
+        boards.push(new CheckerBoard());
     }
 
     /**
@@ -38,7 +43,7 @@ public class CheckersGame {
      * @return CheckerBoard object of the board
      */
     public CheckerPiece[][] getBoard() {
-        return board.getBoard();
+        return currentBoard.getBoard();
     }
 
     /**
@@ -46,7 +51,7 @@ public class CheckersGame {
      * @return CheckerBoard object of the board
      */
     public CheckerPiece[][] getFlippedBoard() {
-        return board.getFlippedBoard();
+        return currentBoard.getFlippedBoard();
     }
     public Player getRedPlayer() {
         return redPlayer;
@@ -69,7 +74,15 @@ public class CheckersGame {
      * @return Message.INFO if valid, Message.ERROR with error msg if invalid
      */
     public Message isValid(Move move) {
-        return board.isValidMove(move);
+        return this.boards.peek().isValidMove(move, this.boards.size() == 1);
+    }
+
+    public void makeMove(Move move) {
+        CheckerBoard previous = new CheckerBoard(this.boards.peek());
+        System.out.println(previous.toString());
+        previous.movePiece(move.getStart(), move.getEnd());
+        System.out.println(previous.toString());
+        this.boards.push(previous);
     }
 
 }
