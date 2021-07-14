@@ -203,6 +203,43 @@ public class CheckerBoard {
         return Message.error("Unknown error");
     }
 
+    public boolean isJumpAvailable(CheckerPiece.Color color) {
+      for(int i = 0; i < this.board.length; i++) {
+          for(int j = 0; j < this.board[i].length; j++) {
+              CheckerPiece piece = this.board[i][j];
+              if ( piece != null && piece.getColor().equals(color) ) {
+                  final Position pos = new Position(i, j);
+                  if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) || isJumpAvailable(pos, false, true, color) || isJumpAvailable(pos, false, false, color) ) {
+                      return true;
+                  }
+              }
+          }
+      }
+      return false;
+    }
+
+    private boolean isJumpAvailable(Position pos, boolean forward, boolean right, CheckerPiece.Color color) {
+        final int row = pos.getRow();
+        final int cell = pos.getCell();
+
+        final int middleRow = forward ? row - 1 : row + 1;
+        final int middleCell = right ? cell + 1 : cell - 1;
+
+        final int farRow = forward ? row - 2 : row + 2;
+        final int farCell = right ? cell + 2 : cell - 2;
+
+        if ( farRow > -1 && farRow < 8 && farCell > -1 && farCell < 8 ) { // Check the jump is in bounds
+            if ( getPiece(new Position(farRow, farCell)) == null ) { // Check the position jumping to is empty
+                final CheckerPiece pieceToJump = getPiece(new Position(middleRow, middleCell));
+                if ( pieceToJump != null && !pieceToJump.getColor().equals(color) ) { // Check an opponents piece is there
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     private CheckerPiece getPiece(Position pos) {
         return this.board[pos.getRow()][pos.getCell()];
     }
