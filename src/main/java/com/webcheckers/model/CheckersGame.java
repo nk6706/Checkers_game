@@ -79,6 +79,13 @@ public class CheckersGame {
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
 
     /**
+     * Determines if it is the provided player's turn (if they are the activePlayer)
+     * @param player the player to check if its their turn
+     * @return true if it is the player's turn, false otherwise
+     */
+    public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
+
+    /**
      * Used when submitting a valid turn to change whose turn it is
      */
     public void toggleActivePlayer() {
@@ -112,7 +119,7 @@ public class CheckersGame {
      * @param move the move to make
      */
     public void makeMove(Move move) {
-        CheckerBoard previous = new CheckerBoard(this.boards.peek());
+        CheckerBoard previous = new CheckerBoard(this.boards.peek(), false);
         previous.movePiece(move.getStart(), move.getEnd());
         this.boards.push(previous);
     }
@@ -128,8 +135,8 @@ public class CheckersGame {
     /**
      *
      */
-    public void setNewTurn() {
-        final CheckerBoard board = this.boards.pop();
+    public void newTurn() {
+        final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
         this.boards.removeAllElements();
         this.boards.add(board);
     }

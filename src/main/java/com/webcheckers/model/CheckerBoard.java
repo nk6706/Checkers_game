@@ -29,9 +29,15 @@ public class CheckerBoard {
      * Copy constructor
      * @param board
      */
-    CheckerBoard(CheckerBoard board) {
-        this.board = board.getBoard();
+    CheckerBoard(CheckerBoard board, boolean flipped) {
+        if ( flipped ) {
+            this.board = board.getFlippedBoard();
+        } else {
+            this.board = board.getBoard();
+        }
     }
+
+
 
     /**
      * Getter for board, assuming red player
