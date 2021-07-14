@@ -17,8 +17,6 @@ public class CheckersGame {
     private Player redPlayer;
     private Player whitePlayer;
 
-    private CheckerBoard currentBoard;
-    private CheckerBoard previousBoard;
     private Stack<CheckerBoard> boards = new Stack<>();
 
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
@@ -26,7 +24,6 @@ public class CheckersGame {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
 
-        currentBoard = new CheckerBoard();
         boards.push(new CheckerBoard());
     }
 
@@ -43,7 +40,7 @@ public class CheckersGame {
      * @return CheckerBoard object of the board
      */
     public CheckerPiece[][] getBoard() {
-        return currentBoard.getBoard();
+        return this.boards.peek().getBoard();
     }
 
     /**
@@ -51,12 +48,21 @@ public class CheckersGame {
      * @return CheckerBoard object of the board
      */
     public CheckerPiece[][] getFlippedBoard() {
-        return currentBoard.getFlippedBoard();
+        return this.boards.peek().getFlippedBoard();
     }
+
+    /**
+     *
+     * @return
+     */
     public Player getRedPlayer() {
         return redPlayer;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getWhitePlayer() {
         return whitePlayer;
     }
@@ -77,12 +83,22 @@ public class CheckersGame {
         return this.boards.peek().isValidMove(move, this.boards.size() == 1);
     }
 
+    /**
+     * Used to make a move, copies a  new board and moves the piece as directed
+     * @param move the move to make
+     */
     public void makeMove(Move move) {
         CheckerBoard previous = new CheckerBoard(this.boards.peek());
-        System.out.println(previous.toString());
         previous.movePiece(move.getStart(), move.getEnd());
-        System.out.println(previous.toString());
         this.boards.push(previous);
+    }
+
+    public Message undoMove() {
+        if ( this.boards.size() == 1 ) {
+            return Message.error("No moves have been made yet");
+        }
+        this.boards.pop();
+        return Message.info("Reverted back to previous move");
     }
 
 }
