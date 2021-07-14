@@ -74,4 +74,9 @@ public class PlayerTest {
         Assertions.assertFalse(TestObject.hashCode() == CuT.hashCode());
     }
 
+    @Test
+    public void testGetUsername() {
+        Assertions.assertEquals("user1", CuT.getUsername());
+    }
+
 }
