@@ -6,7 +6,6 @@ import com.webcheckers.model.CheckerPiece;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.board.BoardView;
-import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
