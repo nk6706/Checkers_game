@@ -17,10 +17,12 @@ import java.util.logging.Logger;
 public class PostValidateMoveRoute implements Route {
     private static final Logger LOG = Logger.getLogger(PostValidateMoveRoute.class.getName());
 
+    private final GameManager gameManager;
     private final TurnManager turnManager;
     private final Gson gson;
 
-    public PostValidateMoveRoute(TurnManager turnManager, Gson gson) {
+    public PostValidateMoveRoute(GameManager gameManager, TurnManager turnManager, Gson gson) {
+        this.gameManager = gameManager;
         this.turnManager = turnManager;
         this.gson = gson;
         //
@@ -31,11 +33,13 @@ public class PostValidateMoveRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
+        final int gameID = player.getGameID();
         final Move move = gson.fromJson(request.queryParams("actionData"), Move.class);
 
-        Message msg = move.isValid();
+        CheckersGame game = gameManager.getGame(gameID);
+        Message msg = game.isValid(move);
         if (msg.getText().equals("")) {
-            // Make move here
+            turnManager.makeMove(gameID, move);
         }
 
         return gson.toJson(msg);
