@@ -26,6 +26,14 @@ public class CheckerBoard {
     }
 
     /**
+     * Copy constructor
+     * @param board
+     */
+    CheckerBoard(CheckerBoard board) {
+        this.board = board.getBoard();
+    }
+
+    /**
      * Getter for board, assuming red player
      * @return CheckerPiece[][] of board
      */
@@ -81,6 +89,11 @@ public class CheckerBoard {
         this.board[endLocation.getRow()][endLocation.getCell()] = piece;
         this.board[startLocation.getRow()][startLocation.getCell()] = null;
         return this;
+    }
+
+    public void movePiece(Position start, Position end) {
+        this.board[end.getRow()][end.getCell()] = this.board[start.getRow()][start.getCell()];
+        this.board[start.getRow()][start.getCell()] = null;
     }
 
     /**
@@ -148,7 +161,7 @@ public class CheckerBoard {
         return true;
     }
 
-    public Message isValidMove(Move move) {
+    public Message isValidMove(Move move, boolean first) {
         final Position start = move.getStart();
         final Position end = move.getEnd();
         final int rowDiff = start.getRow() - end.getRow();
@@ -162,7 +175,9 @@ public class CheckerBoard {
             } else if ( rowDiff == 0 ) { // Tried to move to tile in same row (invalid)
                 return Message.error("Single piece must advance forward");
             } else if ( rowDiff == 1 ) { // Advanced 1 row (could be valid or invalid)
-                if ( cellDiff == 1 || cellDiff == -1 ) {
+                if ( !first ) {
+                    return Message.error("Can only move a single row forward in a turn");
+                } else if ( cellDiff == 1 || cellDiff == -1 ) {
                     return Message.info("");
                 } else {
                     return Message.error("You can only move a single cell in either direction");
