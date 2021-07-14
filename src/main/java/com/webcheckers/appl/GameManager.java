@@ -18,6 +18,12 @@ public class GameManager {
         this.games = new HashMap<>();
     }
 
+    /**
+     * Constructs a new game when one is required
+     * @param redPlayer the player to make red pieces
+     * @param whitePlayer the player to make white pieces
+     * @return a newly constructed checkers game
+     */
     public CheckersGame newGame(Player redPlayer, Player whitePlayer) {
         CheckersGame game = new CheckersGame(++lastId, redPlayer, whitePlayer);
         games.put(game.getId(), game);
@@ -41,7 +47,23 @@ public class GameManager {
      */
     public Message isValidMove(int gameID, Move move) {
         final CheckersGame game = getGame(gameID);
-        return game.isValid(move);
+        return game.isValidMove(move);
+    }
+
+    /**
+     *
+     * @param gameID
+     * @return
+     */
+    public Message isValidTurn(int gameID) {
+        final CheckersGame game = getGame(gameID);
+        return game.isValidTurn();
+    }
+
+    public void submitTurn(int gameID) {
+        final CheckersGame game = getGame(gameID);
+        game.setNewTurn();
+        game.toggleActivePlayer();
     }
 
     /**
