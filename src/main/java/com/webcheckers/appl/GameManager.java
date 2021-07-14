@@ -60,6 +60,10 @@ public class GameManager {
         return game.isValidTurn();
     }
 
+    /**
+     *
+     * @param gameID
+     */
     public void submitTurn(int gameID) {
         final CheckersGame game = getGame(gameID);
         game.setNewTurn();
