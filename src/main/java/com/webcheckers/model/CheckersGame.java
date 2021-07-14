@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Message;
+
 /**
  * CheckersGame is a model-level representation of a game of checkers. Each CheckersGame has
  * two Player(s) and a CheckerBoard that holds its CheckerPiece(s). Additionally, each
@@ -60,5 +62,14 @@ public class CheckersGame {
      * @return true if the provided player is red, false otherwise (meaning they are white player)
      */
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
+
+    /**
+     * Method for TurnManager to check if a move is valid or not
+     * @param move the move to check
+     * @return Message.INFO if valid, Message.ERROR with error msg if invalid
+     */
+    public Message isValid(Move move) {
+        return board.isValid(move);
+    }
 
 }
