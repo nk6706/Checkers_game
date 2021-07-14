@@ -8,10 +8,13 @@ import com.webcheckers.util.Message;
  * modified through the move method.
  */
 public class CheckerBoard {
+
+    /** Matrix representing board with pieces on it (null if no piece) */
     private CheckerPiece[][] board;
 
-    private CheckerPiece.Color playerColor = CheckerPiece.Color.RED;
-
+    /**
+     * Default constructor to create initial board
+     */
     public CheckerBoard() {
         board = new CheckerPiece[8][8];
 
@@ -89,6 +92,12 @@ public class CheckerBoard {
         }
     }
 
+    /**
+     * Checks to see if the given move is valid
+     * @param move the move to check for validity
+     * @param first whether or not this is the first move of the turn
+     * @return true if the move is valid, false otherwise
+     */
     public Message isValidMove(Move move, boolean first) {
         final Position start = move.getStart();
         final Position end = move.getEnd();
@@ -131,6 +140,11 @@ public class CheckerBoard {
         return Message.error("Unknown error");
     }
 
+    /**
+     * Whether or not a jump is available in this given board configuration
+     * @param color the color of the current player
+     * @return true if was a jump is available on this board, false otherwise
+     */
     public boolean isJumpAvailable(CheckerPiece.Color color) {
         for(int i = 0; i < this.board.length; i++) {
             for(int j = 0; j < this.board[i].length; j++) {
@@ -146,6 +160,14 @@ public class CheckerBoard {
         return false;
     }
 
+    /**
+     * Helper method for isJumpAvailable, checks specific jumps is specific directions
+     * @param pos the position of the piece
+     * @param forward true if want to check for a forward jump, false for backward jump
+     * @param right true if want to check for a jump to the  right, false for left
+     * @param color the color of the player's piece
+     * @return true if a jump in the given direction is available, false otherwise
+     */
     private boolean isJumpAvailable(Position pos, boolean forward, boolean right, CheckerPiece.Color color) {
         final int row = pos.getRow();
         final int cell = pos.getCell();
@@ -168,6 +190,32 @@ public class CheckerBoard {
         return false;
     }
 
+    /**
+     * Combined with its helper methods, this method determines if between the previous board and this board, a single move was made
+     * @param board the previous board before this one
+     * @return true if the piece that was moved was a single piece, false otherwise
+     */
+    public boolean wasSingleMove(CheckerBoard board) {
+        if ( board == null )
+            return false;
+
+        final Position pos = findMovedPiece(board);
+
+        if ( isMatchingPieceHere(pos, board, true, true) || isMatchingPieceHere(pos, board, true, false) || isMatchingPieceHere(pos, board, false, true) || isMatchingPieceHere(pos, board, false, false) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the given piece can be found at the given location (used for finding how a piece moved between moves)
+     * @param pos the position of the old piece before the move
+     * @param board the old board
+     * @param forward true if want to check for a forward move, false for backward
+     * @param right true if want to check for a move to the right, false for left
+     * @return
+     */
     private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right) {
         final int row = pos.getRow();
         final int cell = pos.getCell();
@@ -184,21 +232,6 @@ public class CheckerBoard {
                     return true;
                 }
             }
-        }
-
-        return false;
-    }
-
-    public boolean wasSingleMove(CheckerBoard board) {
-        if ( board == null )
-            return false;
-
-        final CheckerPiece[][] previous = board.getBoard();
-        final Position pos = findMovedPiece(board);
-        final CheckerPiece piece = board.getPiece(pos);
-
-        if ( isMatchingPieceHere(pos, board, true, true) || isMatchingPieceHere(pos, board, true, false) || isMatchingPieceHere(pos, board, false, true) || isMatchingPieceHere(pos, board, false, false) ) {
-            return true;
         }
 
         return false;
@@ -226,14 +259,29 @@ public class CheckerBoard {
         return null;
     }
 
+    /**
+     * Gets the piece at the given position
+     * @param pos the position of the piece to get
+     * @return the piece at the position (null if no piece)
+     */
     private CheckerPiece getPiece(Position pos) {
         return this.board[pos.getRow()][pos.getCell()];
     }
 
+    /**
+     * Whether or not a piece is located at this position
+     * @param pos the position to check for a piece
+     * @return true if a piece exists here, false otherwise
+     */
     private boolean hasPiece(Position pos) {
         return getPiece(pos) != null;
     }
 
+    /**
+     * Moves a piece from given pos to end pos, no checks included!
+     * @param start the position of the piece to move
+     * @param end the position to place the piece at
+     */
     public void movePiece(Position start, Position end) {
         this.board[end.getRow()][end.getCell()] = this.board[start.getRow()][start.getCell()];
         this.board[start.getRow()][start.getCell()] = null;
