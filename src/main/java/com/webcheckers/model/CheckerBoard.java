@@ -169,15 +169,15 @@ public class CheckerBoard {
                 }
             } else if ( rowDiff == 2 ) { // Possible jump, need further investigation
                 if ( cellDiff == 2 ) {
-                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()+1)) ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
                         return Message.info("");
                     }
-                } else if ( cellDiff == -2) {
-                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
+                } else if ( cellDiff == -2 ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
                         return Message.info("");
                     }
                 }
-                return Message.info("Moved an invalid amount of rows forward");
+                return Message.error("Moved an more than one row forward without jumping");
             } else { // Moved too many rows forward
                 return Message.error("Moved an invalid amount of rows forward");
             }
