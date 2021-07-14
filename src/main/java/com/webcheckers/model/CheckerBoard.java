@@ -30,7 +30,7 @@ public class CheckerBoard {
 
     /**
      * Copy constructor
-     * @param board
+     * @param board the old board to copy
      */
     CheckerBoard(CheckerBoard board, boolean flipped) {
         if ( flipped ) {
@@ -214,7 +214,7 @@ public class CheckerBoard {
      * @param board the old board
      * @param forward true if want to check for a forward move, false for backward
      * @param right true if want to check for a move to the right, false for left
-     * @return
+     * @return true if the matching piece was moved here, false otherwise
      */
     private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right) {
         final int row = pos.getRow();
