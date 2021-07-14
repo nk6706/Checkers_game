@@ -66,6 +66,8 @@ public class WebServer {
 
   public static final String BACKUP_MOVE_URL = "/backupMove";
 
+  public static final String SUBMIT_TURN_URL = "/submitTurn";
+
 
   //
   // Attributes
@@ -162,8 +164,9 @@ public class WebServer {
     get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
-  post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gameManager, gson));
+    post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gameManager, gson));
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gameManager, gson));
+    post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameManager, gson));
 
     //
     LOG.config("WebServer is initialized.");
