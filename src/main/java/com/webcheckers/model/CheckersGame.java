@@ -22,6 +22,7 @@ public class CheckersGame {
         this.id = id;
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
+        this.activePlayer = redPlayer;
 
         board = new CheckerBoard();
     }
