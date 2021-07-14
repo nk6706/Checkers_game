@@ -190,11 +190,11 @@ public class CheckerBoard {
                 }
             } else if ( rowDiff == 2 ) { // Possible jump, need further investigation
                 if ( cellDiff == 2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
                         return Message.info("");
                     }
                 } else if ( cellDiff == -2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()+1)) ) {
                         return Message.info("");
                     }
                 }
@@ -210,18 +210,18 @@ public class CheckerBoard {
     }
 
     public boolean isJumpAvailable(CheckerPiece.Color color) {
-      for(int i = 0; i < this.board.length; i++) {
-          for(int j = 0; j < this.board[i].length; j++) {
-              CheckerPiece piece = this.board[i][j];
-              if ( piece != null && piece.getColor().equals(color) ) {
-                  final Position pos = new Position(i, j);
-                  if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) || isJumpAvailable(pos, false, true, color) || isJumpAvailable(pos, false, false, color) ) {
-                      return true;
-                  }
-              }
-          }
-      }
-      return false;
+        for(int i = 0; i < this.board.length; i++) {
+            for(int j = 0; j < this.board[i].length; j++) {
+                CheckerPiece piece = this.board[i][j];
+                if ( piece != null && piece.getColor().equals(color) ) {
+                    final Position pos = new Position(i, j);
+                    if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isJumpAvailable(Position pos, boolean forward, boolean right, CheckerPiece.Color color) {
@@ -244,6 +244,64 @@ public class CheckerBoard {
         }
 
         return false;
+    }
+
+    private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right) {
+        final int row = pos.getRow();
+        final int cell = pos.getCell();
+
+        final int adjRow = forward ? row - 1 : row + 1;
+        final int adjCell = right ? cell + 1 : cell - 1;
+
+        if ( adjRow > -1 && adjRow < 8 && adjCell > -1 && adjCell < 8 ) { // Check the surroundings is in bounds
+            final Position adjPos = new Position(adjRow, adjCell);
+            final CheckerPiece oldAdjPiece = board.getPiece(adjPos);
+            if ( oldAdjPiece == null ) {
+                final CheckerPiece newAdjPiece = this.getPiece(adjPos);
+                if ( newAdjPiece != null ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean wasSingleMove(CheckerBoard board) {
+        if ( board == null )
+            return false;
+
+        final CheckerPiece[][] previous = board.getBoard();
+        final Position pos = findMovedPiece(board);
+        final CheckerPiece piece = board.getPiece(pos);
+
+        if ( isMatchingPieceHere(pos, board, true, true) || isMatchingPieceHere(pos, board, true, false) || isMatchingPieceHere(pos, board, false, true) || isMatchingPieceHere(pos, board, false, false) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the position on the old board where the piece that got moved
+     * @param board the old board
+     * @return Position of moved piece, null if one could not be found
+     */
+    private Position findMovedPiece(CheckerBoard board) {
+        final CheckerPiece[][] previous = board.getBoard();
+        for(int i = 0; i < previous.length; i++) {
+            for(int j = 0; j < previous[i].length; j++) {
+                final Position pos = new Position(i, j);
+                CheckerPiece previousPiece = board.getPiece(pos);
+                if (previousPiece != null) {
+                    CheckerPiece currentPiece = this.getPiece(pos);
+                    if ( currentPiece == null ) {
+                        return pos;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private CheckerPiece getPiece(Position pos) {

@@ -102,14 +102,16 @@ public class CheckersGame {
     }
 
     /**
-     * Method for TurnManager to check if a move is valid or not
+     * Method for appl tier to check if a move is valid or not
      * @return Message.INFO if valid, Message.ERROR with error msg if invalid
      */
     public Message isValidTurn() {
+        CheckerBoard previous = null;
         for (CheckerBoard board : this.boards ) {
-            if ( board.isJumpAvailable(activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE) ) {
+            if (board.wasSingleMove(previous) && board.isJumpAvailable(activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE) ) {
                 return Message.error("A jump move could have been made that was not made");
             }
+            previous = board;
         }
         return Message.info("");
     }
