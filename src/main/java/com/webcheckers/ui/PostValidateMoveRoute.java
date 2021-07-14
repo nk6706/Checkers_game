@@ -34,11 +34,11 @@ public class PostValidateMoveRoute implements Route {
         final int gameID = player.getGameID();
         final Move move = gson.fromJson(request.queryParams("actionData"), Move.class);
 
-        final Message msg = this.gameManager.isValidMove(gameID, move);
-        if (msg.getText().equals("")) {
+        final Message result = this.gameManager.isValidMove(gameID, move);
+        if (result.getType().equals(Message.Type.INFO)) {
             this.gameManager.makeMove(gameID, move);
         }
 
-        return gson.toJson(msg);
+        return gson.toJson(result);
     }
 }
