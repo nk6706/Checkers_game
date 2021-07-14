@@ -51,6 +51,10 @@ public class CheckersGame {
         return whitePlayer;
     }
 
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
     /**
      * Determines if the provided player is the redPlayer of this game
      * @param player the player to check
