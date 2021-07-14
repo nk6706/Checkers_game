@@ -79,6 +79,13 @@ public class CheckersGame {
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
 
     /**
+     * Determines if it is the provided player's turn (if they are the activePlayer)
+     * @param player the player to check if its their turn
+     * @return true if it is the player's turn, false otherwise
+     */
+    public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
+
+    /**
      * Used when submitting a valid turn to change whose turn it is
      */
     public void toggleActivePlayer() {

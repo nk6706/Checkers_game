@@ -57,6 +57,12 @@ public class GetGameRoute implements Route {
         CheckersGame game = this.gameManager.getGame(player.getGameID());
 
         CheckerPiece[][] board;
+        if ( game.isPlayersTurn(player) ) {
+            board = game.getBoard();
+        } else {
+            board = game.getFlippedBoard();
+        }
+
         final Player opponent;
         if (game.isRedPlayer(player)) {
             board = game.getBoard();
