@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CheckerBoardTest {
 
@@ -56,68 +57,4 @@ class CheckerBoardTest {
         assertEquals(expected, actual);
     }
 
-    @Test
-    public void validMove() {
-        //Set up
-        Position start = new Position(0, 5);
-        Position end = new Position(1, 4);
-
-        //Invoke
-        Boolean move = CuT.move(CheckerPiece.Color.RED, start, end);
-
-        //Analyze
-        assertTrue(move);
-    }
-
-    @Test
-    public void occupiedSpaceMove() {
-        //Set up
-        Position start = new Position(0, 7);
-        Position end = new Position(1, 6);
-
-        //Invoke
-        Boolean move = CuT.move(CheckerPiece.Color.RED, start, end);
-
-        //Analyze
-        assertFalse(move);
-    }
-
-    @Test
-    public void sameSpaceMove() {
-        //Set up
-        Position start = new Position(0, 7);
-        Position end = new Position(0, 7);
-
-        //Invoke
-        Boolean move = CuT.move(CheckerPiece.Color.RED, start, end);
-
-        //Analyze
-        assertFalse(move);
-    }
-
-    @Test
-    public void whitespaceMove() {
-        //Set up
-        Position start = new Position(0, 7);
-        Position end = new Position(0, 6);
-
-        //Invoke
-        Boolean move = CuT.move(CheckerPiece.Color.RED, start, end);
-
-        //Analyze
-        assertFalse(move);
-    }
-
-    @Test
-    public void noPieceMove() {
-        //Set up
-        Position start = new Position(0, 6);
-        Position end = new Position(1, 5);
-
-        //Invoke
-        Boolean move = CuT.move(CheckerPiece.Color.RED, start, end);
-
-        //Analyze
-        assertFalse(move);
-    }
 }
