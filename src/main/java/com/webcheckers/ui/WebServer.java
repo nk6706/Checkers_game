@@ -3,14 +3,12 @@ package com.webcheckers.ui;
 import static spark.Spark.*;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
 import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
-import com.webcheckers.appl.TurnManager;
 import spark.TemplateEngine;
 
 
@@ -153,7 +151,6 @@ public class WebServer {
 
     final PlayerLobby playerLobby = new PlayerLobby();
     final GameManager gameManager = new GameManager();
-    final TurnManager turnManager = new TurnManager(gameManager);
 
     // Shows the Checkers game Home page.
     get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
