@@ -17,12 +17,16 @@ public class CheckersGame {
     private Player redPlayer;
     private Player whitePlayer;
 
+    /** Holds the player whose turn it is */
+    private Player activePlayer;
+
     private Stack<CheckerBoard> boards = new Stack<>();
 
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
         this.id = id;
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
+        this.activePlayer = redPlayer;
 
         boards.push(new CheckerBoard());
     }
@@ -75,12 +79,32 @@ public class CheckersGame {
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
 
     /**
+     * Used when submitting a valid turn to change whose turn it is
+     */
+    public void toggleActivePlayer() {
+        this.activePlayer = activePlayer.equals(whitePlayer) ? redPlayer : whitePlayer;
+    }
+
+    /**
      * Method for TurnManager to check if a move is valid or not
      * @param move the move to check
      * @return Message.INFO if valid, Message.ERROR with error msg if invalid
      */
-    public Message isValid(Move move) {
+    public Message isValidMove(Move move) {
         return this.boards.peek().isValidMove(move, this.boards.size() == 1);
+    }
+
+    /**
+     * Method for TurnManager to check if a move is valid or not
+     * @return Message.INFO if valid, Message.ERROR with error msg if invalid
+     */
+    public Message isValidTurn() {
+        for (CheckerBoard board : this.boards ) {
+            if ( board.isJumpAvailable(activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE) ) {
+                return Message.error("A jump move could have been made that was not made");
+            }
+        }
+        return Message.info("");
     }
 
     /**
@@ -99,6 +123,15 @@ public class CheckersGame {
         }
         this.boards.pop();
         return Message.info("Reverted back to previous move");
+    }
+
+    /**
+     *
+     */
+    public void setNewTurn() {
+        final CheckerBoard board = this.boards.pop();
+        this.boards.removeAllElements();
+        this.boards.add(board);
     }
 
 }
