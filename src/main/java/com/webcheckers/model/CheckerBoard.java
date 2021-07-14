@@ -192,9 +192,9 @@ public class CheckerBoard {
                         return Message.info("");
                     }
                 }
-                return Message.error("Moved an more than one row forward without jumping");
+                return Message.error("Moved more than one row forward without jumping");
             } else { // Moved too many rows forward
-                return Message.error("Moved an invalid amount of rows forward");
+                return Message.error("Moved more than one row forward without jumping");
             }
         } else { // King move validation
 
