@@ -16,6 +16,23 @@ public class TurnManager {
     }
 
     /**
+     * Add a game to the turns hashmap which keeps track of turns in a game
+     * @param gameID the game id to attach to the turns list
+     */
+    private void addGame(int gameID) {
+        this.turns.put(gameID, new ArrayList<>());
+    }
+
+    /**
+     * Helper method to tell if a game is present in the turns map
+     * @param gameID the game id to check for
+     * @return true if the game is present, false otherwise
+     */
+    private boolean hasGame(int gameID) {
+        return this.turns.containsKey(gameID);
+    }
+
+    /**
      * Helper method to store move
      * @param gameID the game to store the move
      * @param move the move to store
@@ -31,7 +48,9 @@ public class TurnManager {
      */
     public void makeMove(int gameID, Move move) {
         CheckersGame game = gameManager.getGame(gameID);
-        // TODO: 7/13/2021  call game make move here
+        if ( !hasGame(gameID) ) {
+            addGame(gameID);
+        }
         storeMove(gameID, move);
     }
 
