@@ -55,10 +55,14 @@ public class WebServer {
    * The URL pattern to request the Home page.
    */
   public static final String HOME_URL = "/";
+
   public static final String SIGN_IN_URL = "/signin";
+
   public static final String GAME_URL = "/game";
+
   public static final String CHECK_TURN_URL = "/checkTurn";
 
+  public static final String SIGN_OUT_URL = "/signout";
 
   //
   // Attributes
@@ -155,6 +159,8 @@ public class WebServer {
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameManager, gson));
+
+    post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
 
     //
     LOG.config("WebServer is initialized.");
