@@ -74,7 +74,7 @@ points which will immediately end the game.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](Domain Model.png)
+![The WebCheckers Domain Model](Domain-Model.png)
 
 The application starts out with a user interface allowing the player to sign in. The sign in 
 requires the user to provide a unique username, which is checked by the PlayerLobby.
@@ -172,11 +172,8 @@ user will be given an error message, and they will remain on the homepage.
 > and the results of the testing._
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+
+As of sprint 2, all acceptance criteria for the implemented user stories have been met. 
 
 ### Unit Testing and Code Coverage
 > _Discuss your unit testing strategy. Report on the code coverage
