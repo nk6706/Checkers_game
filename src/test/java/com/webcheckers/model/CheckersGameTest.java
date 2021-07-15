@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import com.webcheckers.appl.GameManager;
 import com.webcheckers.util.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -100,6 +101,9 @@ class CheckersGameTest {
 
     @Test
     public void testNewTurn() {
+        CuT.makeMove(new Move(new Position(5,4), new Position(4,5)));
+        GameManager mockManager = mock(GameManager.class);
+        //mockManager.submitTurn(CuT.getId());
 
     }
 
@@ -116,6 +120,16 @@ class CheckersGameTest {
         final Message msg = CuT.undoMove();
 
         assertEquals(msg.getType(), Message.Type.INFO);
+    }
+
+    @Test
+    public void flippedBoardTest(){
+        assertNotNull(CuT.getFlippedBoard());
+    }
+
+    @Test
+    public void normalBoardTest(){
+        assertNotNull(CuT.getBoard());
     }
 
 }
