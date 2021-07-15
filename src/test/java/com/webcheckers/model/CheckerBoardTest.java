@@ -201,6 +201,18 @@ class CheckerBoardTest {
         Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
     }
 
+    @Test
+    public void testWasSingleMove(){
+        CheckerBoard checkerBoard= new CheckerBoard();
+        startPosition = new Position(2,1);
+        endPosition = new Position(3,2);
+        CuT.movePiece(startPosition,endPosition);
+
+        Assertions.assertTrue(CuT.wasSingleMove(checkerBoard));
+    }
+
+
+
 
 
 
