@@ -78,4 +78,12 @@ public class PlayerLobby {
         return "not found";
     }
 
+    /**
+     * Removes a player from the lobby, meaning that they have signed out.
+     * @param playerName the name of the player that is signing out
+     */
+    public void playerSignOut(String playerName) {
+        this.playerList.remove(playerName);
+    }
+
 }

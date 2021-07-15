@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
+import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.Test;
 
@@ -36,9 +37,8 @@ class GetGameRouteTest {
         session = mock(Session.class);
         when (request.session()).thenReturn(session);
         templateEngine = mock(TemplateEngine.class);
-
         playerLobby = mock(PlayerLobby.class);
-        gameManager = new GameManager();
+        gameManager = mock(GameManager.class);
 
         CuT = new GetGameRoute(templateEngine, playerLobby, gameManager, new Gson());
     }
@@ -48,6 +48,16 @@ class GetGameRouteTest {
 
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
+        Player testPlayer = mock(Player.class);
+        when(session.attribute("player")).thenReturn(testPlayer);
+        when(testPlayer.getGameID()).thenReturn(1);
+        when(gameManager.getGame(1)).thenReturn(new CheckersGame(1, testPlayer, mock(Player.class)));
+
+        try {
+            CuT.handle(request, response);
+        } catch (Exception e) {
+            assertFalse(false);
+        }
 
         testHelper.assertViewModelExists();
         testHelper.assertViewModelIsaMap();
