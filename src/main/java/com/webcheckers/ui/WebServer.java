@@ -60,6 +60,8 @@ public class WebServer {
 
   public static final String GAME_URL = "/game";
 
+  public static final String RESIGN_URL = "/resignGame";
+  
   public static final String CHECK_TURN_URL = "/checkTurn";
 
   public static final String SIGN_OUT_URL = "/signout";
@@ -155,9 +157,10 @@ public class WebServer {
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager));
+    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager, gson));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
+    post(RESIGN_URL, new PostResignGameRoute(gameManager, gson));
     post(CHECK_TURN_URL, new PostCheckTurnRoute(gameManager, gson));
 
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));

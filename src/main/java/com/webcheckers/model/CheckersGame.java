@@ -18,6 +18,9 @@ public class CheckersGame {
 
     private CheckerBoard board;
 
+    private boolean gameOver = false;
+    private String gameOverMessage;
+
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
         this.id = id;
         this.redPlayer = redPlayer;
@@ -61,6 +64,19 @@ public class CheckersGame {
      * @return true if the provided player is red, false otherwise (meaning they are white player)
      */
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
+  
+    public void setGameOver(String playerLoss){
+        gameOver = true;
+        this.gameOverMessage = playerLoss;
+    }
+
+    public boolean isGameOver(){
+        return this.gameOver;
+    }
+
+    public String getGameOverMessage(){
+        return this.gameOverMessage;
+    }
 
     /**
      * Determines if it is the provided player's turn (if they are the activePlayer)
