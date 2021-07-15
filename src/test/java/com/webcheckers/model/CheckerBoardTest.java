@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Message;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,6 +12,9 @@ class CheckerBoardTest {
 
     /** Component-under-Test CuT */
     private CheckerBoard CuT;
+    private Move move;
+    private Position startPosition;
+    private Position endPosition;
 
     @BeforeEach
     public void setUp() {
@@ -55,6 +60,64 @@ class CheckerBoardTest {
 
         //Analyze
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testCopyConstructor(){
+
+        String expected = "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
+                "[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n" +
+                "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
+                "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n" +
+                "[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n" +
+                "[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n";
+
+        CuT = new CheckerBoard(CuT, true);
+
+        assertEquals(expected, CuT.toString());
+    }
+
+    @Test
+    public void testBackRowMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(6,1);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("A single piece can only move forward");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+    }
+
+    @Test
+    public void testSameRowMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(5,1);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("Single piece must advance forward");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+    }
+
+    @Test
+    public void testWrongTurnMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(4,1);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("Can only move a single row forward in a turn");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,false).getText() );
+    }
+
+    @Test
+    public void testStraightMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(4,0);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("You can only move a single cell in either direction");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+
     }
 
 }
