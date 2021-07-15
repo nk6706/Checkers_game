@@ -47,4 +47,16 @@ class CheckersGameTest {
         CheckersGame CuT = new CheckersGame(1, redPlayer, whitePlayer);
         assertFalse(CuT.isRedPlayer(whitePlayer));
     }
+
+    @Test
+    public void testIsPlayersTurnTrue() {
+        CheckersGame CuT = new CheckersGame(1, redPlayer, whitePlayer);
+        assertTrue(CuT.isPlayersTurn(redPlayer));
+    }
+
+    @Test
+    public void testIsPlayersTurnFalse() {
+        CheckersGame CuT = new CheckersGame(1, redPlayer, whitePlayer);
+        assertFalse(CuT.isPlayersTurn(whitePlayer));
+    }
 }
