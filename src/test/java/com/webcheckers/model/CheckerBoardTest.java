@@ -197,7 +197,6 @@ class CheckerBoardTest {
         startPosition = new Position(2,1);
         endPosition = new Position(4,1);
         CuT.movePiece(startPosition,endPosition);
-        System.out.println(CuT.toString());
         Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
     }
 
