@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -25,7 +27,6 @@ class CheckersGameTest {
     void setUp() {
         redPlayer = mock(Player.class);
         whitePlayer = mock(Player.class);
-
         CuT = new CheckersGame(TEST_ID, redPlayer, whitePlayer);
     }
 
@@ -101,4 +102,20 @@ class CheckersGameTest {
     public void testNewTurn() {
 
     }
+
+    @Test
+    public void undoMoveNoMoveTest(){
+        final Message msg = CuT.undoMove();
+        assertEquals(msg.getType(), Message.Type.ERROR);
+    }
+
+    @Test
+    public void undoMoveWithMoveTest(){
+        Move move = new Move(new Position(5,4), new Position(4,5));
+        CuT.makeMove(move);
+        final Message msg = CuT.undoMove();
+
+        assertEquals(msg.getType(), Message.Type.INFO);
+    }
+
 }
