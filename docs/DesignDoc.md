@@ -46,13 +46,28 @@ This section describes the features of the application.
 > maybe Epics and critical Stories._
 
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+The MVP must allow users to sign-in in order to play
+a game and sign-out when they are done. Fully functioning games
+are expected that follow the [American Rules](https://www.se.rit.edu/~swen-261/projects/WebCheckers/American%20Rules.html) 
+of checkers. Player's of a game are able to resign at certain
+points which will immediately end the game.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+* Start a Game - As a Player I want to start a game so that I can play checkers with an opponent
+* Player Sign-in - As a Player I want to sign-in so that I can play a game of checkers
+* Making a Move - As a	Player I want to make a move if I have one so that I don’t lose the game
+* Signing Out - As a player I want to be able to sign out so that I can retire my username when I am done
+* Alternate Turns - As a Player I want my turn to end after I’ve made a move so that my opponent can move
+* Resigning - As a Player I want to be able to resign so that I can play another game
+* Capture Pieces - As a Player I want to capture a piece after a jump so that I get ahead in the game
+* Kinging a Piece - As a Player I want to have my piece turn into a king if I reach the end of the board so that I can move back down the board
+* Exiting a Game - As a player I want to be able to exit the game when it is over so that I can start a new one
 
 ### Roadmap of Enhancements
-> _Provide a list of top-level features in the order you plan to consider them._
+* Replay Game - users will have the ability to go back and 
+  review their old games turn by turn.
+* Spectate Game - other users will have the option to spectate
+  ongoing games as they happen.
 
 
 ## Application Domain
