@@ -75,7 +75,7 @@ public class GetGameRoute implements Route {
 
         vm.put("board", boardView);
         vm.put("currentUser", player);
-        vm.put("activeColor", CheckerPiece.Color.RED);
+        vm.put("activeColor", game.getActivePlayer().equals(game.getRedPlayer()) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE);
         vm.put("gameID", game.getId());
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
