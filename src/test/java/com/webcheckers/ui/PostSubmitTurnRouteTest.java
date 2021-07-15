@@ -53,15 +53,26 @@ public class PostSubmitTurnRouteTest {
     @Test
     public void handleValidTurn() throws Exception {
         when(gameManager.isValidTurn(game.getId())).thenReturn(Message.info(""));
+        when(session.attribute("player")).thenReturn(mock(Player.class));
 
         String json = (String) CuT.handle(request, response);
         final Message result = gson.fromJson(json, Message.class);
 
         assertEquals(Message.Type.INFO, result.getType());
         assertEquals("", result.getText());
-
-        verify(gameManager.isValidTurn(game.getId()), times(1));
     }
 
+    @Test
+    public void handleInvalidTurn() throws Exception {
 
+        when(gameManager.isValidTurn(game.getId())).thenReturn(Message.info(""));
+        when(session.attribute("player")).thenReturn(mock(Player.class));
+        when(gameManager.isValidTurn(any(Integer.class))).thenReturn(Message.error("Test Error"));
+
+        String json = (String) CuT.handle(request, response);
+        final Message result = gson.fromJson(json, Message.class);
+
+        assertNotEquals(Message.Type.INFO, result.getType());
+        assertNotEquals("", result.getText());
+    }
 }
