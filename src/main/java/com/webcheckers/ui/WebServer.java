@@ -66,6 +66,11 @@ public class WebServer {
 
   public static final String SUBMIT_TURN_URL = "/submitTurn";
 
+  public static final String RESIGN_URL = "/resignGame";
+  
+  public static final String CHECK_TURN_URL = "/checkTurn";
+
+  public static final String SIGN_OUT_URL = "/signout";
 
   //
   // Attributes
@@ -158,12 +163,17 @@ public class WebServer {
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager));
+    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager, gson));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gameManager, gson));
     post(VALIDATE_MOVE_URL, new PostValidateMoveRoute(gameManager, gson));
     post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameManager, gson));
+    post(CHECK_TURN_URL, new PostCheckTurnRoute(gameManager, gson));
+
+    post(RESIGN_URL, new PostResignGameRoute(gameManager, gson));
+    
+    post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
 
     //
     LOG.config("WebServer is initialized.");

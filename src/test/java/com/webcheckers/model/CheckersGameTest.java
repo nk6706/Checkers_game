@@ -78,6 +78,7 @@ class CheckersGameTest {
 
     @Test
     public void testIsPlayersTurnTrue() {
+        CheckersGame CuT = new CheckersGame(1, redPlayer, whitePlayer);
         assertTrue(CuT.isPlayersTurn(redPlayer));
     }
 
@@ -131,5 +132,5 @@ class CheckersGameTest {
     public void normalBoardTest(){
         assertNotNull(CuT.getBoard());
     }
-
+  
 }

@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
 import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.CheckerPiece;
@@ -32,13 +33,15 @@ public class GetGameRoute implements Route {
     private final TemplateEngine templateEngine;
     private final PlayerLobby playerLobby;
     private final GameManager gameManager;
+    private final Gson gson;
 
-    public GetGameRoute(final TemplateEngine templateEngine, final PlayerLobby playerLobby, final GameManager gameManager) {
+    public GetGameRoute(final TemplateEngine templateEngine, final PlayerLobby playerLobby, final GameManager gameManager, Gson gson) {
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
         //
         LOG.config("GetGameRoute is initialized.");
         this.playerLobby = playerLobby;
         this.gameManager = gameManager;
+        this.gson = gson;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class GetGameRoute implements Route {
         }
 
         CheckersGame game = this.gameManager.getGame(player.getGameID());
-
+        //
         CheckerPiece[][] board;
         if ( game.isPlayersTurn(player) ) {
             board = game.getBoard();
@@ -75,11 +78,17 @@ public class GetGameRoute implements Route {
         }
 
         BoardView boardView = new BoardView( board );
-
         vm.put("board", boardView);
         vm.put("currentUser", player);
-        vm.put("activeColor", CheckerPiece.Color.RED);
+        vm.put("activeColor", game.getActivePlayer().equals(game.getRedPlayer()) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE);
         vm.put("gameID", game.getId());
+
+        if (game.isGameOver()){
+            final Map<String, Object> modeOptions = new HashMap<>(2);
+            modeOptions.put("isGameOver", true);
+            modeOptions.put("gameOverMessage", game.getGameOverMessage());
+            vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        }
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }

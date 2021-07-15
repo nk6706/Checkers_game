@@ -22,6 +22,9 @@ public class CheckersGame {
 
     private Stack<CheckerBoard> boards = new Stack<>();
 
+    private boolean gameOver = false;
+    private String gameOverMessage;
+
     public CheckersGame(int id, Player redPlayer, Player whitePlayer) {
         this.id = id;
         this.redPlayer = redPlayer;
@@ -71,12 +74,36 @@ public class CheckersGame {
         return whitePlayer;
     }
 
+    public Player getActivePlayer() {
+        return activePlayer;
+    }
+
     /**
      * Determines if the provided player is the redPlayer of this game
      * @param player the player to check
      * @return true if the provided player is red, false otherwise (meaning they are white player)
      */
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
+  
+    public void setGameOver(String playerLoss){
+        gameOver = true;
+        this.gameOverMessage = playerLoss;
+    }
+
+    public boolean isGameOver(){
+        return this.gameOver;
+    }
+
+    public String getGameOverMessage(){
+        return this.gameOverMessage;
+    }
+
+    /**
+     * Determines if it is the provided player's turn (if they are the activePlayer)
+     * @param player the player to check if its their turn
+     * @return true if it is the player's turn, false otherwise
+     */
+    public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
 
     /**
      * Determines if it is the provided player's turn (if they are the activePlayer)
