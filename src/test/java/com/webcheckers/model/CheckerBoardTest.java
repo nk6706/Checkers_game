@@ -213,7 +213,4 @@ class CheckerBoardTest {
 
 
 
-
-
-
 }
