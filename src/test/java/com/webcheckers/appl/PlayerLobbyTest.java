@@ -67,4 +67,50 @@ public class PlayerLobbyTest {
     public void sigin_valid_name () {
         assertEquals(WebServer.HOME_URL, CuT.signin("hello"));
     }
+
+    @Test
+    public void testGetPlayerList() {
+        final Player player = mock(Player.class);
+        when(player.getUsername()).thenReturn("my name");
+
+        assertEquals(CuT.getPlayerList().size(), 0);
+        CuT.addPlayer(player);
+        assertEquals(CuT.getPlayerList().size(), 1);
+        assertEquals(CuT.getPlayerList().remove(0), "my name");
+    }
+
+    @Test
+    public void playerAvailableNotAvailable() {
+        final Player player = mock(Player.class);
+        when(player.getUsername()).thenReturn("name");
+        when(player.inGame()).thenReturn(true);
+        CuT.addPlayer(player);
+        assertEquals(CuT.playerAvailable("name"), "unavailable");
+    }
+
+    @Test
+    public void playerAvailableAvailable() {
+        final Player player = mock(Player.class);
+        when(player.getUsername()).thenReturn("name");
+        when(player.inGame()).thenReturn(false);
+        CuT.addPlayer(player);
+        assertEquals(CuT.playerAvailable("name"), "available");
+    }
+
+    @Test
+    public void playerAvailableDNE() {
+        assertEquals(CuT.playerAvailable("george"), "not found");
+    }
+
+    @Test
+    public void signoutTest() {
+        final Player player = mock(Player.class);
+        when(player.getUsername()).thenReturn("my name");
+        assertEquals(CuT.getPlayerList().size(), 0);
+        CuT.addPlayer(player);
+        assertEquals(CuT.getPlayerList().size(), 1);
+        CuT.playerSignOut("my name");
+        assertEquals(CuT.getPlayerList().size(), 0);
+    }
+
 }
