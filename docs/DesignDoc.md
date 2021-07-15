@@ -186,11 +186,13 @@ Our designs did not always follow the strictest of Object Orientated Design prin
 As of sprint 2, all acceptance criteria for the implemented user stories have been met. 
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Our strategy for unit testing was 
 > For unit testing Report on the code coverage
-> We have an overall code coverage of 
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+> We have an overall code coverage of 100% in the application-tier, 93% in the 
+> model-tier and 87% in the UI-tier. Our strategy in unit test was to get maximum 
+> coverage possible and focus on multiple possible scenarios.
+> Our teams target was to get a 100% coverage on the model class. Getting maximum
+> coverage on the model class was important to our team because the model class 
+> contained the entire Checkerboard logic. Thus, each component had to be tested. We
+> were able to achieve 100% code coverage on most on the classes. The two remaining 
+> classes have 87% and 93% coverage. 
 
