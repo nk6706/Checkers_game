@@ -15,10 +15,12 @@ class CheckerBoardTest {
     private Move move;
     private Position startPosition;
     private Position endPosition;
+    private Position position;
 
     @BeforeEach
     public void setUp() {
         this.CuT = new CheckerBoard();
+
     }
 
     @Test
@@ -65,7 +67,23 @@ class CheckerBoardTest {
     @Test
     public void testCopyConstructor(){
 
-        String expected = "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
+        String noFlipExpected = "[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n" +
+                "[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n" +
+                "[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n" +
+                "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n" +
+                "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
+                "[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n";
+
+        CuT = new CheckerBoard(CuT, false);
+        assertEquals(noFlipExpected, CuT.toString());
+    }
+
+    @Test
+    public void testFlippedBoard(){
+
+        String flipExpected = "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
                 "[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n" +
                 "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
                 "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
@@ -75,8 +93,8 @@ class CheckerBoardTest {
                 "[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n";
 
         CuT = new CheckerBoard(CuT, true);
+        assertEquals(flipExpected, CuT.toString());
 
-        assertEquals(expected, CuT.toString());
     }
 
     @Test
@@ -117,7 +135,73 @@ class CheckerBoardTest {
 
         Message message = Message.error("You can only move a single cell in either direction");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
-
     }
+
+    @Test
+    public void testValidMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(4,1);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.info("");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+    }
+
+    @Test
+    public void test2CellsRightMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(4,2);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("You can only move a single cell in either direction");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+    }
+
+    @Test
+    public void test2RowsRightMove(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(3,1);
+        move = new Move(startPosition,endPosition);
+
+        Message message = Message.error("Moved more than one row forward without jumping");
+        Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
+    }
+
+    @Test
+    public void testMovePiece(){
+        startPosition = new Position(5,0);
+        endPosition = new Position(4,1);
+
+        String expected ="[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n" +
+                "[W] [ ] [W] [ ] [W] [ ] [W] [ ] \n" +
+                "[ ] [W] [ ] [W] [ ] [W] [ ] [W] \n" +
+                "[ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[ ] [R] [ ] [ ] [ ] [ ] [ ] [ ] \n" +
+                "[ ] [ ] [R] [ ] [R] [ ] [R] [ ] \n" +
+                "[ ] [R] [ ] [R] [ ] [R] [ ] [R] \n" +
+                "[R] [ ] [R] [ ] [R] [ ] [R] [ ] \n";
+
+        CuT.movePiece(startPosition,endPosition);
+
+        Assertions.assertEquals(expected,CuT.toString());
+    }
+
+    @Test
+    public void testSingleMove(){
+
+        Assertions.assertFalse(CuT.isJumpAvailable(CheckerPiece.Color.RED));
+    }
+
+    @Test
+    public void testJumpAvailableTrue(){
+        startPosition = new Position(2,1);
+        endPosition = new Position(4,1);
+        CuT.movePiece(startPosition,endPosition);
+        System.out.println(CuT.toString());
+        Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
+    }
+
+
+
 
 }
