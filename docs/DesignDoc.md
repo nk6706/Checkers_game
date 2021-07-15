@@ -186,7 +186,9 @@ Our designs did not always follow the strictest of Object Orientated Design prin
 As of sprint 2, all acceptance criteria for the implemented user stories have been met. 
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
+> _Discuss your unit testing strategy. Our strategy for unit testing was 
+> For unit testing Report on the code coverage
+> We have an overall code coverage of 
 > achieved from unit testing of the code base. Discuss the team's
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets. If there are any anomalies, discuss
