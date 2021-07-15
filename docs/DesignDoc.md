@@ -121,6 +121,17 @@ currently signed-in players will now be visible to this user. When the user clic
 will be placed in a new checkers game with them if they are still signed-in and not already in a game, otherwise the 
 user will be given an error message, and they will remain on the homepage.
 
+Once in a game, the player will have a board in front of them, a UI display that tells them which pieces they control,
+and a set of buttons which will swap between being clickable and non-clickable based on the game state. Once it is their
+turn in the game, the player will be given the ability to move a piece on the board to a different space. If the move
+they perform is impossible the piece will not be placed in the new location and a message explaining why will be
+displayed in the info section. If the player makes a valid move, the space the piece moved from and the new space the
+piece is on will appear green. If the player decides that their valid move is not the one they wish to make, they can
+press the "Backup" button which will revert the game state to the state it was in when they started their turn. Once the
+player is satisfied with their move choice, they must click "Submit turn" to finalize their choice. When the player 
+submits their turn, the board will be updated to its new state and control will be passed to the player's opponent. If
+at any time during the game the player wishes to leave, they may click "Resign", which will end the game and announce 
+their resignation to their opponent.
 
 ### UI Tier
 > _Provide a summary of the Server-side UI tier of your architecture.
@@ -168,8 +179,6 @@ user will be given an error message, and they will remain on the homepage.
 > suggested design improvements to address those hot spots._
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
 
 ### Acceptance Testing
 
