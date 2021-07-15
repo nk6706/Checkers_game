@@ -59,7 +59,7 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](Domain Model.png)
+![The WebCheckers Domain Model](Domain-Model.png)
 
 The application starts out with a user interface allowing the player to sign in. The sign in 
 requires the user to provide a unique username, which is checked by the PlayerLobby.
