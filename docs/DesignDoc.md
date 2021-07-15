@@ -177,6 +177,7 @@ their resignation to their opponent.
 > will also discuss the resutling metric measurements.  Indicate the
 > hot spots the metrics identified in your code base, and your
 > suggested design improvements to address those hot spots._
+Our designs did not always follow the strictest of Object Orientated Design principals.
 
 ## Testing
 
@@ -192,3 +193,4 @@ As of sprint 2, all acceptance criteria for the implemented user stories have be
 > coverage targets, why you selected those values, and how well your
 > code coverage met your targets. If there are any anomalies, discuss
 > those._
+
