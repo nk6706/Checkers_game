@@ -40,6 +40,10 @@ public class CheckerPiece {
         return type;
     }
 
+    public boolean isKing() {
+        return this.type.equals(Type.KING);
+    }
+
     public String toString() {
         if (color == Color.RED) {
             return "R";

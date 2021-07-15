@@ -7,7 +7,6 @@ import com.webcheckers.model.CheckerPiece;
 import com.webcheckers.model.CheckersGame;
 import com.webcheckers.model.Player;
 import com.webcheckers.ui.board.BoardView;
-import com.webcheckers.util.Message;
 import spark.*;
 
 import java.util.HashMap;
@@ -61,14 +60,18 @@ public class GetGameRoute implements Route {
         CheckersGame game = this.gameManager.getGame(player.getGameID());
         //
         CheckerPiece[][] board;
+        if ( game.isPlayersTurn(player) ) {
+            board = game.getBoard();
+        } else {
+            board = game.getFlippedBoard();
+        }
+
         final Player opponent;
         if (game.isRedPlayer(player)) {
-            board = game.getBoard(true);
             opponent = game.getWhitePlayer();
             vm.put("redPlayer", player);
             vm.put("whitePlayer", opponent);
         } else {
-            board = game.getBoard(false);
             opponent = game.getRedPlayer();
             vm.put("redPlayer", opponent);
             vm.put("whitePlayer", player);

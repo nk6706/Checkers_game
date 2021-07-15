@@ -1,5 +1,9 @@
 package com.webcheckers.model;
 
+import com.webcheckers.util.Message;
+
+import java.util.Stack;
+
 /**
  * CheckersGame is a model-level representation of a game of checkers. Each CheckersGame has
  * two Player(s) and a CheckerBoard that holds its CheckerPiece(s). Additionally, each
@@ -16,7 +20,7 @@ public class CheckersGame {
     /** Holds the player whose turn it is */
     private Player activePlayer;
 
-    private CheckerBoard board;
+    private Stack<CheckerBoard> boards = new Stack<>();
 
     private boolean gameOver = false;
     private String gameOverMessage;
@@ -27,7 +31,7 @@ public class CheckersGame {
         this.whitePlayer = whitePlayer;
         this.activePlayer = redPlayer;
 
-        board = new CheckerBoard();
+        boards.push(new CheckerBoard());
     }
 
     /**
@@ -39,17 +43,33 @@ public class CheckersGame {
     }
 
     /**
-     * Getter method for game board
+     * Getter method for game board (red)
      * @return CheckerBoard object of the board
      */
-    public CheckerPiece[][] getBoard(boolean isRedPlayer) {
-        return board.getBoard(isRedPlayer);
+    public CheckerPiece[][] getBoard() {
+        return this.boards.peek().getBoard();
     }
 
+    /**
+     * Getter method for game board (white)
+     * @return CheckerBoard object of the board
+     */
+    public CheckerPiece[][] getFlippedBoard() {
+        return this.boards.peek().getFlippedBoard();
+    }
+
+    /**
+     *
+     * @return
+     */
     public Player getRedPlayer() {
         return redPlayer;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getWhitePlayer() {
         return whitePlayer;
     }
@@ -84,5 +104,70 @@ public class CheckersGame {
      * @return true if it is the player's turn, false otherwise
      */
     public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
+
+    /**
+     * Determines if it is the provided player's turn (if they are the activePlayer)
+     * @param player the player to check if its their turn
+     * @return true if it is the player's turn, false otherwise
+     */
+    public boolean isPlayersTurn(Player player) { return player.equals(activePlayer); }
+
+    /**
+     * Used when submitting a valid turn to change whose turn it is
+     */
+    public void toggleActivePlayer() {
+        this.activePlayer = activePlayer.equals(whitePlayer) ? redPlayer : whitePlayer;
+    }
+
+    /**
+     * Method for TurnManager to check if a move is valid or not
+     * @param move the move to check
+     * @return Message.INFO if valid, Message.ERROR with error msg if invalid
+     */
+    public Message isValidMove(Move move) {
+        return this.boards.peek().isValidMove(move, this.boards.size() == 1);
+    }
+
+    /**
+     * Method for appl tier to check if a move is valid or not
+     * @return Message.INFO if valid, Message.ERROR with error msg if invalid
+     */
+    public Message isValidTurn() {
+        CheckerBoard previous = null;
+        for (CheckerBoard board : this.boards ) {
+            if (board.wasSingleMove(previous) && board.isJumpAvailable(activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE) ) {
+                return Message.error("A jump move could have been made that was not made");
+            }
+            previous = board;
+        }
+        return Message.info("");
+    }
+
+    /**
+     * Used to make a move, copies a  new board and moves the piece as directed
+     * @param move the move to make
+     */
+    public void makeMove(Move move) {
+        CheckerBoard previous = new CheckerBoard(this.boards.peek(), false);
+        previous.movePiece(move.getStart(), move.getEnd());
+        this.boards.push(previous);
+    }
+
+    public Message undoMove() {
+        if ( this.boards.size() == 1 ) {
+            return Message.error("No moves have been made yet");
+        }
+        this.boards.pop();
+        return Message.info("Reverted back to previous move");
+    }
+
+    /**
+     *
+     */
+    public void newTurn() {
+        final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
+        this.boards.removeAllElements();
+        this.boards.add(board);
+    }
 
 }
