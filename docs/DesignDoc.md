@@ -156,14 +156,16 @@ their resignation to their opponent.
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
 
-
 ### Application Tier
+![GameManager](GameManager.png)
+![PlayerLobby](PlayerLobby.png)
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
 
-
 ### Model Tier
+![CheckerPiece](CheckerPiece.png)
+![CheckerBoard](CheckerBoard.png)
 > _Provide a summary of the Application tier of your architecture. This
 > section will follow the same instructions that are given for the UI
 > Tier above._
