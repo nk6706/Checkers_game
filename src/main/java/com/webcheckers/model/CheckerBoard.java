@@ -121,11 +121,11 @@ public class CheckerBoard {
                 }
             } else if ( rowDiff == 2 ) { // Possible jump, need further investigation
                 if ( cellDiff == 2 ) {
-                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
                         return Message.info("");
                     }
                 } else if ( cellDiff == -2 ) {
-                    if ( hasPiece(new Position(start.getRow()+1, start.getCell()+1)) ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
                         return Message.info("");
                     }
                 }
