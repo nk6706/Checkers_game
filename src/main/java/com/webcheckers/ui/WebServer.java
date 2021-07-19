@@ -74,6 +74,8 @@ public class WebServer {
 
   public static final String SPECTATOR_START_URL = "/spectator/game";
 
+  public static final String SPECTATOR_CHECK_TURN_URL = "/spectator/checkTurn";
+
   //
   // Attributes
   //
@@ -178,6 +180,8 @@ public class WebServer {
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
 
     get(SPECTATOR_START_URL, new GetSpectatorGameRoute(templateEngine, gameManager, playerLobby, gson));
+
+    post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gameManager, gson));
 
     //
     LOG.config("WebServer is initialized.");
