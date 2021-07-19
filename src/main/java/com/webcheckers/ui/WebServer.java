@@ -158,7 +158,7 @@ public class WebServer {
     final GameManager gameManager = new GameManager();
 
     // Shows the Checkers game Home page.
-    get(HOME_URL, new GetHomeRoute(playerLobby, templateEngine));
+    get(HOME_URL, new GetHomeRoute(playerLobby, gameManager, templateEngine));
 
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
