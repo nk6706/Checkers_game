@@ -38,6 +38,19 @@
             </#list>
 
         </#if>
+          Games in Progress:</br>
+          <#if gameList??>
+              <#list gameList as id, value>
+                  <ul>
+                      <li>
+                          <form action="/spectator" method="get">
+                              <#-- TODO: Get rid of Law of Demeter Violation below                        -->
+                              <button type="submit" name="gameID" value="${id}">${value.getRedPlayer().getUsername()} vs ${value.getWhitePlayer().getUsername()}</button>
+                          </form>
+                      </li>
+                  </ul>
+              </#list>
+          </#if>
       <#else>
         Total players signed in: ${totalPlayers}</br>
       </#if>
