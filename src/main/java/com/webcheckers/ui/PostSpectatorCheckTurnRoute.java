@@ -36,7 +36,14 @@ public class PostSpectatorCheckTurnRoute implements Route {
         final Player redPlayer = game.getRedPlayer();
         final Player whitePlayer = game.getWhitePlayer();
 
-        Message result = Message.info("true");
+        int i = 0;
+        Message result = Message.info("false");
+
+        // Refreshes every 5 seconds
+        if(i++ % 5 == 0) {
+           result  = Message.info("true");
+        }
+
 
         return this.gson.toJson(result);
     }
