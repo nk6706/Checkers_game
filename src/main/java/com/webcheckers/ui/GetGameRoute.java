@@ -60,7 +60,8 @@ public class GetGameRoute implements Route {
         CheckersGame game = this.gameManager.getGame(player.getGameID());
         //
         CheckerPiece[][] board;
-        if ( game.isPlayersTurn(player) ) {
+        // TODO: 2nd part of conditional below doesn't maintain orientation for spectator. May need to delete
+        if ( game.isPlayersTurn(player) || (player != game.getRedPlayer() && player != game.getWhitePlayer()) ) {
             board = game.getBoard();
         } else {
             board = game.getFlippedBoard();
