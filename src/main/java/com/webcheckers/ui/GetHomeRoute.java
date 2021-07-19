@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import java.util.*;
 import java.util.logging.Logger;
 
+import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import spark.*;
@@ -24,6 +25,8 @@ public class GetHomeRoute implements Route {
 
     private final PlayerLobby playerLobby;
 
+    private final GameManager gameManager;
+
 
     /**
     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -31,9 +34,10 @@ public class GetHomeRoute implements Route {
     * @param templateEngine
     *   the HTML template rendering engine
     */
-    public GetHomeRoute(PlayerLobby playerLobby, final TemplateEngine templateEngine) {
+    public GetHomeRoute(PlayerLobby playerLobby, GameManager gameManager, final TemplateEngine templateEngine) {
         this.playerLobby = playerLobby;
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.gameManager = gameManager;
         //
         LOG.config("GetHomeRoute is initialized.");
     }
@@ -79,6 +83,8 @@ public class GetHomeRoute implements Route {
 
             vm.put("playerList", usernames);
         }
+
+        vm.put("gameList", gameManager.getGames());
 
         // render the View
         return templateEngine.render(new ModelAndView(vm , "home.ftl"));
