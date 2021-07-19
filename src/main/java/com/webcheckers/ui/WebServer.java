@@ -72,6 +72,8 @@ public class WebServer {
 
   public static final String SIGN_OUT_URL = "/signout";
 
+  public static final String SPECTATOR_START_URL = "/spectator/game";
+
   //
   // Attributes
   //
@@ -174,6 +176,8 @@ public class WebServer {
     post(RESIGN_URL, new PostResignGameRoute(gameManager, gson));
     
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
+
+    get(SPECTATOR_START_URL, new GetSpectatorGameRoute(templateEngine, gameManager, playerLobby, gson));
 
     //
     LOG.config("WebServer is initialized.");
