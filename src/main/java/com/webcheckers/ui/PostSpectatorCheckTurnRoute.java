@@ -39,6 +39,10 @@ public class PostSpectatorCheckTurnRoute implements Route {
         int i = 0;
         Message result = Message.info("false");
 
+        /* TODO: Figure out how to get the board to stay in one position with the
+        *           red pieces at the bottom
+        **/
+
         // Refreshes every 5 seconds
         if(i++ % 5 == 0) {
            result  = Message.info("true");
