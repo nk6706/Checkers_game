@@ -32,8 +32,12 @@ public class PostSpectatorCheckTurnRoute implements Route {
         final Player player = httpSession.attribute("player");
 
         CheckersGame game = gameManager.getGame(player.getGameID());
+
+        final Player redPlayer = game.getRedPlayer();
+        final Player whitePlayer = game.getWhitePlayer();
+
         Message result = Message.info("false");
-        if (game.isPlayersTurn(player)) {
+        if (game.isPlayersTurn(redPlayer)) {
             result = Message.info("true");
         }
 
