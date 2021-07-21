@@ -88,6 +88,8 @@ public class CheckersGame {
     public void setGameOver(String playerLoss){
         gameOver = true;
         this.gameOverMessage = playerLoss;
+        this.redPlayer.setGameID(-1);
+        this.whitePlayer.setGameID(-1);
     }
 
     public boolean isGameOver(){
