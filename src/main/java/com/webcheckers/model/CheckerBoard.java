@@ -201,7 +201,10 @@ public class CheckerBoard {
 
         final Position pos = findMovedPiece(board);
 
-        if ( isMatchingPieceHere(pos, board, true, true) || isMatchingPieceHere(pos, board, true, false) || isMatchingPieceHere(pos, board, false, true) || isMatchingPieceHere(pos, board, false, false) ) {
+        if ( isMatchingPieceHere(pos, board, true, true) ||
+                isMatchingPieceHere(pos, board, true, false) ||
+                isMatchingPieceHere(pos, board, false, true) ||
+                isMatchingPieceHere(pos, board, false, false) ) {
             return true;
         }
 
@@ -260,6 +263,26 @@ public class CheckerBoard {
     }
 
     /**
+     * Check if pieces are captured.
+     * @param board the old board
+     * @return true if piece was captured.
+     */
+    public boolean ifCaptureMove(CheckerBoard board){
+        int countPreviousBoard =0;
+        int countCurrentBoard = 0;
+        final CheckerPiece[][] previous = board.getBoard();
+        for(int i=0; i<8; i++){
+            for (int j=0; j<8; j++){
+                if( previous[i][j]!=null )
+                    countPreviousBoard++;
+                if( this.board[i][j]!=null)
+                    countCurrentBoard++;
+            }
+        }
+        return countCurrentBoard!=countPreviousBoard;
+    }
+
+    /**
      * Gets the piece at the given position
      * @param pos the position of the piece to get
      * @return the piece at the position (null if no piece)
@@ -284,6 +307,15 @@ public class CheckerBoard {
      */
     public void movePiece(Position start, Position end) {
         this.board[end.getRow()][end.getCell()] = this.board[start.getRow()][start.getCell()];
+        if( this.board[start.getRow()][start.getCell()].isKing() ){
+            //TODO
+        }else{
+            if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
+                this.board[start.getRow()-1][start.getCell()+1] = null;
+            }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
+                this.board[start.getRow()-1][start.getCell()-1] = null;
+            }
+        }
         this.board[start.getRow()][start.getCell()] = null;
     }
 
