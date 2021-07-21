@@ -90,4 +90,9 @@ public class GameManager {
         return game.undoMove();
     }
 
+    public void setGameOver(int gameID, String message) {
+        final CheckersGame game = getGame(gameID);
+        game.setGameOver(message);
+    }
+
 }
