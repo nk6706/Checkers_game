@@ -24,6 +24,12 @@ public class CheckerPiece {
         this.type = Type.SINGLE;
     }
 
+    public CheckerPiece(Color color, Boolean king){
+        this.color = color;
+        if(king)
+            this.type = Type.KING;
+    }
+
     /**
      * Getter for the color of the piece, RED or WHITE
      * @return Color the piece's color

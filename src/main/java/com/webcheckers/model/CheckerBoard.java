@@ -194,10 +194,9 @@ public class CheckerBoard {
      */
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
         Position pos = findMovedPieceNew(board, color);
-        if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
-            System.out.println("        Jump at: " + " " + pos.getRow() + " " + pos.getCell());
+        if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) )
             return true;
-        }
+
         return false;
     }
     /**
@@ -360,6 +359,10 @@ public class CheckerBoard {
             }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
                 this.board[start.getRow()-1][start.getCell()-1] = null;
             }
+        }
+        if(end.getRow() == 0){
+            this.board[end.getRow()][end.getCell()] = null;
+            this.board[end.getRow()][end.getCell()] = new CheckerPiece(this.board[start.getRow()][start.getCell()].getColor(),true);
         }
         this.board[start.getRow()][start.getCell()] = null;
     }
