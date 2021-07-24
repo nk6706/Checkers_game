@@ -49,46 +49,51 @@ public class GetGameRoute implements Route {
         final Map<String, Object> vm = new HashMap<>();
         final Session httpSession = request.session();
 
-        vm.put(TITLE_ATTR, "Game");
-        vm.put("viewMode", Mode.PLAY);
-
         Player player = httpSession.attribute("player");
-        if(!player.inGame()) {
+        if(player == null) {
             response.redirect(WebServer.HOME_URL);
         }
 
-        CheckersGame game = this.gameManager.getGame(player.getGameID());
-        //
-        CheckerPiece[][] board;
-        if ( game.isPlayersTurn(player) ) {
-            board = game.getBoard();
+        int gameID = -1;
+        if(player.getGameID() != -1) {
+            gameID = player.getGameID();
         } else {
-            board = game.getFlippedBoard();
+            final String queryParam = request.queryParams("gameID");
+            if(queryParam != null) {
+                gameID = Integer.parseInt(queryParam);
+            } else {
+                response.redirect(WebServer.HOME_URL);
+            }
         }
 
-        final Player opponent;
-        if (game.isRedPlayer(player)) {
-            opponent = game.getWhitePlayer();
-            vm.put("redPlayer", player);
-            vm.put("whitePlayer", opponent);
-        } else {
-            opponent = game.getRedPlayer();
-            vm.put("redPlayer", opponent);
-            vm.put("whitePlayer", player);
+        final CheckersGame game = this.gameManager.getGame(gameID);
+
+        final CheckerPiece[][] board;
+        final Map<String, Object> modeOptions = new HashMap<>(2);
+        if (request.uri().equals("/replay/game")) { // Replay mode
+            vm.put("viewMode", Mode.REPLAY);
+            board = game.getBoard(game.getActivePlayer());
+            modeOptions.put("hasNext", false);
+            modeOptions.put("hasPrevious", false);
+        } else { // Standard game mode
+            vm.put("viewMode", Mode.PLAY);
+            board = game.getBoard(player);
+            if (game.isGameOver()){
+                modeOptions.put("isGameOver", true);
+                modeOptions.put("gameOverMessage", game.getGameOverMessage());
+            }
         }
 
-        BoardView boardView = new BoardView( board );
-        vm.put("board", boardView);
+        vm.put(TITLE_ATTR, "Game");
+
         vm.put("currentUser", player);
-        vm.put("activeColor", game.getActivePlayer().equals(game.getRedPlayer()) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE);
+        vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
+        vm.put("redPlayer", game.getRedPlayer());
+        vm.put("whitePlayer", game.getWhitePlayer());
+        vm.put("activeColor", game.getActiveColor());
+        vm.put("board", new BoardView(board));
         vm.put("gameID", game.getId());
 
-        if (game.isGameOver()){
-            final Map<String, Object> modeOptions = new HashMap<>(2);
-            modeOptions.put("isGameOver", true);
-            modeOptions.put("gameOverMessage", game.getGameOverMessage());
-            vm.put("modeOptionsAsJSON", gson.toJson(modeOptions));
-        }
 
         return templateEngine.render(new ModelAndView(vm, VIEW_NAME));
     }
