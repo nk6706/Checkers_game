@@ -72,6 +72,9 @@ public class WebServer {
 
   public static final String SIGN_OUT_URL = "/signout";
 
+  public static final String REPLAY_GAME_URL = "/replay/game";
+  public static final String REPLAY_STOP_URL = "/replay/stopWatching";
+
   //
   // Attributes
   //
@@ -174,6 +177,8 @@ public class WebServer {
     post(RESIGN_URL, new PostResignGameRoute(gameManager, gson));
     
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
+
+    post(REPLAY_GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager, gson));
 
     //
     LOG.config("WebServer is initialized.");
