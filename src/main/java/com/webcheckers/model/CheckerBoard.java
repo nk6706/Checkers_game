@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
+import jdk.swing.interop.SwingInterOpUtils;
 
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
@@ -106,6 +107,29 @@ public class CheckerBoard {
 
         final CheckerPiece piece = getPiece(start);
 
+        if(first && isJumpAvailable(piece.getColor())){
+            System.out.println("JUMP REQUIRED");
+            if(rowDiff !=2)
+                return Message.error("A jump move could have been made that was not made");
+            else{
+                if ( cellDiff == 2 ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                        if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
+                            return Message.error("Cannot capture your own checker!");
+                        return Message.info("");
+                    }
+                } else if ( cellDiff == -2 ) {
+                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                        if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
+                            return Message.error("Cannot capture your own checker!");
+                        return Message.info("");
+                    }
+                }
+                return Message.error("Moved more than one row forward without jumping");
+            }
+
+        }
+
         if ( !piece.isKing() ) { // Single piece move validation
             if (rowDiff < 0 ) { // Tried to move backwards
                 return Message.error("A single piece can only move forward");
@@ -169,6 +193,7 @@ public class CheckerBoard {
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
         Position pos = findMovedPiece(board);
         if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
+            System.out.println("Jump at: " + " " + pos.getRow() + " " + pos.getCell());
             return true;
         }
         return false;
@@ -305,8 +330,10 @@ public class CheckerBoard {
         }else{
             if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
                 this.board[start.getRow()-1][start.getCell()+1] = null;
+                System.out.println("Captured RIGHT");
             }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
                 this.board[start.getRow()-1][start.getCell()-1] = null;
+                System.out.println("Captured LEFT");
             }
         }
         this.board[start.getRow()][start.getCell()] = null;

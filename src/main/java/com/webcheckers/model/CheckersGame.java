@@ -133,8 +133,8 @@ public class CheckersGame {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
                 if(first){
                     first = false;
-                    if (board.wasSingleMove(previous) && previous.isJumpAvailable(color) ) {
-                        return Message.error("A jump move could have been made that was not made");
+                    if (!board.wasSingleMove(previous) && previous.isJumpAvailable(color) ) {
+                        return Message.error("A jump move could have been made that was not made: 0");
                     }
                 }else{
                     if(previous.isJumpAvailable(board,color))
