@@ -193,7 +193,6 @@ public class CheckerBoard {
      * @return
      */
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
-        System.out.println("IS JUMP AVAILABLE->");
         Position pos = findMovedPieceNew(board, color);
         if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
             System.out.println("        Jump at: " + " " + pos.getRow() + " " + pos.getCell());

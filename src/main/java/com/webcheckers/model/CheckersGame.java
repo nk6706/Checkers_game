@@ -128,21 +128,20 @@ public class CheckersGame {
      */
     public Message isValidTurn() {
         CheckerBoard previous = null;
-        for (CheckerBoard board : this.boards ) {
+        int numberOfBoards = this.boards.size();
+        for (int i=0; i< numberOfBoards; i++ ) {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
 
-
-                System.out.println("WAS THIS A JUMP MOVE: " + " " + board.wasJumpMove(previous));
-
-                if( board.wasJumpMove(previous)) {
-                    System.out.println("IS JUMP AVAILABLE: " + " " + board.isJumpAvailable(previous, color));
-                    if( board.isJumpAvailable(previous, color) ) {
-                        return Message.error("Another jump is possible!");
+                if( this.boards.get(i).wasJumpMove(previous)) {
+                    System.out.println("IS JUMP AVAILABLE: " + " " + this.boards.get(i).isJumpAvailable(previous, color));
+                    if( this.boards.get(i).isJumpAvailable(previous, color) ) {
+                        if(i == numberOfBoards -1)
+                            return Message.error("Another jump is possible!");
                     }
                 }
             }
-            previous = board;
+            previous = this.boards.get(i);
         }
         return Message.info("");
     }
