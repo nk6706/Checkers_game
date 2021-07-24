@@ -161,6 +161,19 @@ public class CheckerBoard {
     }
 
     /**
+     * Checks for checker jump
+     * @param board
+     * @param color
+     * @return
+     */
+    public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
+        Position pos = findMovedPiece(board);
+        if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
+            return true;
+        }
+        return false;
+    }
+    /**
      * Helper method for isJumpAvailable, checks specific jumps is specific directions
      * @param pos the position of the piece
      * @param forward true if want to check for a forward jump, false for backward jump
@@ -260,26 +273,6 @@ public class CheckerBoard {
             }
         }
         return null;
-    }
-
-    /**
-     * Check if pieces are captured.
-     * @param board the old board
-     * @return true if piece was captured.
-     */
-    public boolean ifCaptureMove(CheckerBoard board){
-        int countPreviousBoard =0;
-        int countCurrentBoard = 0;
-        final CheckerPiece[][] previous = board.getBoard();
-        for(int i=0; i<8; i++){
-            for (int j=0; j<8; j++){
-                if( previous[i][j]!=null )
-                    countPreviousBoard++;
-                if( this.board[i][j]!=null)
-                    countCurrentBoard++;
-            }
-        }
-        return countCurrentBoard!=countPreviousBoard;
     }
 
     /**

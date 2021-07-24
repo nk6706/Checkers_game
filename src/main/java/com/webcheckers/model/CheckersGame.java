@@ -127,14 +127,22 @@ public class CheckersGame {
      */
     public Message isValidTurn() {
         CheckerBoard previous = null;
+        boolean first = true;
         for (CheckerBoard board : this.boards ) {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
-                if (board.ifCaptureMove(previous)==false && board.wasSingleMove(previous) && previous.isJumpAvailable(color) ) {
-                    return Message.error("A jump move could have been made that was not made---");
+                if(first){
+                    first = false;
+                    if (board.wasSingleMove(previous) && previous.isJumpAvailable(color) ) {
+                        return Message.error("A jump move could have been made that was not made");
+                    }
+                }else{
+                    if(previous.isJumpAvailable(board,color))
+                        return Message.error("A jump move could have been made that was not made: 1");
                 }
-                if (board.isJumpAvailable(color) && !board.wasSingleMove(previous))
-                    return Message.error("A jump move could have been made that was not made--");
+
+//                if (board.isJumpAvailable(color) && !board.wasSingleMove(previous))
+//                    return Message.error("A jump move could have been made that was not made");
             }
             previous = board;
         }
