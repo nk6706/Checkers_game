@@ -42,6 +42,21 @@ public class CheckersGame {
         return id;
     }
 
+    public CheckerPiece[][] getBoard(Player player) {
+        final CheckerBoard board = this.boards.peek();
+        if(isPlayersTurn(player)) {
+            return board.getBoard();
+        }
+        return board.getFlippedBoard();
+    }
+
+    public CheckerPiece.Color getActiveColor() {
+        if (isRedPlayer(activePlayer)) {
+            return CheckerPiece.Color.RED;
+        }
+        return CheckerPiece.Color.WHITE;
+    }
+
     /**
      * Getter method for game board (red)
      * @return CheckerBoard object of the board
