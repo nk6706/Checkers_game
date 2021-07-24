@@ -132,18 +132,15 @@ public class CheckersGame {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
 
-                    System.out.println("WAS THIS A JUMP MOVE: " + " " + board.wasJumpMove(previous));
-                    if(previous.isJumpAvailable(board,color)){
-                        if(board.wasJumpMove(previous)) {
-                            System.out.println("THERE IS JUMP!!!!!!!!!!!!!!!!");
-                            return Message.error("Another jump is possible!");
-                        }
 
+                System.out.println("WAS THIS A JUMP MOVE: " + " " + board.wasJumpMove(previous));
+
+                if( board.wasJumpMove(previous)) {
+                    System.out.println("IS JUMP AVAILABLE: " + " " + board.isJumpAvailable(previous, color));
+                    if( board.isJumpAvailable(previous, color) ) {
+                        return Message.error("Another jump is possible!");
                     }
-
-
-//                if (board.isJumpAvailable(color) && !board.wasSingleMove(previous))
-//                    return Message.error("A jump move could have been made that was not made");
+                }
             }
             previous = board;
         }

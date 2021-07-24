@@ -107,8 +107,7 @@ public class CheckerBoard {
 
         final CheckerPiece piece = getPiece(start);
 
-        if(first && isJumpAvailable(piece.getColor())){
-            System.out.println("JUMP REQUIRED");
+        if(isJumpAvailable(piece.getColor())){
             if(rowDiff !=2)
                 return Message.error("A jump move could have been made that was not made");
             else{
@@ -143,22 +142,11 @@ public class CheckerBoard {
                 } else {
                     return Message.error("You can only move a single cell in either direction");
                 }
-            } else if ( rowDiff == 2 ) { // Possible jump, need further investigation
-                if ( cellDiff == 2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
-                        return Message.info("");
-                    }
-                } else if ( cellDiff == -2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
-                        return Message.info("");
-                    }
-                }
-                return Message.error("Moved more than one row forward without jumping");
             } else { // Moved too many rows forward
                 return Message.error("Moved more than one row forward without jumping");
             }
-        } else { // King move validation
-
+        } else{
+            //TODO
         }
 
         return Message.error("Unknown error");
@@ -185,19 +173,17 @@ public class CheckerBoard {
     }
 
     public boolean wasJumpMove(CheckerBoard board){
-        if ( board == null )
-            return false;
+        int old = 0;int  current = 0;
+        for(int i=0; i<8; i++){
+            for(int j=0;j<8; j++){
+                if(board.getPiece(new Position(i,j))!=null)
+                    old++;
+                if(this.getPiece(new Position(i,j))!=null)
+                    current++;
 
-        final Position pos = findMovedPiece(board);
-
-        if ( isMatchingPieceHere(pos, board, true, true, true) ||
-                isMatchingPieceHere(pos, board, true, false, true) ||
-                isMatchingPieceHere(pos, board, false, true, true) ||
-                isMatchingPieceHere(pos, board, false, false, true) ) {
-            return true;
+            }
         }
-
-        return false;
+        return current!=old;
     }
 
     /**
@@ -207,9 +193,10 @@ public class CheckerBoard {
      * @return
      */
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
-        Position pos = findMovedPiece(board);
+        System.out.println("IS JUMP AVAILABLE->");
+        Position pos = findMovedPieceNew(board, color);
         if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
-            System.out.println("Jump at: " + " " + pos.getRow() + " " + pos.getCell());
+            System.out.println("        Jump at: " + " " + pos.getRow() + " " + pos.getCell());
             return true;
         }
         return false;
@@ -255,10 +242,10 @@ public class CheckerBoard {
 
         final Position pos = findMovedPiece(board);
 
-        if ( isMatchingPieceHere(pos, board, true, true, false) ||
-                isMatchingPieceHere(pos, board, true, false, false) ||
-                isMatchingPieceHere(pos, board, false, true, false) ||
-                isMatchingPieceHere(pos, board, false, false, false) ) {
+        if ( isMatchingPieceHere(pos, board, true, true) ||
+                isMatchingPieceHere(pos, board, true, false) ||
+                isMatchingPieceHere(pos, board, false, true) ||
+                isMatchingPieceHere(pos, board, false, false) ) {
             return true;
         }
 
@@ -273,14 +260,13 @@ public class CheckerBoard {
      * @param right true if want to check for a move to the right, false for left
      * @return true if the matching piece was moved here, false otherwise
      */
-    private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right, boolean caputure) {
+    private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right) {
         final int row = pos.getRow();
         final int cell = pos.getCell();
 
-        final int adj = caputure ? 2 : 1;
 
-        final int adjRow = forward ? row - adj : row + adj;
-        final int adjCell = right ? cell + adj : cell - adj;
+        final int adjRow = forward ? row - 1 : row + 1;
+        final int adjCell = right ? cell + 1 : cell - 1;
 
 
         if ( adjRow > -1 && adjRow < 8 && adjCell > -1 && adjCell < 8 ) { // Check the surroundings is in bounds
@@ -321,6 +307,28 @@ public class CheckerBoard {
     }
 
     /**
+     * Returns the position on the new board where the piece that got moved
+     * @param board the old board
+     * @param color the color of the player who made the move
+     * @return Position of moved piece, null if one could not be found
+     */
+    private Position findMovedPieceNew(CheckerBoard board, CheckerPiece.Color color) {
+        final CheckerPiece[][] previous = board.getBoard();
+        for(int i = 0; i < this.board.length; i++) {
+            for(int j = 0; j < this.board[i].length; j++) {
+                final Position pos = new Position(i, j);
+                CheckerPiece currentPiece = this.getPiece(pos);
+                if (currentPiece != null && currentPiece.getColor()==color) {
+                    if ( previous[i][j] == null ) {
+                        return pos;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * Gets the piece at the given position
      * @param pos the position of the piece to get
      * @return the piece at the position (null if no piece)
@@ -350,10 +358,8 @@ public class CheckerBoard {
         }else{
             if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
                 this.board[start.getRow()-1][start.getCell()+1] = null;
-                System.out.println("Captured RIGHT");
             }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
                 this.board[start.getRow()-1][start.getCell()-1] = null;
-                System.out.println("Captured LEFT");
             }
         }
         this.board[start.getRow()][start.getCell()] = null;
