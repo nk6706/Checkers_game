@@ -184,6 +184,22 @@ public class CheckerBoard {
         return false;
     }
 
+    public boolean wasJumpMove(CheckerBoard board){
+        if ( board == null )
+            return false;
+
+        final Position pos = findMovedPiece(board);
+
+        if ( isMatchingPieceHere(pos, board, true, true, true) ||
+                isMatchingPieceHere(pos, board, true, false, true) ||
+                isMatchingPieceHere(pos, board, false, true, true) ||
+                isMatchingPieceHere(pos, board, false, false, true) ) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * Checks for checker jump
      * @param board
@@ -239,10 +255,10 @@ public class CheckerBoard {
 
         final Position pos = findMovedPiece(board);
 
-        if ( isMatchingPieceHere(pos, board, true, true) ||
-                isMatchingPieceHere(pos, board, true, false) ||
-                isMatchingPieceHere(pos, board, false, true) ||
-                isMatchingPieceHere(pos, board, false, false) ) {
+        if ( isMatchingPieceHere(pos, board, true, true, false) ||
+                isMatchingPieceHere(pos, board, true, false, false) ||
+                isMatchingPieceHere(pos, board, false, true, false) ||
+                isMatchingPieceHere(pos, board, false, false, false) ) {
             return true;
         }
 
@@ -257,12 +273,15 @@ public class CheckerBoard {
      * @param right true if want to check for a move to the right, false for left
      * @return true if the matching piece was moved here, false otherwise
      */
-    private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right) {
+    private boolean isMatchingPieceHere(Position pos, CheckerBoard board, boolean forward, boolean right, boolean caputure) {
         final int row = pos.getRow();
         final int cell = pos.getCell();
 
-        final int adjRow = forward ? row - 1 : row + 1;
-        final int adjCell = right ? cell + 1 : cell - 1;
+        final int adj = caputure ? 2 : 1;
+
+        final int adjRow = forward ? row - adj : row + adj;
+        final int adjCell = right ? cell + adj : cell - adj;
+
 
         if ( adjRow > -1 && adjRow < 8 && adjCell > -1 && adjCell < 8 ) { // Check the surroundings is in bounds
             final Position adjPos = new Position(adjRow, adjCell);
@@ -277,6 +296,7 @@ public class CheckerBoard {
 
         return false;
     }
+
 
     /**
      * Returns the position on the old board where the piece that got moved
