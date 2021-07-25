@@ -5,6 +5,7 @@ import com.webcheckers.model.Move;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GameManager {
@@ -114,6 +115,16 @@ public class GameManager {
 
     public int removeReplayPosition(String username) {
         return this.replayPositions.remove(username);
+    }
+
+    public ArrayList<CheckersGame> getReplayGames() {
+        final ArrayList<CheckersGame> games = new ArrayList<>();
+        for ( CheckersGame game : this.games.values() ) {
+            if ( game.isGameOver() ) {
+                games.add(game);
+            }
+        }
+        return games;
     }
 
 }
