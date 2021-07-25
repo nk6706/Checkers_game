@@ -233,20 +233,31 @@ public class CheckerBoard {
                 CheckerPiece piece = this.board[i][j];
                 if ( piece != null && piece.getColor().equals(color) ) {
                     final Position pos = new Position(i, j);
-                    if(this.getPiece(pos).isKing()){
-                        if ( isJumpAvailable(pos, true, true, color) ||
-                                isJumpAvailable(pos, true, false, color) ||
-                                isJumpAvailable(pos, false, true, color) ||
-                                isJumpAvailable(pos, false, false, color)) {
-                            return true;
-                        }
-                    }else{
-                        if ( isJumpAvailable(pos, true, true, color) ||
-                                isJumpAvailable(pos, true, false, color) ) {
-                            return true;
-                        }
-                    }
+                    if (isJumpPossible(color, pos)) return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Helper method to find if jump is possible
+     * @param color Color of the player
+     * @param pos Position of the piece
+     * @return if jump is possible.
+     */
+    private boolean isJumpPossible(CheckerPiece.Color color, Position pos) {
+        if(this.getPiece(pos).isKing()){
+            if ( isJumpAvailable(pos, true, true, color) ||
+                    isJumpAvailable(pos, true, false, color) ||
+                    isJumpAvailable(pos, false, true, color) ||
+                    isJumpAvailable(pos, false, false, color)) {
+                return true;
+            }
+        }else{
+            if ( isJumpAvailable(pos, true, true, color) ||
+                    isJumpAvailable(pos, true, false, color) ) {
+                return true;
             }
         }
         return false;
@@ -275,16 +286,7 @@ public class CheckerBoard {
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
         Position pos = findMovedPieceNew(board, color);
         System.out.println("THE POSITION FOUND IS :" + " "  + pos.getRow() + " " + pos.getCell());
-        if(this.getPiece(pos).isKing()){
-            if ( isJumpAvailable(pos, true, true, color) ||
-                    isJumpAvailable(pos, true, false, color) ||
-                    isJumpAvailable(pos, false, true, color) ||
-                    isJumpAvailable(pos, false, false, color))
-                return true;
-        }else{
-            if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) )
-                return true;
-        }
+        if (isJumpPossible(color, pos)) return true;
 
 
         return false;
