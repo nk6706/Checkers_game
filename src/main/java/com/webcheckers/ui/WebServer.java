@@ -74,6 +74,8 @@ public class WebServer {
 
   public static final String REPLAY_GAME_URL = "/replay/game";
   public static final String REPLAY_STOP_URL = "/replay/stopWatching";
+  public static final String REPLAY_NEXT_URL = "/replay/nextTurn";
+  public static final String REPLAY_PREVIOUS_URL = "/replay/previousTurn";
 
   //
   // Attributes
@@ -166,7 +168,7 @@ public class WebServer {
     get(SIGN_IN_URL, new GetSignInRoute(templateEngine));
     post(SIGN_IN_URL, new PostSignInRoute(playerLobby));
 
-    get(GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager, gson));
+    get(GAME_URL, new GetGameRoute(templateEngine, gameManager, gson));
     post(GAME_URL, new PostGameRoute(playerLobby, gameManager));
 
     post(BACKUP_MOVE_URL, new PostBackupMoveRoute(gameManager, gson));
@@ -178,7 +180,10 @@ public class WebServer {
     
     post(SIGN_OUT_URL, new PostSignOutRoute(playerLobby));
 
-    post(REPLAY_GAME_URL, new GetGameRoute(templateEngine, playerLobby, gameManager, gson));
+    post(REPLAY_GAME_URL, new GetGameRoute(templateEngine, gameManager, gson));
+    post(REPLAY_STOP_URL, new GetReplayStopRoute());
+    post(REPLAY_NEXT_URL, new PostReplayNextRoute(gson));
+    post(REPLAY_PREVIOUS_URL, new PostReplayPreviousRoute(gson));
 
     //
     LOG.config("WebServer is initialized.");
