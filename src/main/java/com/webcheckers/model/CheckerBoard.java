@@ -114,16 +114,16 @@ public class CheckerBoard {
             if(!piece.isKing()){
                 //For Checkers
                 if(rowDiff !=2)
-                    return Message.error("A jump move could have been made that was not made --> Checker");
+                    return Message.error("A jump move could have been made that was not made.");
                 else{
                     return checkCaptureForwardMovement(cellDiff,start,piece);
                 }
             } else{
                 //for King
                 if(rowDiff !=2 && rowDiff != -2)
-                    return Message.error("A jump move could have been made that was not made --> KING");
+                    return Message.error("A jump move could have been made that was not made.");
                 else{
-                    if( rowDiff ==2 ){
+                    if( rowDiff == 2 ){
                         return checkCaptureForwardMovement(cellDiff,start,piece);
                     }else {
                         if ( cellDiff == 2 ) {
@@ -140,8 +140,7 @@ public class CheckerBoard {
                             }
                         }
                     }
-
-                    return Message.error("Moved more than one row forward without jumping");
+                    return Message.error("Cannot move more than on row without jumping.");
                 }
             }
 
