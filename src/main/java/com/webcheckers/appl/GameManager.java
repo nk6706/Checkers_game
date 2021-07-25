@@ -112,4 +112,8 @@ public class GameManager {
         this.replayPositions.put(username, pos-1);
     }
 
+    public int removeReplayPosition(String username) {
+        return this.replayPositions.remove(username);
+    }
+
 }
