@@ -129,13 +129,11 @@ public class CheckersGame {
     public Message isValidTurn() {
         CheckerBoard previous = null;
         int numberOfBoards = this.boards.size();
-        System.out.println("BOARDS SIZE +++   " +  numberOfBoards);
         for (int i=0; i< numberOfBoards; i++ ) {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
 
                 if( this.boards.get(i).wasJumpMove(previous)) {
-                    System.out.println("IS JUMP AVAILABLE: " + " " + this.boards.get(i).isJumpAvailable(previous, color));
                     if( this.boards.get(i).isJumpAvailable(previous, color) ) {
                         if(i == numberOfBoards -1)
                             return Message.error("Another jump is possible!");

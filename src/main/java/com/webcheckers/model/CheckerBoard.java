@@ -285,7 +285,6 @@ public class CheckerBoard {
      */
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
         Position pos = findMovedPieceNew(board, color);
-        System.out.println("THE POSITION FOUND IS :" + " "  + pos.getRow() + " " + pos.getCell());
         if (isJumpPossible(color, pos)) return true;
 
 
@@ -410,7 +409,6 @@ public class CheckerBoard {
                 CheckerPiece currentPiece = this.getPiece(pos);
                 if (currentPiece != null && currentPiece.getColor()==color) {
                     if ( previous[i][j] == null ) {
-                        System.out.println("THE NEW POSITION IS: " + " " + i + " " + j);
                         return pos;
                     }
                 }
@@ -444,7 +442,6 @@ public class CheckerBoard {
      */
     public void movePiece(Position start, Position end) {
         this.board[end.getRow()][end.getCell()] = this.board[start.getRow()][start.getCell()];
-        System.out.println("UPDATED-> " + " " + end.getRow() + " " + end.getCell() + " " + this.getPiece(end).toString() );
         if( this.board[start.getRow()][start.getCell()].isKing() ){
             captureForward(start, end);
             if(start.getRow()-end.getRow() == -2 && end.getCell()-start.getCell() == 2){
