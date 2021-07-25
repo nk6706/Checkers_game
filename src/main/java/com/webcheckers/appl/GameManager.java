@@ -8,6 +8,11 @@ import com.webcheckers.util.Message;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * GameManager handles interaction between the UI tier and CheckerGame objects in the model tier.
+ * It is responsible for creating and storing games as well as facilitating
+ * operations for them.
+ */
 public class GameManager {
 
     /** All games running on the site right now, key=GameID value=Game */
@@ -19,6 +24,9 @@ public class GameManager {
     /** Id of the last game made, incremented before creating a new game */
     private int lastId = 0;
 
+    /**
+     * Initializes needed HashMaps for storing games
+     */
     public GameManager() {
         this.games = new HashMap<>();
         this.replayPositions = new HashMap<>();
@@ -57,9 +65,9 @@ public class GameManager {
     }
 
     /**
-     *
-     * @param gameID
-     * @return
+     * Determines whether or not the turn queued is valid
+     * @param gameID the gameID to check if the turn is valid of
+     * @return Message.info if the game is valid, Message.error otherwise
      */
     public Message isValidTurn(int gameID) {
         final CheckersGame game = getGame(gameID);
@@ -67,8 +75,8 @@ public class GameManager {
     }
 
     /**
-     *
-     * @param gameID
+     * Used to submit a turn when the user is done
+     * @param gameID the gameID to finalize the turn of
      */
     public void submitTurn(int gameID) {
         final CheckersGame game = getGame(gameID);
@@ -96,6 +104,11 @@ public class GameManager {
         return game.undoMove();
     }
 
+    /**
+     * Returns the index of the game board to show in replay mode
+     * @param username the username of the player, used to find the index
+     * @return the index the player is at or 0 if none could be found
+     */
     public int getReplayPosition(String username) {
         if (!this.replayPositions.containsKey(username)) {
             this.replayPositions.put(username, 0);
@@ -103,20 +116,39 @@ public class GameManager {
         return this.replayPositions.get(username);
     }
 
-    public void incrementReplayPosition(String username) {
+    /**
+     * Increases the replay index by 1
+     * @param username the username of the player whose index should be updated
+     * @return the int of the position prior to incrementing
+     */
+    public int incrementReplayPosition(String username) {
         final int pos = this.getReplayPosition(username);
-        this.replayPositions.put(username, pos+1);
+        return this.replayPositions.put(username, pos+1);
     }
 
-    public void decrementReplayPosition(String username) {
+    /**
+     * Decreases the replay index by 1
+     * @param username the username of the player whose index should be updated
+     * @return the int of the position prior to decrementing
+     */
+    public int decrementReplayPosition(String username) {
         final int pos = this.getReplayPosition(username);
-        this.replayPositions.put(username, pos-1);
+        return this.replayPositions.put(username, pos-1);
     }
 
+    /**
+     * Removes a player's replay position when they are done replaying a game
+     * @param username the name of the user to remove
+     * @return the position prior to removal
+     */
     public int removeReplayPosition(String username) {
         return this.replayPositions.remove(username);
     }
 
+    /**
+     * Used to get the list of games that can be replayed
+     * @return ArrayList of CheckerGame representing finished (replayable) games
+     */
     public ArrayList<CheckersGame> getReplayGames() {
         final ArrayList<CheckersGame> games = new ArrayList<>();
         for ( CheckersGame game : this.games.values() ) {
