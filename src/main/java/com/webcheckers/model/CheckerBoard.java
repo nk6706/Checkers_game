@@ -11,12 +11,16 @@ public class CheckerBoard {
 
     /** Matrix representing board with pieces on it (null if no piece) */
     private CheckerPiece[][] board;
+    private int whitePieces;
+    private int redPieces;
 
     /**
      * Default constructor to create initial board
      */
     public CheckerBoard() {
         board = new CheckerPiece[8][8];
+        whitePieces = 12;
+        redPieces = 12;
 
         for (int i = 0; i < 3; i++) {
             fillRow(i, CheckerPiece.Color.WHITE);
@@ -263,6 +267,11 @@ public class CheckerBoard {
         return false;
     }
 
+    /**
+     * Check if a jump was performed.
+     * @param board the previous board.
+     * @return true if jump was performed.
+     */
     public boolean wasJumpMove(CheckerBoard board){
         int old = 0;int  current = 0;
         for(int i=0; i<8; i++){
@@ -271,7 +280,6 @@ public class CheckerBoard {
                     old++;
                 if(this.getPiece(new Position(i,j))!=null)
                     current++;
-
             }
         }
         return current!=old;
@@ -290,6 +298,8 @@ public class CheckerBoard {
 
         return false;
     }
+
+
     /**
      * Helper method for isJumpAvailable, checks specific jumps is specific directions
      * @param pos the position of the piece
@@ -445,9 +455,9 @@ public class CheckerBoard {
         if( this.board[start.getRow()][start.getCell()].isKing() ){
             captureForward(start, end);
             if(start.getRow()-end.getRow() == -2 && end.getCell()-start.getCell() == 2){
-                this.board[start.getRow()+1][start.getCell()+1] = null;
+                capturePiece(start.getRow()+1, start.getCell()+1);
             }else if(start.getRow()-end.getRow() == -2 && start.getCell()-end.getCell() == 2){
-                this.board[start.getRow()+1][start.getCell()-1] = null;
+                capturePiece(start.getRow()+1, start.getCell()-1);
             }
         }else{
             captureForward(start, end);
@@ -467,10 +477,27 @@ public class CheckerBoard {
      */
     private void captureForward(Position start, Position end) {
         if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
-            this.board[start.getRow()-1][start.getCell()+1] = null;
+            capturePiece(start.getRow()-1, start.getCell()+1);
         }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
-            this.board[start.getRow()-1][start.getCell()-1] = null;
+            capturePiece(start.getRow()-1,start.getCell()-1);
         }
+    }
+
+
+    /**
+     * Capture a piece
+     * @param row The row of the piece
+     * @param cell the cell of the piece
+     */
+    private void capturePiece(int row, int cell){
+        if (this.board[row][cell] != null){
+            if(this.board[row][cell].getColor() == CheckerPiece.Color.RED)
+                this.redPieces--;
+            else
+                this.whitePieces--;
+        }
+        this.board[row][cell] = null;
+
     }
 
 
