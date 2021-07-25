@@ -11,11 +11,16 @@ public class GameManager {
 
     /** All games running on the site right now, key=GameID value=Game */
     private HashMap<Integer, CheckersGame> games;
+
+    /** Replay positions for users, key=username value=replay pos */
+    private HashMap<String, Integer> replayPositions;
+
     /** Id of the last game made, incremented before creating a new game */
     private int lastId = 0;
 
     public GameManager() {
         this.games = new HashMap<>();
+        this.replayPositions = new HashMap<>();
     }
 
     /**
@@ -88,6 +93,23 @@ public class GameManager {
     public Message undoMove(int gameID) {
         final CheckersGame game = getGame(gameID);
         return game.undoMove();
+    }
+
+    public int getReplayPosition(String username) {
+        if (!this.replayPositions.containsKey(username)) {
+            this.replayPositions.put(username, 0);
+        }
+        return this.replayPositions.get(username);
+    }
+
+    public void incrementReplayPosition(String username) {
+        final int pos = this.getReplayPosition(username);
+        this.replayPositions.put(username, pos+1);
+    }
+
+    public void decrementReplayPosition(String username) {
+        final int pos = this.getReplayPosition(username);
+        this.replayPositions.put(username, pos-1);
     }
 
 }
