@@ -107,6 +107,7 @@ public class CheckersGame {
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
   
     public void setGameOver(String playerLoss){
+        this.gameBoards.addAll(this.boards);
         gameOver = true;
         this.gameOverMessage = playerLoss;
     }
