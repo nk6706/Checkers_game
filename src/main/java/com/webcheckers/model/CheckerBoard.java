@@ -500,6 +500,21 @@ public class CheckerBoard {
 
     }
 
+    /**
+     * Getters for white pieces
+     * @return white pieces
+     */
+    public int getWhitePieces() {
+        return whitePieces;
+    }
+
+    /**
+     * Getters for red pieces
+     * @return red pieces
+     */
+    public int getRedPieces() {
+        return redPieces;
+    }
 
     /**
      * Overrides the default toString method and outputs a string representation of the board.
