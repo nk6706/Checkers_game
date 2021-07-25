@@ -46,7 +46,7 @@ public class GetGameRoute implements Route {
         final Map<String, Object> vm = new HashMap<>();
         final Session httpSession = request.session();
 
-        Player player = httpSession.attribute("player");
+        final Player player = httpSession.attribute("player");
         if(player == null) {
             response.redirect(WebServer.HOME_URL);
         }
@@ -70,7 +70,8 @@ public class GetGameRoute implements Route {
         if (request.uri().equals("/replay/game")) { // Replay mode
             vm.put("viewMode", Mode.REPLAY);
 
-            final int replayPosition = httpSession.attribute("replayPosition");
+            final int replayPosition = this.gameManager.getReplayPosition(player.getUsername());
+
             board = game.spectatorGetBoard(replayPosition);
             modeOptions.put("hasNext", game.spectatorHasNext(replayPosition));
             modeOptions.put("hasPrevious", game.spectatorHasPrevious(replayPosition));
