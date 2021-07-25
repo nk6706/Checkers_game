@@ -1,7 +1,6 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
-import jdk.swing.interop.SwingInterOpUtils;
 
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
@@ -83,7 +82,7 @@ public class CheckerBoard {
     private void fillRow(int row, CheckerPiece.Color color) {
         if (row % 2 == 0) {
             for (int j = 1; j < board[row].length; j+=2) {
-                board[row][j] = new CheckerPiece(color);
+                board[row][j] = new CheckerPiece(color, true);
             }
         }
         else {
@@ -108,48 +107,86 @@ public class CheckerBoard {
         final CheckerPiece piece = getPiece(start);
 
         if(isJumpAvailable(piece.getColor())){
-            if(rowDiff !=2)
-                return Message.error("A jump move could have been made that was not made");
-            else{
-                if ( cellDiff == 2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
-                        if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
-                            return Message.error("Cannot capture your own checker!");
-                        return Message.info("");
-                    }
-                } else if ( cellDiff == -2 ) {
-                    if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
-                        if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
-                            return Message.error("Cannot capture your own checker!");
-                        return Message.info("");
-                    }
-                }
-                return Message.error("Moved more than one row forward without jumping");
+            if(!piece.isKing()){
+                return checkForwardCapture(start, rowDiff, cellDiff, piece);
+            } else{
+                return checkForwardCapture(start, rowDiff, cellDiff, piece);
             }
+
 
         }
 
-        if ( !piece.isKing() ) { // Single piece move validation
-            if (rowDiff < 0 ) { // Tried to move backwards
+        //Single move validation
+        if ( !piece.isKing() ) {
+            //For Checkers
+            if (rowDiff < 0 ) {
                 return Message.error("A single piece can only move forward");
-            } else if ( rowDiff == 0 ) { // Tried to move to tile in same row (invalid)
-                return Message.error("Single piece must advance forward");
-            } else if ( rowDiff == 1 ) { // Advanced 1 row (could be valid or invalid)
+            } else{
+                return checkForwardMovement(first, rowDiff, cellDiff);
+            }
+
+        } else{
+            //For King
+            if(rowDiff < -1){
+                return Message.error("A king can only move one row back without jump.");
+            } else if( rowDiff == -1 ){
                 if ( !first ) {
-                    return Message.error("Can only move a single row forward in a turn");
+                    return Message.error("Can only move a single row in a turn");
                 } else if ( cellDiff == 1 || cellDiff == -1 ) {
                     return Message.info("");
                 } else {
                     return Message.error("You can only move a single cell in either direction");
                 }
-            } else { // Moved too many rows forward
-                return Message.error("Moved more than one row forward without jumping");
+            } else{
+                return checkForwardMovement(first, rowDiff, cellDiff);
             }
-        } else{
-            //TODO
         }
 
-        return Message.error("Unknown error");
+    }
+
+    private Message checkForwardCapture(Position start, int rowDiff, int cellDiff, CheckerPiece piece) {
+        if(rowDiff !=2)
+            return Message.error("A jump move could have been made that was not made");
+        else{
+            if ( cellDiff == 2 ) {
+                if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                    if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
+                        return Message.error("Cannot capture your own checker!");
+                    return Message.info("");
+                }
+            } else if ( cellDiff == -2 ) {
+                if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                    if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
+                        return Message.error("Cannot capture your own checker!");
+                    return Message.info("");
+                }
+            }
+            return Message.error("Moved more than one row forward without jumping");
+        }
+    }
+
+
+    /**
+     * Helper for move validation for single move
+     * @param first if it is the first move
+     * @param rowDiff the difference in start and end row
+     * @param cellDiff the difference in start and end column
+     * @return message to main function
+     */
+    private Message checkForwardMovement(boolean first, int rowDiff, int cellDiff) {
+        if ( rowDiff == 0 ) { // Tried to move to tile in same row (invalid)
+            return Message.error("Single piece must change a row!");
+        } else if ( rowDiff == 1 ) { // Advanced 1 row (could be valid or invalid)
+            if ( !first ) {
+                return Message.error("Can only move once in a turn!");
+            } else if ( cellDiff == 1 || cellDiff == -1 ) {
+                return Message.info("");
+            } else {
+                return Message.error("You can only move a single cell in either direction!");
+            }
+        } else { // Moved too many rows forward
+            return Message.error("Moved more than one row forward without jumping");
+        }
     }
 
     /**
