@@ -133,7 +133,7 @@ public class CheckersGame {
         for (int i=0; i< numberOfBoards; i++ ) {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
-                System.out.println("WASJUMP BEFORE IF-> " + wasSingle);
+
                 if( this.boards.get(i).wasJumpMove(previous)) {
                     if( this.boards.get(i).isJumpAvailable(previous, color) ) {
                         if(i == numberOfBoards -1)
@@ -142,7 +142,6 @@ public class CheckersGame {
                 }else{
                     wasSingle = true;
                 }
-                System.out.println("WASJUMP AFTER IF-> " + wasSingle);
                 if(wasSingle && i>1){
                     return Message.error("Cannot jump after single move!");
                 }
