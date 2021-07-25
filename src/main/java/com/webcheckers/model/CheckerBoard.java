@@ -108,9 +108,62 @@ public class CheckerBoard {
 
         if(isJumpAvailable(piece.getColor())){
             if(!piece.isKing()){
-                return checkForwardCapture(start, rowDiff, cellDiff, piece);
+                //For Checkers
+                if(rowDiff !=2)
+                    return Message.error("A jump move could have been made that was not made");
+                else{
+                    if ( cellDiff == 2 ) {
+                        if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                            if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
+                                return Message.error("Cannot capture your own checker!");
+                            return Message.info("");
+                        }
+                    } else if ( cellDiff == -2 ) {
+                        if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                            if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
+                                return Message.error("Cannot capture your own checker!");
+                            return Message.info("");
+                        }
+                    }
+                    return Message.error("Moved more than one row forward without jumping");
+                }
             } else{
-                return checkForwardCapture(start, rowDiff, cellDiff, piece);
+                //for King
+                if(rowDiff !=2 || rowDiff != -2)
+                    return Message.error("A jump move could have been made that was not made");
+                else{
+                    if( rowDiff ==2 ){
+                        if ( cellDiff == 2 ) {
+                            if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                                if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
+                                    return Message.error("Cannot capture your own checker!");
+                                return Message.info("");
+                            }
+                        } else if ( cellDiff == -2 ) {
+                            if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                                if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
+                                    return Message.error("Cannot capture your own checker!");
+                                return Message.info("");
+                            }
+                        }
+                    }else {
+                        if ( cellDiff == 2 ) {
+                            if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
+                                if(getPiece(new Position(start.getRow()+1, start.getCell()-1)).getColor() == piece.getColor())
+                                    return Message.error("Cannot capture your own checker!");
+                                return Message.info("");
+                            }
+                        } else if ( cellDiff == -2 ) {
+                            if ( hasPiece(new Position(start.getRow()+1, start.getCell()+1)) ) {
+                                if(getPiece(new Position(start.getRow()+1, start.getCell()+1)).getColor() == piece.getColor())
+                                    return Message.error("Cannot capture your own checker!");
+                                return Message.info("");
+                            }
+                        }
+                    }
+
+                    return Message.error("Moved more than one row forward without jumping");
+                }
             }
 
 
@@ -142,27 +195,6 @@ public class CheckerBoard {
             }
         }
 
-    }
-
-    private Message checkForwardCapture(Position start, int rowDiff, int cellDiff, CheckerPiece piece) {
-        if(rowDiff !=2)
-            return Message.error("A jump move could have been made that was not made");
-        else{
-            if ( cellDiff == 2 ) {
-                if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
-                    if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
-                        return Message.error("Cannot capture your own checker!");
-                    return Message.info("");
-                }
-            } else if ( cellDiff == -2 ) {
-                if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
-                    if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
-                        return Message.error("Cannot capture your own checker!");
-                    return Message.info("");
-                }
-            }
-            return Message.error("Moved more than one row forward without jumping");
-        }
     }
 
 
