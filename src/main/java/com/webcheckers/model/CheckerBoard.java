@@ -110,42 +110,17 @@ public class CheckerBoard {
             if(!piece.isKing()){
                 //For Checkers
                 if(rowDiff !=2)
-                    return Message.error("A jump move could have been made that was not made");
+                    return Message.error("A jump move could have been made that was not made --> Checker");
                 else{
-                    if ( cellDiff == 2 ) {
-                        if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
-                            if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
-                                return Message.error("Cannot capture your own checker!");
-                            return Message.info("");
-                        }
-                    } else if ( cellDiff == -2 ) {
-                        if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
-                            if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
-                                return Message.error("Cannot capture your own checker!");
-                            return Message.info("");
-                        }
-                    }
-                    return Message.error("Moved more than one row forward without jumping");
+                    return checkCaptureForwardMovement(cellDiff,start,piece);
                 }
             } else{
                 //for King
-                if(rowDiff !=2 || rowDiff != -2)
-                    return Message.error("A jump move could have been made that was not made");
+                if(rowDiff !=2 && rowDiff != -2)
+                    return Message.error("A jump move could have been made that was not made --> KING");
                 else{
                     if( rowDiff ==2 ){
-                        if ( cellDiff == 2 ) {
-                            if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
-                                if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
-                                    return Message.error("Cannot capture your own checker!");
-                                return Message.info("");
-                            }
-                        } else if ( cellDiff == -2 ) {
-                            if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
-                                if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
-                                    return Message.error("Cannot capture your own checker!");
-                                return Message.info("");
-                            }
-                        }
+                        return checkCaptureForwardMovement(cellDiff,start,piece);
                     }else {
                         if ( cellDiff == 2 ) {
                             if ( hasPiece(new Position(start.getRow()+1, start.getCell()-1)) ) {
@@ -199,6 +174,32 @@ public class CheckerBoard {
 
 
     /**
+     * Helper to isValidMove for capturing in forward direction.
+     * @param cellDiff the cell difference between start and end
+     * @param start start position for the move
+     * @param piece the piece being moved
+     * @return
+     */
+    private Message checkCaptureForwardMovement(int cellDiff, Position start, CheckerPiece piece){
+        if ( cellDiff == 2 ) {
+            if ( hasPiece(new Position(start.getRow()-1, start.getCell()-1)) ) {
+                if(getPiece(new Position(start.getRow()-1, start.getCell()-1)).getColor() == piece.getColor())
+                    return Message.error("Cannot capture your own checker!");
+                return Message.info("");
+            }
+        } else if ( cellDiff == -2 ) {
+            if ( hasPiece(new Position(start.getRow()-1, start.getCell()+1)) ) {
+                if(getPiece(new Position(start.getRow()-1, start.getCell()+1)).getColor() == piece.getColor())
+                    return Message.error("Cannot capture your own checker!");
+                return Message.info("");
+            }
+        }
+
+        return Message.error("Moved more than one row forward without jumping");
+    }
+
+
+    /**
      * Helper for move validation for single move
      * @param first if it is the first move
      * @param rowDiff the difference in start and end row
@@ -232,8 +233,18 @@ public class CheckerBoard {
                 CheckerPiece piece = this.board[i][j];
                 if ( piece != null && piece.getColor().equals(color) ) {
                     final Position pos = new Position(i, j);
-                    if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) ) {
-                        return true;
+                    if(this.getPiece(pos).isKing()){
+                        if ( isJumpAvailable(pos, true, true, color) ||
+                                isJumpAvailable(pos, true, false, color) ||
+                                isJumpAvailable(pos, false, true, color) ||
+                                isJumpAvailable(pos, false, false, color)) {
+                            return true;
+                        }
+                    }else{
+                        if ( isJumpAvailable(pos, true, true, color) ||
+                                isJumpAvailable(pos, true, false, color) ) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -263,8 +274,18 @@ public class CheckerBoard {
      */
     public boolean isJumpAvailable(CheckerBoard board, CheckerPiece.Color color){
         Position pos = findMovedPieceNew(board, color);
-        if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) )
-            return true;
+        System.out.println("THE POSITION FOUND IS :" + " "  + pos.getRow() + " " + pos.getCell());
+        if(this.getPiece(pos).isKing()){
+            if ( isJumpAvailable(pos, true, true, color) ||
+                    isJumpAvailable(pos, true, false, color) ||
+                    isJumpAvailable(pos, false, true, color) ||
+                    isJumpAvailable(pos, false, false, color))
+                return true;
+        }else{
+            if ( isJumpAvailable(pos, true, true, color) || isJumpAvailable(pos, true, false, color) )
+                return true;
+        }
+
 
         return false;
     }
@@ -387,6 +408,7 @@ public class CheckerBoard {
                 CheckerPiece currentPiece = this.getPiece(pos);
                 if (currentPiece != null && currentPiece.getColor()==color) {
                     if ( previous[i][j] == null ) {
+                        System.out.println("THE NEW POSITION IS: " + " " + i + " " + j);
                         return pos;
                     }
                 }
@@ -420,20 +442,36 @@ public class CheckerBoard {
      */
     public void movePiece(Position start, Position end) {
         this.board[end.getRow()][end.getCell()] = this.board[start.getRow()][start.getCell()];
+        System.out.println("UPDATED-> " + " " + end.getRow() + " " + end.getCell() + " " + this.getPiece(end).toString() );
         if( this.board[start.getRow()][start.getCell()].isKing() ){
-            //TODO
-        }else{
-            if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
-                this.board[start.getRow()-1][start.getCell()+1] = null;
-            }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
-                this.board[start.getRow()-1][start.getCell()-1] = null;
+            captureForward(start, end);
+            if(start.getRow()-end.getRow() == -2 && end.getCell()-start.getCell() == 2){
+                this.board[start.getRow()+1][start.getCell()+1] = null;
+            }else if(start.getRow()-end.getRow() == -2 && start.getCell()-end.getCell() == 2){
+                this.board[start.getRow()+1][start.getCell()-1] = null;
             }
+        }else{
+            captureForward(start, end);
         }
         if(end.getRow() == 0){
             this.board[end.getRow()][end.getCell()] = null;
             this.board[end.getRow()][end.getCell()] = new CheckerPiece(this.board[start.getRow()][start.getCell()].getColor(),true);
         }
         this.board[start.getRow()][start.getCell()] = null;
+    }
+
+
+    /**
+     * Helper to movePiece for forward capture
+     * @param start The start position of the move
+     * @param end The end position of the move
+     */
+    private void captureForward(Position start, Position end) {
+        if(start.getRow()-end.getRow() == 2 && end.getCell()-start.getCell() == 2){
+            this.board[start.getRow()-1][start.getCell()+1] = null;
+        }else if(start.getRow()-end.getRow() == 2 && start.getCell()-end.getCell() == 2){
+            this.board[start.getRow()-1][start.getCell()-1] = null;
+        }
     }
 
 
