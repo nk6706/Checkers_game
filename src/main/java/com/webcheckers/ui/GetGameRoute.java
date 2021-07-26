@@ -66,7 +66,7 @@ public class GetGameRoute implements Route {
 
         CheckersGame game = this.gameManager.getGame(gameID);
         //
-        CheckerPiece[][] board;
+        CheckerPiece[][] board = null;
         // TODO: 2nd part of conditional below doesn't maintain orientation for spectator. May need to delete
         if ( game.isPlayersTurn(player) || (player != game.getRedPlayer() && player != game.getWhitePlayer()) ) {
             board = game.getBoard();
@@ -79,9 +79,6 @@ public class GetGameRoute implements Route {
             }
         }
 
-        final CheckersGame game = this.gameManager.getGame(gameID);
-
-        final CheckerPiece[][] board;
         final Map<String, Object> modeOptions = new HashMap<>(2);
         if (request.uri().equals("/replay/game")) { // Replay mode
             vm.put("viewMode", Mode.REPLAY);
@@ -91,7 +88,11 @@ public class GetGameRoute implements Route {
             board = game.spectatorGetBoard(replayPosition);
             modeOptions.put("hasNext", game.spectatorHasNext(replayPosition));
             modeOptions.put("hasPrevious", game.spectatorHasPrevious(replayPosition));
-        } else { // Standard game mode
+        } else if (request.uri().equals("/spectator/game")) {
+            vm.put("viewMode", Mode.SPECTATOR);
+            player.setGameID(gameID);
+        }
+        else { // Standard game mode
             vm.put("viewMode", Mode.PLAY);
             board = game.getBoard(player);
             if (game.isGameOver()){
