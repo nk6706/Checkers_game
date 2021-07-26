@@ -9,21 +9,19 @@ import spark.Response;
 import spark.Route;
 import spark.Session;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
-public class PostResignGameRoute implements Route {
-    private static final Logger LOG = Logger.getLogger(PostResignGameRoute.class.getName());
+public class PostReplayNextRoute implements Route {
+    private static final Logger LOG = Logger.getLogger(PostReplayNextRoute.class.getName());
 
-    private final Gson gson;
     private final GameManager gameManager;
+    private final Gson gson;
 
-    public PostResignGameRoute(GameManager gameManager, Gson gson) {
-        this.gson = gson;
+    public PostReplayNextRoute(GameManager gameManager, Gson gson) {
         this.gameManager = gameManager;
+        this.gson = gson;
         //
-        LOG.config("PostResignGameRoute is initialized.");
+        LOG.config("PostReplayNextRoute is initialized.");
     }
 
     @Override
@@ -31,8 +29,8 @@ public class PostResignGameRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
-        gameManager.setGameOver(player.getGameID(), player.getUsername() + " has resigned.");
+        this.gameManager.incrementReplayPosition(player.getUsername());
 
-        return gson.toJson(Message.info("resigned"));
+        return this.gson.toJson(Message.info("true"));
     }
 }

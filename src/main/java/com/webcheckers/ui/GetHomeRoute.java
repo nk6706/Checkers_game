@@ -60,7 +60,7 @@ public class GetHomeRoute implements Route {
 
         final Player player = httpSession.attribute("player");
         if (player != null && player.inGame()) {
-            response.redirect(WebServer.GAME_URL);
+            response.redirect(WebServer.GAME_URL + "?gameID=" + player.getGameID());
         }
 
         vm.put("title", "Welcome!");
@@ -77,12 +77,10 @@ public class GetHomeRoute implements Route {
             vm.put("totalPlayers", this.playerLobby.getNumberOfPlayers());
         } else {
             vm.put("currentUser", player);
-
-            ArrayList<String> usernames = this.playerLobby.getPlayerList();
-            usernames.remove(player.getUsername());
-
-            vm.put("playerList", usernames);
+            vm.put("playerList", this.playerLobby.getPlayerList(player.getUsername()));
         }
+
+        vm.put("replayGameList", this.gameManager.getReplayGames());
 
         vm.put("gameList", gameManager.getGames());
 

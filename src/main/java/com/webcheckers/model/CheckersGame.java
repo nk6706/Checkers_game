@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 /**
@@ -20,7 +21,12 @@ public class CheckersGame {
     /** Holds the player whose turn it is */
     private Player activePlayer;
 
+    /** Stack of boards in current torn */
     private Stack<CheckerBoard> boards = new Stack<>();
+
+    /** Stack of boards in entire game */
+    private ArrayList<CheckerBoard> gameBoards = new ArrayList<>();
+
 
     private boolean gameOver = false;
     private String gameOverMessage;
@@ -40,6 +46,21 @@ public class CheckersGame {
      */
     public int getId() {
         return id;
+    }
+
+    public CheckerPiece[][] getBoard(Player player) {
+        final CheckerBoard board = this.boards.peek();
+        if(isPlayersTurn(player)) {
+            return board.getBoard();
+        }
+        return board.getFlippedBoard();
+    }
+
+    public CheckerPiece.Color getActiveColor() {
+        if (isRedPlayer(activePlayer)) {
+            return CheckerPiece.Color.RED;
+        }
+        return CheckerPiece.Color.WHITE;
     }
 
     /**
@@ -86,8 +107,11 @@ public class CheckersGame {
     public boolean isRedPlayer(Player player) { return player.equals(this.redPlayer); }
   
     public void setGameOver(String playerLoss){
+        this.gameBoards.addAll(this.boards);
         gameOver = true;
         this.gameOverMessage = playerLoss;
+        this.redPlayer.setGameID(-1);
+        this.whitePlayer.setGameID(-1);
     }
 
     public boolean isGameOver(){
@@ -160,12 +184,46 @@ public class CheckersGame {
     }
 
     /**
-     *
+     * Prepares the boards for a new turn
      */
     public void newTurn() {
         final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
+        this.gameBoards.addAll(this.boards);
         this.boards.removeAllElements();
         this.boards.add(board);
+    }
+
+    /**
+     * Determines whether there is a next turn (next element) in the gameBoards arr list
+     * @param index the index to check
+     * @return true if there is a next turn, false otherwise
+     */
+    public boolean spectatorHasNext(int index) {
+        if (index < gameBoards.size()-1) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether there is a previous turn (next element) in the gameBoards arr list
+     * @param index the index to check
+     * @return true if there is a previous turn, false otherwise
+     */
+    public boolean spectatorHasPrevious(int index) {
+        if (index > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Get the board for the spectator from the gameBoards arr list
+     * @param index the index of the board to get
+     * @return the CheckerPiece[][] representing the board at the given index
+     */
+    public CheckerPiece[][] spectatorGetBoard(int index) {
+        return this.gameBoards.get(index).getBoard();
     }
 
 }

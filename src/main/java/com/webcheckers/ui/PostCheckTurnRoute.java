@@ -30,7 +30,20 @@ public class PostCheckTurnRoute implements Route {
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
-        CheckersGame game = gameManager.getGame(player.getGameID());
+        int gameID = -1;
+        if(player.getGameID() != -1) {
+            gameID = player.getGameID();
+        } else {
+            final String queryParam = request.queryParams("gameID");
+            if(queryParam != null) {
+                gameID = Integer.parseInt(queryParam);
+            } else {
+                return Message.error("Could not get game id");
+            }
+        }
+
+
+        CheckersGame game = gameManager.getGame(gameID);
         Message result = Message.info("false");
         if (game.isPlayersTurn(player)) {
             result = Message.info("true");

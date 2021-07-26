@@ -53,6 +53,13 @@ public class PlayerLobby {
         return result;
     }
 
+    public ArrayList<String> getPlayerList(String username) {
+        ArrayList<String> result = new ArrayList<>();
+        result.addAll(this.playerList.keySet());
+        result.remove(username);
+        return result;
+    }
+
     public String signin(String username) {
         // Check that username is at least one alphanumeric character and contains no symbol
         if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {

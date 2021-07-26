@@ -39,7 +39,7 @@ public class PostGameRoute implements Route {
             player.setGameID(game.getId());
             playerLobby.getPlayer(opponentName).setGameID(game.getId());
 
-            response.redirect(WebServer.GAME_URL);
+            response.redirect(WebServer.GAME_URL + "?gameID=" + game.getId());
 
         } else if (playerLobby.playerAvailable(opponentName).equals("unavailable")){
             // Opponent in-game error

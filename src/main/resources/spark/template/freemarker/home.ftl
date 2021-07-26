@@ -51,6 +51,19 @@
                   </ul>
               </#list>
           </#if>
+          Games to Replay:</br>
+          <#if replayGameList??>
+              <#list replayGameList as game>
+                  <ul>
+                      <li>
+                          <form action="/replay/game" method="get">
+                              <#-- TODO: Get rid of Law of Demeter Violation below                        -->
+                              <button type="submit" name="gameID" value="${game.getId()}">${game.getRedPlayer().getUsername()} vs ${game.getWhitePlayer().getUsername()}</button>
+                          </form>
+                      </li>
+                  </ul>
+              </#list>
+          </#if>
       <#else>
         Total players signed in: ${totalPlayers}</br>
       </#if>
