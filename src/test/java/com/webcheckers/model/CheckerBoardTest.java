@@ -237,16 +237,27 @@ class CheckerBoardTest {
 
     @Test
     public void testJumpAvailable(){
+        CheckerBoard CuTPrevious = new CheckerBoard();
         CuT = new CheckerBoard();
-        Position startPos = new Position(1,2);
-        Position endPos = new Position(0,4);
-        CuT.movePiece(startPos, endPos);
-        startPos = new Position(2,5);
-        endPos = new Position(1,4);
-        CuT.movePiece(startPos, endPos);
-        Assertions.assertTrue(CuT.isJumpAvailable(CuT, CuT.getBoard()[0][4].getColor()));
+
+        CuT.movePiece(new Position(5,0), new Position(4,0));
+        CuT.movePiece(new Position(2,1), new Position(3,1));
+
+        System.out.println(CuT.toString());
+
+        Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
+        Assertions.assertTrue(CuT.isJumpAvailable(CuTPrevious, CheckerPiece.Color.RED));
 
     }
+
+    @Test
+    public void testIsValidMove(){
+        CuT = new CheckerBoard();
+
+        Move move = new Move(new Position(5,0), new Position(4,0));
+        Assertions.assertEquals("You can only move a single cell in either direction!", CuT.isValidMove(move,true).getText());
+    }
+
 
 
 }
