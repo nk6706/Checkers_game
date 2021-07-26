@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.spec.PSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -113,7 +115,7 @@ class CheckerBoardTest {
         endPosition = new Position(5,1);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("Single piece must advance forward");
+        Message message = Message.error("Single piece must change a row!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
@@ -123,7 +125,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,1);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("Can only move a single row forward in a turn");
+        Message message = Message.error("Can only move once in a turn!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,false).getText() );
     }
 
@@ -133,7 +135,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,0);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("You can only move a single cell in either direction");
+        Message message = Message.error("You can only move a single cell in either direction!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
@@ -153,7 +155,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,2);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("You can only move a single cell in either direction");
+        Message message = Message.error("You can only move a single cell in either direction!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
@@ -208,6 +210,52 @@ class CheckerBoardTest {
         CuT.movePiece(startPosition,endPosition);
 
         Assertions.assertTrue(CuT.wasSingleMove(checkerBoard));
+    }
+
+    @Test
+    public void testGetRedPieces(){
+        CuT = new CheckerBoard();
+        Assertions.assertEquals(12, CuT.getRedPieces());
+    }
+    @Test
+    public void testGetWhitePieces(){
+        CuT = new CheckerBoard();
+        Assertions.assertEquals(12, CuT.getWhitePieces());
+    }
+
+    @Test
+    public void testWasJumpAvailableTakenAsSingle(){
+        CheckerBoard checkerBoard = new CheckerBoard();
+
+    }
+
+    @Test
+    public void testSingleMoveBoardNull(){
+        CheckerBoard board = null; //this looks weird, but if CuT is null cannot invoke wasSingleMove
+        Assertions.assertEquals(false, CuT.wasSingleMove(board));
+    }
+
+    @Test
+    public void testJumpAvailable(){
+        CheckerBoard CuTPrevious = new CheckerBoard();
+        CuT = new CheckerBoard();
+
+        CuT.movePiece(new Position(5,0), new Position(4,0));
+        CuT.movePiece(new Position(2,1), new Position(3,1));
+
+        System.out.println(CuT.toString());
+
+        Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
+        Assertions.assertTrue(CuT.isJumpAvailable(CuTPrevious, CheckerPiece.Color.RED));
+
+    }
+
+    @Test
+    public void testIsValidMove(){
+        CuT = new CheckerBoard();
+
+        Move move = new Move(new Position(5,0), new Position(4,0));
+        Assertions.assertEquals("You can only move a single cell in either direction!", CuT.isValidMove(move,true).getText());
     }
 
 

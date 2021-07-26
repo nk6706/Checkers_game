@@ -132,5 +132,12 @@ class CheckersGameTest {
     public void normalBoardTest(){
         assertNotNull(CuT.getBoard());
     }
+
+    @Test
+    public void checkerPiece(){
+        CheckerPiece checkerPiece = new CheckerPiece(CheckerPiece.Color.RED,true);
+
+        assertEquals(true, checkerPiece.isKing());
+    }
   
 }

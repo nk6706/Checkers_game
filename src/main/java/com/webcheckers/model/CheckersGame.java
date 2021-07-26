@@ -151,16 +151,26 @@ public class CheckersGame {
      */
     public Message isValidTurn() {
         CheckerBoard previous = null;
-        for (CheckerBoard board : this.boards ) {
+        int numberOfBoards = this.boards.size();
+        boolean wasSingle = false;
+        for (int i=0; i< numberOfBoards; i++ ) {
             if (previous != null) {
                 final CheckerPiece.Color color = activePlayer.equals(redPlayer) ? CheckerPiece.Color.RED : CheckerPiece.Color.WHITE;
-                if (board.wasSingleMove(previous) && previous.isJumpAvailable(color) ) {
-                    return Message.error("A jump move could have been made that was not made");
+
+                if( this.boards.get(i).wasJumpMove(previous)) {
+                    if( this.boards.get(i).isJumpAvailable(previous, color) ) {
+                        if(i == numberOfBoards -1)
+                            return Message.error("Another jump is possible!");
+                    }
+                }else{
+                    wasSingle = true;
                 }
-                if (board.isJumpAvailable(color) && !board.wasSingleMove(previous))
-                    return Message.error("A jump move could have been made that was not made");
+                if(wasSingle && i>1){
+                    return Message.error("Cannot jump after single move!");
+                }
+
             }
-            previous = board;
+            previous = this.boards.get(i);
         }
         return Message.info("");
     }
