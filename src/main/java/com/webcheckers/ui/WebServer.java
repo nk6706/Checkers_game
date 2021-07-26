@@ -194,7 +194,8 @@ public class WebServer {
     post(REPLAY_NEXT_URL, new PostReplayNextRoute(gameManager, gson));
     post(REPLAY_PREVIOUS_URL, new PostReplayPreviousRoute(gameManager, gson));
 
-    get(SPECTATOR_START_URL, new GetSpectatorGameRoute(templateEngine, gameManager, playerLobby, gson));
+//    get(SPECTATOR_START_URL, new GetSpectatorGameRoute(templateEngine, gameManager, playerLobby, gson));
+    get(SPECTATOR_START_URL, new GetGameRoute(templateEngine, gameManager, gson));
 
     post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gameManager, gson));
 
