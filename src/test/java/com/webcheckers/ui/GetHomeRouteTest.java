@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 
+import com.webcheckers.appl.GameManager;
 import com.webcheckers.appl.PlayerLobby;
 import com.webcheckers.model.Player;
 import com.webcheckers.util.Message;
@@ -25,6 +26,7 @@ public class GetHomeRouteTest {
     private Request request;
     private Response response;
     private PlayerLobby playerLobby;
+    private GameManager gameManager;
     private Player player;
     private TemplateEngine templateEngine;
     private TemplateEngine engine;
@@ -35,10 +37,11 @@ public class GetHomeRouteTest {
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         playerLobby = mock(PlayerLobby.class);
+        gameManager = mock(GameManager.class);
         player = mock(Player.class);
         templateEngine = mock(TemplateEngine.class);
 
-        CuT = new GetHomeRoute(playerLobby, templateEngine);
+        CuT = new GetHomeRoute(playerLobby, gameManager, templateEngine);
     }
 
     @Test
