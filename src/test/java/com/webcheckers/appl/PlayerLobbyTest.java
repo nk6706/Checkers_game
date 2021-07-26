@@ -113,4 +113,13 @@ public class PlayerLobbyTest {
         assertEquals(CuT.getPlayerList().size(), 0);
     }
 
+    @Test
+    public void testGetPlayerListOverload() {
+        assertEquals(0, CuT.getPlayerList().size());
+        CuT.signin("player1");
+        CuT.signin("player2");
+        assertEquals(2, CuT.getPlayerList().size());
+        assertEquals(1, CuT.getPlayerList("player1").size());
+    }
+
 }
