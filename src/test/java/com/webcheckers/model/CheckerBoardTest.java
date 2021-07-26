@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.spec.PSource;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -231,6 +233,19 @@ class CheckerBoardTest {
     public void testSingleMoveBoardNull(){
         CheckerBoard board = null; //this looks weird, but if CuT is null cannot invoke wasSingleMove
         Assertions.assertEquals(false, CuT.wasSingleMove(board));
+    }
+
+    @Test
+    public void testJumpAvailable(){
+        CuT = new CheckerBoard();
+        Position startPos = new Position(1,3);
+        Position endPos = new Position(0,4);
+        CuT.movePiece(startPos, endPos);
+        startPos = new Position(2,5);
+        endPos = new Position(1,4);
+        CuT.movePiece(startPos, endPos);
+        Assertions.assertTrue(CuT.isJumpAvailable(CuT, CuT.getBoard()[0][4].getColor()));
+
     }
 
 
