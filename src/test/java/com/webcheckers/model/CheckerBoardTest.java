@@ -238,7 +238,7 @@ class CheckerBoardTest {
     @Test
     public void testJumpAvailable(){
         CuT = new CheckerBoard();
-        Position startPos = new Position(1,3);
+        Position startPos = new Position(1,2);
         Position endPos = new Position(0,4);
         CuT.movePiece(startPos, endPos);
         startPos = new Position(2,5);
