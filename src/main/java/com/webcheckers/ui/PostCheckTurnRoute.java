@@ -38,7 +38,7 @@ public class PostCheckTurnRoute implements Route {
             if(queryParam != null) {
                 gameID = Integer.parseInt(queryParam);
             } else {
-                response.redirect(WebServer.HOME_URL);
+                return Message.error("Could not get game id");
             }
         }
 

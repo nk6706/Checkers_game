@@ -66,7 +66,6 @@ public class GetGameRoute implements Route {
             if(queryParam != null) {
                 gameID = Integer.parseInt(queryParam);
             } else {
-                System.out.println("going home");
                 response.redirect(WebServer.HOME_URL);
             }
         }
