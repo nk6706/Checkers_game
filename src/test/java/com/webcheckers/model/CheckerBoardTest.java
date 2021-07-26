@@ -210,6 +210,28 @@ class CheckerBoardTest {
         Assertions.assertTrue(CuT.wasSingleMove(checkerBoard));
     }
 
+    @Test
+    public void testGetRedPieces(){
+        CuT = new CheckerBoard();
+        Assertions.assertEquals(12, CuT.getRedPieces());
+    }
+    @Test
+    public void testGetWhitePieces(){
+        CuT = new CheckerBoard();
+        Assertions.assertEquals(12, CuT.getWhitePieces());
+    }
+
+    @Test
+    public void testWasJumpAvailableTakenAsSingle(){
+        CheckerBoard checkerBoard = new CheckerBoard();
+
+    }
+
+    @Test
+    public void testSingleMoveBoardNull(){
+        CheckerBoard board = null; //this looks weird, but if CuT is null cannot invoke wasSingleMove
+        Assertions.assertEquals(false, CuT.wasSingleMove(board));
+    }
 
 
 }
