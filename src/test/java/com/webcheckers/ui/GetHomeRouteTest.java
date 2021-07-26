@@ -28,7 +28,6 @@ public class GetHomeRouteTest {
     private PlayerLobby playerLobby;
     private GameManager gameManager;
     private Player player;
-    private GameManager gameManager;
     private TemplateEngine templateEngine;
     private TemplateEngine engine;
     static final Message WELCOME_MSG = Message.info("Welcome to the world of online Checkers.");
