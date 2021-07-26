@@ -22,12 +22,7 @@ public class GetSpectatorExitGameRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        /*
-        TODO:
-            1. Remove the gameID from the player attribute so they can be
-                challenged to a game.
-            2. Redirect back to the homepage.
-         */
+
         final Session httpSession = request.session();
         final Player player = httpSession.attribute("player");
 
