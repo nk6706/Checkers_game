@@ -1,7 +1,6 @@
 package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
-import jdk.swing.interop.SwingInterOpUtils;
 
 import java.util.Stack;
 
