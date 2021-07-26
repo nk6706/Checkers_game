@@ -50,7 +50,7 @@ public class PostGameRouteTest {
 
         CuT.handle(request, response);
 
-        verify(response).redirect(WebServer.GAME_URL);
+        verify(response).redirect(WebServer.GAME_URL + "?gameID=1");
     }
 
     @Test
