@@ -16,10 +16,10 @@ import java.util.HashMap;
 public class GameManager {
 
     /** All games running on the site right now, key=GameID value=Game */
-    private HashMap<Integer, CheckersGame> games;
+    private final HashMap<Integer, CheckersGame> games;
 
     /** Replay positions for users, key=username value=replay pos */
-    private HashMap<String, Integer> replayPositions;
+    private final HashMap<String, Integer> replayPositions;
 
     /** Id of the last game made, incremented before creating a new game */
     private int lastId = 0;
@@ -53,6 +53,10 @@ public class GameManager {
         return games.get(id);
     }
 
+    /**
+     * Getter for the games hashmap, used in rendering spectatable games
+     * @return HashMap representing gameID, game
+     */
     public HashMap<Integer, CheckersGame> getGames() {
         return games;
     }
@@ -108,6 +112,11 @@ public class GameManager {
         return game.undoMove();
     }
 
+    /**
+     * Appl tier method which passed setGameOver call down to the game itself
+     * @param gameID the id of the game to set over
+     * @param message the game over reason or message
+     */
     public void setGameOver(int gameID, String message) {
         final CheckersGame game = getGame(gameID);
         game.setGameOver(message);

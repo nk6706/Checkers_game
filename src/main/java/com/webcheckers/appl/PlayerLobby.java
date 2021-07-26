@@ -6,14 +6,20 @@ import com.webcheckers.ui.WebServer;
 
 import java.util.*;
 
-// @TODO check javadocs in all classes
+/**
+ * PlayerLobby handles the storing of players as well as signin/signout
+ * functionality for the application. It is used when rendering the home page
+ * and whenever else it is necessary to get a Player object.
+ */
 public class PlayerLobby {
 
+    /** The list of signed-in players key=username, value=player obj */
     private HashMap<String, Player> playerList;
 
-    public PlayerLobby(){
-        this.playerList = new HashMap<String, Player>();
-    }
+    /**
+     * Initializes needed HashMap for storing players
+     */
+    public PlayerLobby() { this.playerList = new HashMap<String, Player>(); }
 
     /**
      * Add a new player to the lobby
@@ -47,12 +53,20 @@ public class PlayerLobby {
         return this.playerList.containsKey(username);
     }
 
+    /**
+     * Getter for keys of playerList hashmap
+     * @return ArrayList of strings representing the usernames of signed in players
+     */
     public ArrayList<String> getPlayerList() {
         ArrayList<String> result = new ArrayList<>();
         result.addAll(this.playerList.keySet());
         return result;
     }
 
+    /**
+     * Overloaded getter for keys of playerList hashmap, removes given username before returning
+     * @return ArrayList of strings representing the usernames of signed in players
+     */
     public ArrayList<String> getPlayerList(String username) {
         ArrayList<String> result = new ArrayList<>();
         result.addAll(this.playerList.keySet());
@@ -60,6 +74,11 @@ public class PlayerLobby {
         return result;
     }
 
+    /**
+     * Provides username validation and sign-in functionality to the game
+     * @param username the name of the user to validate and create a player with
+     * @return string representing sign-in status
+     */
     public String signin(String username) {
         // Check that username is at least one alphanumeric character and contains no symbol
         if (username.length() > 0 && username.chars().allMatch( c -> Character.isLetterOrDigit(c) || Character.isWhitespace(c)) && username.chars().anyMatch(Character::isLetterOrDigit)) {
@@ -76,6 +95,11 @@ public class PlayerLobby {
         }
     }
 
+    /**
+     * Whether or not the given player is available, in a game, exists
+     * @param playerName the username of the player to check for
+     * @return string representing player's status
+     */
     public String playerAvailable(String playerName){
         if (this.hasPlayer(playerName)) {
             Player opponent = this.getPlayer(playerName);
