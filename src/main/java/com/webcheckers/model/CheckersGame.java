@@ -110,6 +110,8 @@ public class CheckersGame {
         this.gameBoards.addAll(this.boards);
         gameOver = true;
         this.gameOverMessage = playerLoss;
+        this.redPlayer.setGameID(-1);
+        this.whitePlayer.setGameID(-1);
     }
 
     public boolean isGameOver(){

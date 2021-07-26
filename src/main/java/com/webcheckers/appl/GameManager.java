@@ -104,6 +104,12 @@ public class GameManager {
         return game.undoMove();
     }
 
+    public void setGameOver(int gameID, String message) {
+        final CheckersGame game = getGame(gameID);
+        game.setGameOver(message);
+    }
+
+
     /**
      * Returns the index of the game board to show in replay mode
      * @param username the username of the player, used to find the index
