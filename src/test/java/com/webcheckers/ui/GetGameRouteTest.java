@@ -37,10 +37,9 @@ class GetGameRouteTest {
         session = mock(Session.class);
         when (request.session()).thenReturn(session);
         templateEngine = mock(TemplateEngine.class);
-        playerLobby = mock(PlayerLobby.class);
         gameManager = mock(GameManager.class);
 
-        CuT = new GetGameRoute(templateEngine, playerLobby, gameManager, new Gson());
+        CuT = new GetGameRoute(templateEngine, gameManager, new Gson());
     }
 
     @Test
