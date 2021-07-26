@@ -57,6 +57,11 @@ class CheckersGameTest {
     }
 
     @Test
+    public void testGetActivePlayer() {
+        assertSame(redPlayer, CuT.getActivePlayer());
+    }
+
+    @Test
     public void isValidMoveTest() {
         Move move = new Move(new Position(5, 4), new Position(4, 5));
 
@@ -139,5 +144,48 @@ class CheckersGameTest {
 
         assertEquals(true, checkerPiece.isKing());
     }
+
+    @Test
+    public void testHasNext() {
+        assertFalse(CuT.spectatorHasNext(0));
+        Move move = new Move(new Position(5,4), new Position(4,5));
+        CuT.makeMove(move);
+        CuT.setGameOver("over");
+        assertTrue(CuT.spectatorHasNext(0));
+    }
+
+    @Test
+    public void testHasPrevious() {
+        assertFalse(CuT.spectatorHasPrevious(0));
+        Move move = new Move(new Position(5,4), new Position(4,5));
+        CuT.makeMove(move);
+        CuT.setGameOver("over");
+        assertTrue(CuT.spectatorHasPrevious(1));
+    }
+
+    @Test
+    public void testGetSpectatorBoard() {
+        Move move = new Move(new Position(5,4), new Position(4,5));
+        CuT.makeMove(move);
+        CuT.setGameOver("over");
+        assertArrayEquals(CuT.getBoard(), CuT.spectatorGetBoard(1));
+    }
+
+    @Test
+    public void testGetActiveColor() {
+        assertSame(CheckerPiece.Color.RED, CuT.getActiveColor());
+        CuT.toggleActivePlayer();
+        assertSame(CheckerPiece.Color.WHITE, CuT.getActiveColor());
+    }
+
+    @Test
+    public void testGetBoard() {
+        assertArrayEquals(CuT.getBoard(), CuT.getBoard(redPlayer));
+        assertNotEquals(CuT.getBoard(redPlayer), CuT.getBoard(whitePlayer));
+        CuT.toggleActivePlayer();
+        assertArrayEquals(CuT.getBoard(), CuT.getBoard(whitePlayer));
+    }
+
+
   
 }
