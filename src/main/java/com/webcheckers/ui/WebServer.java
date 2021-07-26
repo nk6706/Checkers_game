@@ -72,10 +72,19 @@ public class WebServer {
 
   public static final String SIGN_OUT_URL = "/signout";
 
+
   public static final String REPLAY_GAME_URL = "/replay/game";
   public static final String REPLAY_STOP_URL = "/replay/stopWatching";
   public static final String REPLAY_NEXT_URL = "/replay/nextTurn";
   public static final String REPLAY_PREVIOUS_URL = "/replay/previousTurn";
+
+  public static final String SPECTATOR_START_URL = "/spectator/game";
+
+  public static final String SPECTATOR_CHECK_TURN_URL = "/spectator/checkTurn";
+
+  public static final String SPECTATOR_EXIT_GAME_URL = "/spectator/stopWatching";
+
+
 
   //
   // Attributes
@@ -184,6 +193,13 @@ public class WebServer {
     get(REPLAY_STOP_URL, new GetReplayStopRoute(gameManager));
     post(REPLAY_NEXT_URL, new PostReplayNextRoute(gameManager, gson));
     post(REPLAY_PREVIOUS_URL, new PostReplayPreviousRoute(gameManager, gson));
+
+//    get(SPECTATOR_START_URL, new GetSpectatorGameRoute(templateEngine, gameManager, playerLobby, gson));
+    get(SPECTATOR_START_URL, new GetGameRoute(templateEngine, gameManager, gson));
+
+    post(SPECTATOR_CHECK_TURN_URL, new PostSpectatorCheckTurnRoute(gameManager, gson));
+
+    get(SPECTATOR_EXIT_GAME_URL, new GetSpectatorExitGameRoute(playerLobby));
 
     //
     LOG.config("WebServer is initialized.");

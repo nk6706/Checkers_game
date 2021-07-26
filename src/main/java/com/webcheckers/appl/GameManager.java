@@ -53,6 +53,10 @@ public class GameManager {
         return games.get(id);
     }
 
+    public HashMap<Integer, CheckersGame> getGames() {
+        return games;
+    }
+
     /**
      * Validates a move
      * @param gameID the game id to validate the move in

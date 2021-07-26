@@ -24,7 +24,9 @@ public class GetHomeRoute implements Route {
     final TemplateEngine templateEngine;
 
     private final PlayerLobby playerLobby;
+
     private final GameManager gameManager;
+
 
     /**
     * Create the Spark Route (UI controller) to handle all {@code GET /} HTTP requests.
@@ -34,8 +36,8 @@ public class GetHomeRoute implements Route {
     */
     public GetHomeRoute(PlayerLobby playerLobby, GameManager gameManager, final TemplateEngine templateEngine) {
         this.playerLobby = playerLobby;
-        this.gameManager = gameManager;
         this.templateEngine = Objects.requireNonNull(templateEngine, "templateEngine is required");
+        this.gameManager = gameManager;
         //
         LOG.config("GetHomeRoute is initialized.");
     }
@@ -79,6 +81,8 @@ public class GetHomeRoute implements Route {
         }
 
         vm.put("replayGameList", this.gameManager.getReplayGames());
+
+        vm.put("gameList", gameManager.getGames());
 
         // render the View
         return templateEngine.render(new ModelAndView(vm , "home.ftl"));
