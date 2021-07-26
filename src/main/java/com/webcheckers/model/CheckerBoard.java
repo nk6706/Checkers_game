@@ -86,7 +86,7 @@ public class CheckerBoard {
     private void fillRow(int row, CheckerPiece.Color color) {
         if (row % 2 == 0) {
             for (int j = 1; j < board[row].length; j+=2) {
-                board[row][j] = new CheckerPiece(color, true);
+                board[row][j] = new CheckerPiece(color);
             }
         }
         else {
