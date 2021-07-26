@@ -58,9 +58,7 @@ public class PlayerLobby {
      * @return ArrayList of strings representing the usernames of signed in players
      */
     public ArrayList<String> getPlayerList() {
-        ArrayList<String> result = new ArrayList<>();
-        result.addAll(this.playerList.keySet());
-        return result;
+        return new ArrayList<>(this.playerList.keySet());
     }
 
     /**
@@ -68,8 +66,7 @@ public class PlayerLobby {
      * @return ArrayList of strings representing the usernames of signed in players
      */
     public ArrayList<String> getPlayerList(String username) {
-        ArrayList<String> result = new ArrayList<>();
-        result.addAll(this.playerList.keySet());
+        ArrayList<String> result = new ArrayList<>(this.playerList.keySet());
         result.remove(username);
         return result;
     }
