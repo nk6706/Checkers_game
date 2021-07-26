@@ -38,7 +38,7 @@ public class PostCheckTurnRoute implements Route {
             if(queryParam != null) {
                 gameID = Integer.parseInt(queryParam);
             } else {
-                return Message.error("Could not get game id");
+                return this.gson.toJson(Message.error("Could not get game id"));
             }
         }
 

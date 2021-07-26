@@ -71,4 +71,14 @@ public class PostCheckTurnRouteTest {
         assertEquals(message.getText(), "true");
     }
 
+    @Test
+    public void testGetGameIDNotInPlayer() throws Exception {
+        when(player.getGameID()).thenReturn(-1);
+
+        Object result = CuT.handle(request, response);
+        assertTrue(result instanceof String);
+        final Message message = gson.fromJson((String) result, Message.class);
+        assertEquals("Could not get game id", message.getText());
+    }
+
 }
