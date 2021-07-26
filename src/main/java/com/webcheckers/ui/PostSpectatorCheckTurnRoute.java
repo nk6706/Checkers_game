@@ -33,8 +33,14 @@ public class PostSpectatorCheckTurnRoute implements Route {
 
         CheckersGame game = gameManager.getGame(player.getGameID());
 
-        final Player redPlayer = game.getRedPlayer();
-        final Player whitePlayer = game.getWhitePlayer();
+        final Player redPlayer;
+        final Player whitePlayer;
+
+        if(game != null && !game.isGameOver()) {
+            redPlayer = game.getRedPlayer();
+            whitePlayer = game.getWhitePlayer();
+        }
+
 
         int i = 0;
         Message result = Message.info("false");
@@ -44,7 +50,7 @@ public class PostSpectatorCheckTurnRoute implements Route {
         **/
 
         // Refreshes every 5 seconds
-        if(i++ % 5 == 0) {
+        if(i++ % 5 == 0 && !game.isGameOver()) {
            result  = Message.info("true");
         }
 
