@@ -113,7 +113,7 @@ class CheckerBoardTest {
         endPosition = new Position(5,1);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("Single piece must advance forward");
+        Message message = Message.error("Single piece must change a row!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
@@ -123,7 +123,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,1);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("Can only move a single row forward in a turn");
+        Message message = Message.error("Can only move once in a turn!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,false).getText() );
     }
 
@@ -133,7 +133,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,0);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("You can only move a single cell in either direction");
+        Message message = Message.error("You can only move a single cell in either direction!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
@@ -153,7 +153,7 @@ class CheckerBoardTest {
         endPosition = new Position(4,2);
         move = new Move(startPosition,endPosition);
 
-        Message message = Message.error("You can only move a single cell in either direction");
+        Message message = Message.error("You can only move a single cell in either direction!");
         Assertions.assertEquals(message.getText(),CuT.isValidMove(move,true).getText() );
     }
 
