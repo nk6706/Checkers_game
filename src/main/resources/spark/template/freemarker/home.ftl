@@ -44,7 +44,6 @@
                   <ul>
                       <li>
                           <form action="/spectator/game" method="get">
-                              <#-- TODO: Get rid of Law of Demeter Violation below                        -->
                               <button type="submit" name="gameID" value="${id}">${value.getRedPlayer().getUsername()} vs ${value.getWhitePlayer().getUsername()}</button>
                           </form>
                       </li>

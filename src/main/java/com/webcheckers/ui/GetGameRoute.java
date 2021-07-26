@@ -88,7 +88,7 @@ public class GetGameRoute implements Route {
             board = game.spectatorGetBoard(replayPosition);
             modeOptions.put("hasNext", game.spectatorHasNext(replayPosition));
             modeOptions.put("hasPrevious", game.spectatorHasPrevious(replayPosition));
-        } else if (request.uri().equals("/spectator/game")) {
+        } else if (request.uri().equals("/spectator/game")) { // Spectator mode
             vm.put("viewMode", Mode.SPECTATOR);
             player.setGameID(gameID);
         }

@@ -33,21 +33,8 @@ public class PostSpectatorCheckTurnRoute implements Route {
 
         CheckersGame game = gameManager.getGame(player.getGameID());
 
-        final Player redPlayer;
-        final Player whitePlayer;
-
-        if(game != null && !game.isGameOver()) {
-            redPlayer = game.getRedPlayer();
-            whitePlayer = game.getWhitePlayer();
-        }
-
-
         int i = 0;
         Message result = Message.info("false");
-
-        /* TODO: Figure out how to get the board to stay in one position with the
-        *           red pieces at the bottom
-        **/
 
         // Refreshes every 5 seconds
         if(i++ % 5 == 0 && !game.isGameOver()) {
