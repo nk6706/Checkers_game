@@ -14,12 +14,12 @@ import java.util.*;
 public class PlayerLobby {
 
     /** The list of signed-in players key=username, value=player obj */
-    private HashMap<String, Player> playerList;
+    private final HashMap<String, Player> playerList;
 
     /**
      * Initializes needed HashMap for storing players
      */
-    public PlayerLobby() { this.playerList = new HashMap<String, Player>(); }
+    public PlayerLobby() { this.playerList = new HashMap<>(); }
 
     /**
      * Add a new player to the lobby
