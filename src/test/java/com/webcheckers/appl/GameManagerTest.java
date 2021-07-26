@@ -100,4 +100,55 @@ class GameManagerTest {
         assertEquals(message.getText(), CuT.isValidTurn(testGame.getId()).getText());
 
     }
+
+    @Test
+    public void testGetGames() {
+        assertEquals(0, CuT.getGames().size());
+        CuT.newGame(playerOne, playerTwo);
+        assertEquals(1, CuT.getGames().size());
+    }
+
+    @Test
+    public void testSetGameOver() {
+        final CheckersGame game = CuT.newGame(playerOne, playerTwo);
+        assertFalse(game.isGameOver());
+        CuT.setGameOver(1, "game over");
+        assertTrue(game.isGameOver());
+        assertEquals("game over", game.getGameOverMessage());
+    }
+
+    @Test
+    public void testReplayPositionsDNE() {
+        assertEquals(0, CuT.getReplayPosition("hello"));
+    }
+
+    @Test
+    public void testIncrementReplayPos() {
+        assertEquals(0, CuT.getReplayPosition("hello"));
+        assertEquals(0, CuT.incrementReplayPosition("hello"));
+        assertEquals(1, CuT.getReplayPosition("hello"));
+    }
+
+    @Test
+    public void testDecrementReplayPos() {
+        assertEquals(0, CuT.getReplayPosition("hello"));
+        assertEquals(0, CuT.decrementReplayPosition("hello"));
+        assertEquals(-1, CuT.getReplayPosition("hello"));
+    }
+
+    @Test
+    public void testRemoveReplayPos() {
+        assertEquals(0, CuT.getReplayPosition("hello"));
+        assertEquals(0, CuT.incrementReplayPosition("hello"));
+        assertEquals(1, CuT.removeReplayPosition("hello"));
+        assertEquals(0, CuT.getReplayPosition("hello"));
+    }
+
+    @Test
+    public void testGetReplayGames() {
+        final CheckersGame game = CuT.newGame(playerOne, playerTwo);
+        assertEquals(0, CuT.getReplayGames().size());
+        CuT.setGameOver(1, "game over");
+        assertEquals(1, CuT.getReplayGames().size());
+    }
 }
