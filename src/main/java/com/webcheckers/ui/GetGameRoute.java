@@ -61,6 +61,7 @@ public class GetGameRoute implements Route {
                 gameID = Integer.parseInt(queryParam);
             } else {
                 response.redirect(WebServer.HOME_URL);
+                return null;
             }
         }
 
@@ -69,13 +70,6 @@ public class GetGameRoute implements Route {
         CheckerPiece[][] board = null;
         if ( game.isPlayersTurn(player) || (player != game.getRedPlayer() && player != game.getWhitePlayer()) ) {
             board = game.getBoard();
-        } else {
-            final String queryParam = request.queryParams("gameID");
-            if(queryParam != null) {
-                gameID = Integer.parseInt(queryParam);
-            } else {
-                response.redirect(WebServer.HOME_URL);
-            }
         }
 
         final Map<String, Object> modeOptions = new HashMap<>(2);
