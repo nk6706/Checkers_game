@@ -2,6 +2,8 @@ package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
+
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
  * An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which can be
@@ -31,6 +33,22 @@ public class CheckerBoard {
         }
 
     }
+
+
+    /**
+     * Constructor for testing
+     * @param positions The array of positions for the test
+     * @param checkerPieces The array of checkerPieces
+     */
+    public CheckerBoard(ArrayList<Position> positions, ArrayList<CheckerPiece> checkerPieces){
+        if(positions.size() == checkerPieces.size()){
+             for(int i=0; i<positions.size(); i++){
+                 Position pos = positions.get(i);
+                 this.board[pos.getRow()][pos.getCell()] = checkerPieces.get(i);
+            }
+        }
+    }
+
 
     /**
      * Copy constructor
