@@ -39,12 +39,12 @@
 
         </#if>
           Games in Progress:</br>
-          <#if gameList??>
-              <#list gameList as id, value>
+          <#if spectatorGameList??>
+              <#list spectatorGameList as game>
                   <ul>
                       <li>
                           <form action="/spectator/game" method="get">
-                              <button type="submit" name="gameID" value="${id}">${value.getRedPlayer().getUsername()} vs ${value.getWhitePlayer().getUsername()}</button>
+                              <button type="submit" name="gameID" value="${game.getId()}">${game.getRedPlayer().getUsername()} vs ${game.getWhitePlayer().getUsername()}</button>
                           </form>
                       </li>
                   </ul>
