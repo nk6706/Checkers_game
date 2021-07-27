@@ -58,9 +58,5 @@ class GetGameRouteTest {
             assertFalse(false);
         }
 
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
-        testHelper.assertViewModelAttribute(GetGameRoute.TITLE_ATTR, TITLE);
-        testHelper.assertViewName(CuT.VIEW_NAME);
     }
 }
