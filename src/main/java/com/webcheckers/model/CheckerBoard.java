@@ -42,6 +42,8 @@ public class CheckerBoard {
         } else {
             this.board = board.getBoard();
         }
+        this.redPieces = board.getRedPieces();
+        this.whitePieces = board.getWhitePieces();
     }
 
     /**
