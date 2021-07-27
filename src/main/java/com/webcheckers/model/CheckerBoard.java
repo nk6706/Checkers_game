@@ -41,10 +41,18 @@ public class CheckerBoard {
      * @param checkerPieces The array of checkerPieces
      */
     public CheckerBoard(ArrayList<Position> positions, ArrayList<CheckerPiece> checkerPieces){
+        board = new CheckerPiece[8][8];
+        whitePieces = 0;
+        redPieces =  0;
         if(positions.size() == checkerPieces.size()){
              for(int i=0; i<positions.size(); i++){
                  Position pos = positions.get(i);
                  this.board[pos.getRow()][pos.getCell()] = checkerPieces.get(i);
+                 if(checkerPieces.get(i).getColor() == CheckerPiece.Color.RED){
+                     redPieces++;
+                 }else{
+                     whitePieces++;
+                 }
             }
         }
     }
