@@ -39,11 +39,23 @@ signin, starting a game, game functionality, and several enhancements.
 
 ## Requirements
 
-This section describes the features of the application.
+The application being built had relatively simple requirements. One major requirement was that the user needed to be
+able to sign in to the application in order to be able to play the game. After that, it was required that the user have
+access to the list of currently online players so that they could begin a match. Once inside a match, it was necessary
+for the players to both be able to play by the American rules of checkers. Lastly, the players needed to know when the 
+match was over, either because their opponent conceded or because a player had lost all of their pieces. 
 
-> _In this section you do not need to be exhaustive and list every
-> story.  Focus on top-level features from the Vision document and
-> maybe Epics and critical Stories._
+These, however, were just for the core function of the game. In addition to this, enhancement had to be made to separate 
+our game of checkers from the rest. To do this, a spectator mode and a replay mode had to be added. Spectating required
+that the user be able to see the list of available games so they could join and watch. Alongside this, the player must 
+not be able to move the pieces or interact with the game in any sort of way. This idea carried over into the replay mode
+as well. 
+
+The replay mode had its own requirements, too. For example, similar to the spectator mode, on the main menu the user 
+had to be able to see the games that were available to re-watch move by move. It also required that once the user was in
+the replay mode, they could either see the next move in the sequence of the game or the revert to see the last move that
+was made. Just as in the spectator mode once again, the user was to be unable to interact with the board in any way 
+other than viewing the next and previous moves. 
 
 ### Definition of MVP
 The MVP must allow users to sign-in in order to play
@@ -88,7 +100,16 @@ A move consists of either a simple move or a jump, which can be done multiple ti
 
 ## Architecture and Design
 
-This section describes the application architecture.
+The architecture of this program was set up into a three-tiered system consisting of a UI tier, Model tier, and
+Application tier. The UI Tier was what the end user interacted with to play the game. The current implementation of the 
+UI tier has quite a few classes, mostly because quite a few routes needed both a POST and a GET route in order for the 
+program to function properly. This was kept separate but interacted quite heavily with the Application tier, which was 
+the go-between for the UI and Model tiers. The Application tier was a bit light in terms of number of classes in the 
+end, largely because there was not a lot of different ways for the user to interact with the UI outside of signing in 
+and playing or watching a game. Lastly, the Model tier had no interaction with the UI at all and only communicated 
+with the Application tier. This was done to maintain proper high cohesion. That might sound counterintuitive, but the 
+design decision came down to the fact that the Application tier handling interaction between the UI and Model would keep
+individual classes more concise and allow for them to require less coupling. 
 
 ### Summary
 
@@ -157,18 +178,31 @@ their resignation to their opponent.
 > you describe the design of the three tiers._
 
 ### Application Tier
+Our application tier handled the interactions between the UI and Model tiers. An example of this is the 
+GameManager class, which handles the UI's requests for boards and turn submission and makes function calls while passing
+data to classes such as CheckersGame and CheckerBoard. This way there is a separation of responsibilities and data
+between the UI and Model. 
 ![GameManager](GameManager.png)
+Another example of this is the PlayerLobby component. The PlayerLobby takes care of adding players who sign in through
+the UI and provides them to the CheckersGame and Player classes for use. Making a Player creates an object with the name 
+gathered in the UI passed through the PlayerLobby class. 
 ![PlayerLobby](PlayerLobby.png)
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
 
 ### Model Tier
-![CheckerPiece](CheckerPiece.png)
+The model tier was where most of the heavy lifting was done within the program. Most of the logic for handling the
+interactions passed though the Application Tier from the UI was ultimately handled by the model components. This is 
+fairly apparent when looking at the size of some of the classes such as Checkerboard. 
 ![CheckerBoard](CheckerBoard.png)
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+As shown in the diagram above, the Checkerboard class handles a lot of different logic for the game itself. Taking care
+of functions such as validating a move, checking if a jump is available, creating the initial board to be played on, 
+among others is a prime example of how much work the Model tier components are putting in. That being said, not every
+Model component was quite so large. For example, the CheckerPiece class was kept simple.
+![CheckerPiece](CheckerPiece.png)
+The CheckerPiece does not need to perform very many functions, and thus was a pretty slim class. Each checker piece 
+object was responsible for keeping track of whether or not it was a king and what color it was, so the board would know 
+how it should be manipulated later. We did this to maintain a low amount of coupling, with each class handling only what
+it needs to do for itself. 
+
 
 ### Design Improvements
 > _Discuss design improvements that you would make if the project were
@@ -185,7 +219,15 @@ Our designs did not always follow the strictest of Object Orientated Design prin
 
 ### Acceptance Testing
 
-As of sprint 2, all acceptance criteria for the implemented user stories have been met. 
+Acceptance testing played a huge role in how we found bugs. Not every bug that could be found was able to be caught by
+the JUnit tests (see below) that were written to check normal functionality. Examples of this were bugs that would occur
+if a page was refreshed in the middle of a move before it was submitted. This would cause the player to not actually
+submit a move, but be unable to move a piece at the same time, locking the state of the game. 
+
+Examples of acceptance tests include ensuring that a piece becomes a king when reaching the opposing player's king row, 
+verifying that pieces could not jump over their own team's pieces, and double checking that the player could properly 
+resign and exit the game. Multiple programmers would perform these tests and try to break various aspects of each 
+feature in pursuit of as bug-free an experience as possible. 
 
 ### Unit Testing and Code Coverage
 > For unit testing Report on the code coverage
