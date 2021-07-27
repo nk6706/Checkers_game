@@ -197,6 +197,7 @@ public class CheckersGame {
      * Prepares the boards for a new turn
      */
     public void newTurn() {
+        this.toggleActivePlayer();
         final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
         if (board.getRedPieces() == 0){
             setGameOver("Red Player is out of pieces!");
