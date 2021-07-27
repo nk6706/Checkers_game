@@ -281,19 +281,20 @@ public class CheckerBoard {
 
         for(int i = 0; i < this.board.length; i++) {
             for(int j = 0; j < this.board[i].length; j++) {
-                CheckerPiece piece = this.board[i][j];
-                Position pos = new Position(i,j);
-                if(this.getPiece(pos).isKing()){
-                    if ( isMoveAvailable(pos, true, true) ||
-                            isMoveAvailable(pos, true, false) ||
-                            isMoveAvailable(pos, false, true) ||
-                            isMoveAvailable(pos, false, false)) {
-                        return true;
-                    }
-                }else{
-                    if ( isMoveAvailable(pos, true, true) ||
-                            isMoveAvailable(pos, true, false) ) {
-                        return true;
+                if(this.board[i][j] != null){
+                    Position pos = new Position(i,j);
+                    if(this.getPiece(pos).isKing()){
+                        if ( isMoveAvailable(pos, true, true) ||
+                                isMoveAvailable(pos, true, false) ||
+                                isMoveAvailable(pos, false, true) ||
+                                isMoveAvailable(pos, false, false)) {
+                            return true;
+                        }
+                    }else{
+                        if ( isMoveAvailable(pos, true, true) ||
+                                isMoveAvailable(pos, true, false) ) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -558,7 +559,6 @@ public class CheckerBoard {
                 this.whitePieces--;
         }
         this.board[row][cell] = null;
-
     }
 
     /**
