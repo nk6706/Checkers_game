@@ -27,6 +27,7 @@ class CheckersGameTest {
     @BeforeEach
     void setUp() {
         redPlayer = mock(Player.class);
+        when(redPlayer.getUsername()).thenReturn("redPlayer");
         whitePlayer = mock(Player.class);
         CuT = new CheckersGame(TEST_ID, redPlayer, whitePlayer);
     }

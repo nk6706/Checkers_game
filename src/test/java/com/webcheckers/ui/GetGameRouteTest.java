@@ -41,6 +41,7 @@ class GetGameRouteTest {
         session = mock(Session.class);
         when (request.session()).thenReturn(session);
         player = mock(Player.class);
+        when(player.getUsername()).thenReturn("player");
         when(session.attribute("player")).thenReturn(player);
         templateEngine = mock(TemplateEngine.class);
         gameManager = mock(GameManager.class);
@@ -63,10 +64,9 @@ class GetGameRouteTest {
 
         final TemplateEngineTester testHelper = new TemplateEngineTester();
         when(templateEngine.render(any(ModelAndView.class))).thenAnswer(testHelper.makeAnswer());
-        Player testPlayer = mock(Player.class);
-        when(session.attribute("player")).thenReturn(testPlayer);
-        when(testPlayer.getGameID()).thenReturn(1);
-        when(gameManager.getGame(1)).thenReturn(new CheckersGame(1, testPlayer, mock(Player.class)));
+        when(session.attribute("player")).thenReturn(player);
+        when(player.getGameID()).thenReturn(1);
+        when(gameManager.getGame(1)).thenReturn(mock(CheckersGame.class));
         when(request.uri()).thenReturn("/game");
 
         try {

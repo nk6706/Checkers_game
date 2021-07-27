@@ -25,6 +25,7 @@ class GameManagerTest {
     @BeforeEach
     public void setup(){
         playerOne = mock(Player.class);
+        when(playerOne.getUsername()).thenReturn("playerOne");
         playerTwo = mock(Player.class);
         CuT = new GameManager();
 
@@ -100,13 +101,6 @@ class GameManagerTest {
         assertEquals(message.getText(), CuT.isValidTurn(testGame.getId()).getText());
 
     }
-
-    //@Test
-    //public void testGetGames() {
-    //    assertEquals(0, CuT.getGames().size());
-    //    CuT.newGame(playerOne, playerTwo);
-    //    assertEquals(1, CuT.getGames().size());
-    //}
 
     @Test
     public void testSetGameOver() {
