@@ -37,7 +37,49 @@ public class CheckersGame {
         this.whitePlayer = whitePlayer;
         this.activePlayer = redPlayer;
 
-        boards.push(new CheckerBoard());
+        ArrayList<Position> positions;
+        ArrayList<CheckerPiece> pieces;
+
+        switch(redPlayer.getUsername()) {
+            case "1":
+                positions = new ArrayList<>() {
+                    {
+                        add(new Position(5, 2));
+                        add(new Position(4, 3));
+                        add(new Position(2, 5));
+                    }
+                };
+                pieces = new ArrayList<>() {
+                    {
+                        add(new CheckerPiece(CheckerPiece.Color.WHITE));
+                        add(new CheckerPiece(CheckerPiece.Color.RED));
+                        add(new CheckerPiece(CheckerPiece.Color.WHITE));
+                    }
+                };
+                boards.push(new CheckerBoard(positions, pieces));
+                break;
+            case "2":
+                positions = new ArrayList<>() {
+                    {
+                        add(new Position(1, 2));
+                        add(new Position(3, 2));
+                        add(new Position(2, 3));
+                        add(new Position(1, 4));
+                    }
+                };
+                pieces = new ArrayList<>() {
+                    {
+                        add(new CheckerPiece(CheckerPiece.Color.RED));
+                        add(new CheckerPiece(CheckerPiece.Color.WHITE));
+                        add(new CheckerPiece(CheckerPiece.Color.WHITE));
+                        add(new CheckerPiece(CheckerPiece.Color.WHITE));
+                    }
+                };
+                boards.push(new CheckerBoard(positions, pieces));
+                break;
+            default:
+                boards.push(new CheckerBoard());
+        }
     }
 
     /**
