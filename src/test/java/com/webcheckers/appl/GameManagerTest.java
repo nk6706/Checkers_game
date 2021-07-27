@@ -101,12 +101,12 @@ class GameManagerTest {
 
     }
 
-    @Test
-    public void testGetGames() {
-        assertEquals(0, CuT.getGames().size());
-        CuT.newGame(playerOne, playerTwo);
-        assertEquals(1, CuT.getGames().size());
-    }
+    //@Test
+    //public void testGetGames() {
+    //    assertEquals(0, CuT.getGames().size());
+    //    CuT.newGame(playerOne, playerTwo);
+    //    assertEquals(1, CuT.getGames().size());
+    //}
 
     @Test
     public void testSetGameOver() {

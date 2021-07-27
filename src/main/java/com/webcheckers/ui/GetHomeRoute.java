@@ -81,8 +81,7 @@ public class GetHomeRoute implements Route {
         }
 
         vm.put("replayGameList", this.gameManager.getReplayGames());
-
-        vm.put("gameList", gameManager.getGames());
+        vm.put("spectatorGameList", this.gameManager.getSpectatorGames());
 
         // render the View
         return templateEngine.render(new ModelAndView(vm , "home.ftl"));

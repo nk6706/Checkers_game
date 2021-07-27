@@ -2,6 +2,8 @@ package com.webcheckers.model;
 
 import com.webcheckers.util.Message;
 
+import java.util.ArrayList;
+
 /**
  * CheckerBoard is a model-level representation of a checker board used in the game of checkers.
  * An instantiation of CheckerBoard contains an 8x8 array of CheckerPiece(s) which can be
@@ -32,6 +34,30 @@ public class CheckerBoard {
 
     }
 
+
+    /**
+     * Constructor for testing
+     * @param positions The array of positions for the test
+     * @param checkerPieces The array of checkerPieces
+     */
+    public CheckerBoard(ArrayList<Position> positions, ArrayList<CheckerPiece> checkerPieces){
+        board = new CheckerPiece[8][8];
+        whitePieces = 0;
+        redPieces =  0;
+        if(positions.size() == checkerPieces.size()){
+             for(int i=0; i<positions.size(); i++){
+                 Position pos = positions.get(i);
+                 this.board[pos.getRow()][pos.getCell()] = checkerPieces.get(i);
+                 if(checkerPieces.get(i).getColor() == CheckerPiece.Color.RED){
+                     redPieces++;
+                 }else{
+                     whitePieces++;
+                 }
+            }
+        }
+    }
+
+
     /**
      * Copy constructor
      * @param board the old board to copy
@@ -42,6 +68,8 @@ public class CheckerBoard {
         } else {
             this.board = board.getBoard();
         }
+        this.redPieces = board.getRedPieces();
+        this.whitePieces = board.getWhitePieces();
     }
 
     /**
@@ -265,6 +293,67 @@ public class CheckerBoard {
         }
         return false;
     }
+
+    /**
+     * Whether or not a move is available in this given board configuration
+     * @param color the color of the current player
+     * @return true if was a jump is available on this board, false otherwise
+     */
+    public boolean isMoveAvailable(CheckerPiece.Color color){
+
+        if(isJumpAvailable(color)){
+            return true;
+        }
+
+        for(int i = 0; i < this.board.length; i++) {
+            for(int j = 0; j < this.board[i].length; j++) {
+                if(this.board[i][j] != null){
+                    Position pos = new Position(i,j);
+                    if(this.getPiece(pos).isKing()){
+                        if ( isMoveAvailable(pos, true, true) ||
+                                isMoveAvailable(pos, true, false) ||
+                                isMoveAvailable(pos, false, true) ||
+                                isMoveAvailable(pos, false, false)) {
+                            return true;
+                        }
+                    }else{
+                        if ( isMoveAvailable(pos, true, true) ||
+                                isMoveAvailable(pos, true, false) ) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper method for isMoveAvailable, checks specific moves in specific directions
+     * @param pos the position of the piece
+     * @param forward true if want to check for a forward move, false for backward move
+     * @param right true if want to check for a move to the  right, false for left move
+     * @return true if a move in the given direction is available, false otherwise
+     */
+    private boolean isMoveAvailable(Position pos, boolean forward, boolean right) {
+        final int row = pos.getRow();
+        final int cell = pos.getCell();
+
+        final int middleRow = forward ? row - 1 : row + 1;
+        final int middleCell = right ? cell + 1 : cell - 1;
+
+
+        if ( middleRow > -1 && middleRow < 8 && middleCell > -1 && middleCell < 8 ) { // Check if in bounds
+            if ( getPiece(new Position(middleRow, middleCell)) == null ) { // Check if empty
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     /**
      * Check if a jump was performed.
@@ -496,7 +585,6 @@ public class CheckerBoard {
                 this.whitePieces--;
         }
         this.board[row][cell] = null;
-
     }
 
     /**
@@ -504,7 +592,7 @@ public class CheckerBoard {
      * @return white pieces
      */
     public int getWhitePieces() {
-        return whitePieces;
+        return this.whitePieces;
     }
 
     /**
@@ -512,7 +600,7 @@ public class CheckerBoard {
      * @return red pieces
      */
     public int getRedPieces() {
-        return redPieces;
+        return this.redPieces;
     }
 
     /**

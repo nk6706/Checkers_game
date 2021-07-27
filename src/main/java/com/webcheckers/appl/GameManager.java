@@ -54,14 +54,6 @@ public class GameManager {
     }
 
     /**
-     * Getter for the games hashmap, used in rendering spectatable games
-     * @return HashMap representing gameID, game
-     */
-    public HashMap<Integer, CheckersGame> getGames() {
-        return games;
-    }
-
-    /**
      * Validates a move
      * @param gameID the game id to validate the move in
      * @param move the move to validate
@@ -89,7 +81,6 @@ public class GameManager {
     public void submitTurn(int gameID) {
         final CheckersGame game = getGame(gameID);
         game.newTurn();
-        game.toggleActivePlayer();
     }
 
     /**
@@ -172,6 +163,20 @@ public class GameManager {
         final ArrayList<CheckersGame> games = new ArrayList<>();
         for ( CheckersGame game : this.games.values() ) {
             if ( game.isGameOver() ) {
+                games.add(game);
+            }
+        }
+        return games;
+    }
+
+    /**
+     * Used to get the list of games that can be spectated
+     * @return ArrayList of CheckerGame representing unfinished (spectatable) games
+     */
+    public ArrayList<CheckersGame> getSpectatorGames() {
+        final ArrayList<CheckersGame> games = new ArrayList<>();
+        for ( CheckersGame game : this.games.values() ) {
+            if ( !game.isGameOver() ) {
                 games.add(game);
             }
         }

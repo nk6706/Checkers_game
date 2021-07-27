@@ -61,22 +61,15 @@ public class GetGameRoute implements Route {
                 gameID = Integer.parseInt(queryParam);
             } else {
                 response.redirect(WebServer.HOME_URL);
+                return null;
             }
         }
 
         CheckersGame game = this.gameManager.getGame(gameID);
         //
         CheckerPiece[][] board = null;
-        // TODO: 2nd part of conditional below doesn't maintain orientation for spectator. May need to delete
         if ( game.isPlayersTurn(player) || (player != game.getRedPlayer() && player != game.getWhitePlayer()) ) {
             board = game.getBoard();
-        } else {
-            final String queryParam = request.queryParams("gameID");
-            if(queryParam != null) {
-                gameID = Integer.parseInt(queryParam);
-            } else {
-                response.redirect(WebServer.HOME_URL);
-            }
         }
 
         final Map<String, Object> modeOptions = new HashMap<>(2);
