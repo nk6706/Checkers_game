@@ -199,11 +199,14 @@ public class CheckersGame {
     public void newTurn() {
         this.toggleActivePlayer();
         final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
-        if (board.getRedPieces() == 0){
-            setGameOver("Red Player is out of pieces!");
+        if (!board.isMoveAvailable(this.getActiveColor())) {
+            this.setGameOver("No possible moves!");
+        }
+        else if (board.getRedPieces() == 0){
+            this.setGameOver("Red Player is out of pieces!");
         }
         else if (board.getWhitePieces() == 0){
-            setGameOver("White Player is out of pieces!");
+            this.setGameOver("White Player is out of pieces!");
         }
         this.gameBoards.addAll(this.boards);
         this.boards.removeAllElements();
