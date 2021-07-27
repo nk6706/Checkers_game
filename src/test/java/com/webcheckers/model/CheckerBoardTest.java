@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.spec.PSource;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -243,7 +245,6 @@ class CheckerBoardTest {
         CuT.movePiece(new Position(5,0), new Position(4,0));
         CuT.movePiece(new Position(2,1), new Position(3,1));
 
-        System.out.println(CuT.toString());
 
         Assertions.assertTrue(CuT.isJumpAvailable(CheckerPiece.Color.RED));
         Assertions.assertTrue(CuT.isJumpAvailable(CuTPrevious, CheckerPiece.Color.RED));
@@ -257,6 +258,55 @@ class CheckerBoardTest {
         Move move = new Move(new Position(5,0), new Position(4,0));
         Assertions.assertEquals("You can only move a single cell in either direction!", CuT.isValidMove(move,true).getText());
     }
+
+    @Test
+    public void testIsValidMoveKingForward(){
+        ArrayList<Position> positions = new ArrayList<Position>();
+        ArrayList<CheckerPiece> checkerPieces = new ArrayList<CheckerPiece>();
+        positions.add(new Position(2,1));
+        positions.add(new Position(1,2));
+        checkerPieces.add(new CheckerPiece(CheckerPiece.Color.RED,true));
+        checkerPieces.add(new CheckerPiece(CheckerPiece.Color.WHITE));
+
+        Move move1 = new Move(new Position(2,1), new Position(0,3));
+        Move move2 = new Move(new Position(2,1), new Position(0,2));
+        Move move3 = new Move(new Position(2,1), new Position(0,1));
+        Move move4 = new Move(new Position(2,1), new Position(0,0));
+
+        CuT = new CheckerBoard(positions,checkerPieces);
+
+        Assertions.assertEquals(true,CuT.isJumpAvailable(CheckerPiece.Color.RED));
+        Assertions.assertEquals("",CuT.isValidMove(move1,true).getText());
+        Assertions.assertEquals("Moved more than one row forward without jumping",CuT.isValidMove(move2,true).getText());
+        Assertions.assertEquals("Moved more than one row forward without jumping",CuT.isValidMove(move3,true).getText());
+        Assertions.assertEquals("Moved more than one row forward without jumping",CuT.isValidMove(move4,true).getText());
+
+    }
+
+    @Test
+    public void testIsValidMoveKingBackward(){
+        ArrayList<Position> positions = new ArrayList<Position>();
+        ArrayList<CheckerPiece> checkerPieces = new ArrayList<CheckerPiece>();
+        positions.add(new Position(1,1));
+        positions.add(new Position(2,2));
+        checkerPieces.add(new CheckerPiece(CheckerPiece.Color.RED,true));
+        checkerPieces.add(new CheckerPiece(CheckerPiece.Color.WHITE));
+
+        Move move1 = new Move(new Position(1,1), new Position(3,3));
+        Move move2 = new Move(new Position(1,1), new Position(3,2));
+        Move move3 = new Move(new Position(1,1), new Position(3,1));
+        Move move4 = new Move(new Position(1,1), new Position(3,0));
+
+        CuT = new CheckerBoard(positions,checkerPieces);
+
+        Assertions.assertEquals(true,CuT.isJumpAvailable(CheckerPiece.Color.RED));
+        Assertions.assertEquals("",CuT.isValidMove(move1,true).getText());
+        Assertions.assertEquals("Cannot move more than on row without jumping.",CuT.isValidMove(move2,true).getText());
+        Assertions.assertEquals("Cannot move more than on row without jumping.",CuT.isValidMove(move3,true).getText());
+        Assertions.assertEquals("Cannot move more than on row without jumping.",CuT.isValidMove(move4,true).getText());
+
+    }
+
 
 
 
