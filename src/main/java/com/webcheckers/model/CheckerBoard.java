@@ -506,7 +506,7 @@ public class CheckerBoard {
      * @return white pieces
      */
     public int getWhitePieces() {
-        return whitePieces;
+        return this.whitePieces;
     }
 
     /**
@@ -514,7 +514,7 @@ public class CheckerBoard {
      * @return red pieces
      */
     public int getRedPieces() {
-        return redPieces;
+        return this.redPieces;
     }
 
     /**
