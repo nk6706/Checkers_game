@@ -50,12 +50,6 @@ public class CheckersGame {
 
     public CheckerPiece[][] getBoard(Player player) {
         final CheckerBoard board = this.boards.peek();
-        if (board.getRedPieces() == 0){
-            setGameOver("Red Player is out of pieces!");
-        }
-        else if (board.getWhitePieces() == 0){
-            setGameOver("White Player is out of pieces!");
-        }
         if(isPlayersTurn(player)) {
             return board.getBoard();
         }
@@ -204,6 +198,12 @@ public class CheckersGame {
      */
     public void newTurn() {
         final CheckerBoard board = new CheckerBoard(this.boards.pop(), true);
+        if (board.getRedPieces() == 0){
+            setGameOver("Red Player is out of pieces!");
+        }
+        else if (board.getWhitePieces() == 0){
+            setGameOver("White Player is out of pieces!");
+        }
         this.gameBoards.addAll(this.boards);
         this.boards.removeAllElements();
         this.boards.add(board);
