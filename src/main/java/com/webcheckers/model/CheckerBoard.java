@@ -266,6 +266,8 @@ public class CheckerBoard {
         return false;
     }
 
+
+
     /**
      * Check if a jump was performed.
      * @param board the previous board.
