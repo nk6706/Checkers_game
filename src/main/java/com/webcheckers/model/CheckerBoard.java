@@ -266,6 +266,64 @@ public class CheckerBoard {
         return false;
     }
 
+    /**
+     * Whether or not a move is available in this given board configuration
+     * @param color the color of the current player
+     * @return true if was a jump is available on this board, false otherwise
+     */
+    public boolean isMoveAvailable(CheckerPiece.Color color){
+
+        if(isJumpAvailable(color)){
+            return true;
+        }
+
+        for(int i = 0; i < this.board.length; i++) {
+            for(int j = 0; j < this.board[i].length; j++) {
+                CheckerPiece piece = this.board[i][j];
+                Position pos = new Position(i,j);
+                if(this.getPiece(pos).isKing()){
+                    if ( isMoveAvailable(pos, true, true) ||
+                            isMoveAvailable(pos, true, false) ||
+                            isMoveAvailable(pos, false, true) ||
+                            isMoveAvailable(pos, false, false)) {
+                        return true;
+                    }
+                }else{
+                    if ( isMoveAvailable(pos, true, true) ||
+                            isMoveAvailable(pos, true, false) ) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Helper method for isMoveAvailable, checks specific moves in specific directions
+     * @param pos the position of the piece
+     * @param forward true if want to check for a forward move, false for backward move
+     * @param right true if want to check for a move to the  right, false for left move
+     * @return true if a move in the given direction is available, false otherwise
+     */
+    private boolean isMoveAvailable(Position pos, boolean forward, boolean right) {
+        final int row = pos.getRow();
+        final int cell = pos.getCell();
+
+        final int middleRow = forward ? row - 1 : row + 1;
+        final int middleCell = right ? cell + 1 : cell - 1;
+
+
+        if ( middleRow > -1 && middleRow < 8 && middleCell > -1 && middleCell < 8 ) { // Check if in bounds
+            if ( getPiece(new Position(middleRow, middleCell)) == null ) { // Check if empty
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 
     /**
