@@ -215,6 +215,22 @@ it needs to do for itself.
 > suggested design improvements to address those hot spots._
 Our designs did not always follow the strictest of Object Orientated Design principals.
 
+The metric measurements from the Code Metrics excercise revealed several
+hotspots on the class level where complexity was abnormally high. The main
+classes that this happened in were GetGameRoute, CheckersGame, and CheckerBoard,
+which was not surprising since these are large classes that involve
+game functionality. The GetGameRoute has many different branches to it depending on
+a bunch of different factors such as playmode or the player calling it which gives
+it a poor complexity score. A future improvement may involves seperating out some
+of the functionality into different routes or putting more work on the
+application tier. The CheckersBoard class has methods such as isMoveAvailable and isValidMove
+which check for a whole bunch of different scenarios and as a result have a large amount
+of execution paths in them. This tanked our complexity score hard. Future design improvements may
+involve pushing off some of that work into helper classes and decreasing the amount
+of if statement branches in the methods. CheckersGame was guilty by association, since it was
+calling these methods in CheckersBoard. The helper classes would improve
+our complexity score for both.
+
 ## Testing
 
 ### Acceptance Testing
