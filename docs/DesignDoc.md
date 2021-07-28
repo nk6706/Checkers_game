@@ -214,15 +214,6 @@ it needs to do for itself.
 
 
 ### Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements. After completion of the Code metrics exercise, you
-> will also discuss the resutling metric measurements.  Indicate the
-> hot spots the metrics identified in your code base, and your
-> suggested design improvements to address those hot spots._
-Our designs did not always follow the strictest of Object Orientated Design principals.
 
 The metric measurements from the Code Metrics excercise revealed several
 hotspots on the class level where complexity was abnormally high. The main
