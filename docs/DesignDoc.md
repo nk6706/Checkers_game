@@ -155,27 +155,30 @@ at any time during the game the player wishes to leave, they may click "Resign",
 their resignation to their opponent.
 
 ### UI Tier
-> _Provide a summary of the Server-side UI tier of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class structure or object diagrams) with some
-> details such as critical attributes and methods._
+The server side of our UI tier is implemented using Spark and Free marker. There are two major components in the UI-tier.
+The first component is the routes, and the other is the views. The routes include post and get routes while the views includes
+board view, row and space. The UI tier of the game has minimal logic implementation. The logic implemented is mostly for the
+view and redirecting the routes. 
 
-> _You must also provide any dynamic models, such as statechart and
-> sequence diagrams, as is relevant to a particular aspect of the design
-> that you are describing.  For example, in WebCheckers you might create
-> a sequence diagram of the `POST /validateMove` HTTP request processing
-> or you might show a statechart diagram if the Game component uses a
-> state machine to manage the game._
+The serverside UI starts with a GetHomeRoute. This route is responsible for rendering the home page of the checkers. If a
+player is not signed-in, it shows the number of players signed in. It has a sign-in button redirect the home page to the GetSignRoute. 
+The GetSignInRoute has a text box that allows users to enter their username. The users can submit their username with the 
+"Sign In" button. 
 
-> _If a dynamic model, such as a statechart describes a feature that is
-> not mostly in this tier and cuts across multiple tiers, you can
-> consider placing the narrative description of that feature in a
-> separate section for describing significant features. Place this after
-> you describe the design of the three tiers._
+Once the user submits the username, the post SignInRoute requests the input which is the username. The username is returned
+to the PostSignInRoute which then requests a session. An httpSession is returned to the postSignInRoute, which then sends
+the username to the PlayerLobby (Application tier component) which checks if it's valid and available. The result 
+returns to the PostSignInRoute. If the result is valid, the player which is an attribute, is passed to the session and if the result is 
+invalid, PostSignInRoute responds with an error message.
+
+If the sign in was successful, then the user will be redirected to the home route where they can select their next 
+option. If the user wants to challenge an opponent, the GetHomeRoute displays the users who are signed in. If the other user is 
+available and challenged, the home page is redirected to the GetHomeRoute. The GetHomeRoute renders the checkerboard with the 
+help of the view components mentioned earlier. With the help of PostBackupMove, PostSubmitTurnRoute, PostValidateMove and PostGameRoute, 
+the game view is rendered. Simillary if a user wishes to watch a replay of a game, the PostReplayNext and PostReplayPrevious routes 
+help the player to navigate through the turns made by the players. 
+
 
 ![PostSignInRoute Sequence Diagram](PostSignInSD.png)
 
