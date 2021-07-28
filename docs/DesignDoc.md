@@ -177,27 +177,36 @@ their resignation to their opponent.
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
 
+![PostSignInRoute Sequence Diagram](PostSignInSD.png)
+
 ### Application Tier
 Our application tier handled the interactions between the UI and Model tiers. An example of this is the 
 GameManager class, which handles the UI's requests for boards and turn submission and makes function calls while passing
 data to classes such as CheckersGame and CheckerBoard. This way there is a separation of responsibilities and data
 between the UI and Model. 
+
 ![GameManager](GameManager.png)
+
 Another example of this is the PlayerLobby component. The PlayerLobby takes care of adding players who sign in through
 the UI and provides them to the CheckersGame and Player classes for use. Making a Player creates an object with the name 
 gathered in the UI passed through the PlayerLobby class. 
+
 ![PlayerLobby](PlayerLobby.png)
 
 ### Model Tier
 The model tier was where most of the heavy lifting was done within the program. Most of the logic for handling the
 interactions passed though the Application Tier from the UI was ultimately handled by the model components. This is 
 fairly apparent when looking at the size of some of the classes such as Checkerboard. 
+
 ![CheckerBoard](CheckerBoard.png)
+
 As shown in the diagram above, the Checkerboard class handles a lot of different logic for the game itself. Taking care
 of functions such as validating a move, checking if a jump is available, creating the initial board to be played on, 
 among others is a prime example of how much work the Model tier components are putting in. That being said, not every
 Model component was quite so large. For example, the CheckerPiece class was kept simple.
+
 ![CheckerPiece](CheckerPiece.png)
+
 The CheckerPiece does not need to perform very many functions, and thus was a pretty slim class. Each checker piece 
 object was responsible for keeping track of whether or not it was a king and what color it was, so the board would know 
 how it should be manipulated later. We did this to maintain a low amount of coupling, with each class handling only what
