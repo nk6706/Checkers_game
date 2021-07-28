@@ -230,13 +230,13 @@ resign and exit the game. Multiple programmers would perform these tests and try
 feature in pursuit of as bug-free an experience as possible. 
 
 ### Unit Testing and Code Coverage
-> For unit testing Report on the code coverage
-> We have an overall code coverage of 100% in the application-tier, 93% in the 
-> model-tier and 87% in the UI-tier. Our strategy in unit test was to get maximum 
-> coverage possible and focus on multiple possible scenarios.
-> Our teams target was to get a 100% coverage on the model class. Getting maximum
-> coverage on the model class was important to our team because the model class 
-> contained the entire Checkerboard logic. Thus, each component had to be tested. We
-> were able to achieve 100% code coverage on most on the classes. The two remaining 
-> classes have 87% and 93% coverage. 
+ For unit testing Report on the code coverage
+ We have an overall code coverage of 100% in the application-tier, 93% in the 
+ model-tier and 87% in the UI-tier. Our strategy in unit test was to get maximum 
+ coverage possible and focus on multiple possible scenarios.
+ Our teams target was to get a 100% coverage on the model class. Getting maximum
+ coverage on the model class was important to our team because the model class 
+ contained the entire Checkerboard logic. Thus, each component had to be tested. We
+ were able to achieve 100% code coverage on most on the classes. The two remaining 
+ classes have 87% and 93% coverage. 
 
