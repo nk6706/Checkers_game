@@ -133,7 +133,7 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](project-statechart-sprint2update.png)
+![The WebCheckers Web Interface Statechart](WebcheckersStatechartSprint3.png)
 
 Upon reaching the home page, a user who has not signed in will be given a sign-in button. When they click the sign-in
 button they will be sent to the sign-in page where they must enter a username in a text box and click the submit button. 
